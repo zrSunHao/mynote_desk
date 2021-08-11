@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlizzardWind.Desktop.App", "BlizzardWind.Desktop.App\BlizzardWind.Desktop.App.csproj", "{1BEB88C8-18A4-42C2-A305-599FA27DF8FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlizzardWind.App.Common", "BlizzardWind.App.Common\BlizzardWind.App.Common.csproj", "{4468DD48-314E-476F-B63D-E9664F2056BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{FD9B3E05-6D2F-45AD-9200-E09513A7A56E}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlizzardWind.Desktop.Business", "BlizzardWind.Desktop.Business\BlizzardWind.Desktop.Business.csproj", "{68012C68-F7B2-4F8F-87EA-9C61ACE2353D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlizzardWind.Desktop.Controls", "BlizzardWind.Desktop.Controls\BlizzardWind.Desktop.Controls.csproj", "{50E15594-877E-4D09-A20C-3FA3F381D26E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BEB88C8-18A4-42C2-A305-599FA27DF8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEB88C8-18A4-42C2-A305-599FA27DF8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEB88C8-18A4-42C2-A305-599FA27DF8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEB88C8-18A4-42C2-A305-599FA27DF8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4468DD48-314E-476F-B63D-E9664F2056BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4468DD48-314E-476F-B63D-E9664F2056BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4468DD48-314E-476F-B63D-E9664F2056BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4468DD48-314E-476F-B63D-E9664F2056BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68012C68-F7B2-4F8F-87EA-9C61ACE2353D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68012C68-F7B2-4F8F-87EA-9C61ACE2353D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68012C68-F7B2-4F8F-87EA-9C61ACE2353D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68012C68-F7B2-4F8F-87EA-9C61ACE2353D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50E15594-877E-4D09-A20C-3FA3F381D26E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E15594-877E-4D09-A20C-3FA3F381D26E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50E15594-877E-4D09-A20C-3FA3F381D26E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50E15594-877E-4D09-A20C-3FA3F381D26E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEC31E25-43DE-4C15-84B8-76C12B8A259C}
+	EndGlobalSection
+EndGlobal
