@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Converters\" />
+    <Folder Include="Navigations\" />
   </ItemGroup>
 
 </Project>

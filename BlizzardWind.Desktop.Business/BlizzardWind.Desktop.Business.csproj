@@ -6,11 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlizzardWind.App.Common\BlizzardWind.App.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
