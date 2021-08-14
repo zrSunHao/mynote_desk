@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Assets\Fonts\materialIcons.ttf" />
+    <None Remove="Assets\Images\User.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Images\" />
     <Folder Include="Assets\Audios\" />
   </ItemGroup>
 
@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\Fonts\materialIcons.ttf" />
+    <Resource Include="Assets\Images\User.jpeg" />
   </ItemGroup>
 
 </Project>

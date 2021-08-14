@@ -1,0 +1,89 @@
+﻿<Page x:Class="BlizzardWind.Desktop.App.Pages.MarkTextPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="560" d:DesignWidth="960"
+      DataContext="{Binding MarkTextPageViewModel, Source={StaticResource ViewModelLocator}}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/MarkTextPageStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="210"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3">
+            <Rectangle Style="{StaticResource DropFileRectStyle}"/>
+            <WrapPanel Orientation="Horizontal" Margin="15">
+                <Button Content="保存"/>
+                <Button Content="同步"/>
+                <Button Content="存档"/>
+                <Button Content="添加封面"/>
+            </WrapPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Style="{StaticResource ContainerBorderStyle}">
+            </Border>
+            <Border Grid.Row="1" Margin="0,5,0,0" Style="{StaticResource ContainerBorderStyle}">
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <TextBox Style="{DynamicResource EditorTextBoxStyle}" CaretBrush="{StaticResource Color.Second}"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Margin="0,0,0,5" 
+                    Style="{StaticResource ContainerBorderStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"/>
+                    <TextBlock Grid.Column="1" Style="{StaticResource ImageCountTextStyle}">
+                        <Run Text="{Binding ImageCollection.Count,Mode=OneWay}"/>
+                        <Run Text=" 项"/>
+                    </TextBlock>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1" Margin="0,0,0,5" Padding="5"
+                    Style="{StaticResource ContainerBorderStyle}" >
+                <ScrollViewer Style="{StaticResource ImageScrollViewerStyle}">
+                    <ItemsControl ItemsSource="{Binding ImageCollection}" 
+                                  ItemTemplate="{StaticResource MarkImageInfoItemsTemplate}"/>
+                </ScrollViewer>
+            </Border>
+            <Button Grid.Row="2" Click="SelectFileButton_Click"
+                    Style="{DynamicResource SelectFileButtonStyle}" />
+            <Grid Grid.Row="3">
+                <Rectangle Style="{StaticResource DropFileRectStyle}"
+                           Drop="Rectangle_Drop"/>
+                <StackPanel Style="{StaticResource DragFilePanelStyle}">
+                    <TextBlock Style="{StaticResource DragFileIconStyle}"/>
+                    <TextBlock Style="{StaticResource DragFileTextStyle}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

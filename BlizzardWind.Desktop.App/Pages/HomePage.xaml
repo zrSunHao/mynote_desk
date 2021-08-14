@@ -9,11 +9,16 @@
       Title="HomePage">
 
     <Grid>
-        <TextBlock Text="HomePage" 
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Center" 
-                   FontSize="30"
-                   FontWeight="SemiBold"
-                   Foreground="Orange"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Grid.Column="0"> 
+            
+        </Grid>
     </Grid>
 </Page>

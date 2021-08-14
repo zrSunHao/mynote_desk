@@ -19,9 +19,12 @@ namespace BlizzardWind.Desktop.Business
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<MarkTextPageViewModel>();
+
             services.AddSingleton<MainWindowViewModel>();
         }
 
         public MainWindowViewModel? MainWindowViewModel => _serviceProvider.GetService<MainWindowViewModel>();
+        public MarkTextPageViewModel? MarkTextPageViewModel => _serviceProvider.GetService<MarkTextPageViewModel>();
     }
 }
