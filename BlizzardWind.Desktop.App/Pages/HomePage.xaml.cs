@@ -1,4 +1,6 @@
 ﻿using BlizzardWind.Desktop.App.Windows;
+using BlizzardWind.Desktop.Business.Models;
+using BlizzardWind.Desktop.Business.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,12 +24,28 @@ namespace BlizzardWind.Desktop.App.Pages
     /// </summary>
     public partial class HomePage : Page
     {
+        private readonly HomePageViewModel VM;
+
         public HomePage()
         {
             InitializeComponent();
+            VM = (HomePageViewModel)DataContext;
+            VM.OnAppAction = (app) => this.OnAppClick(app);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnAppClick(HomeAppModel app)
+        {
+            switch (app.Type)
+            {
+                case HomeAppType.EDITOR:
+                    LaunchEditorWindow();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void LaunchEditorWindow()
         {
             foreach (Window item in Application.Current.Windows)
             {
