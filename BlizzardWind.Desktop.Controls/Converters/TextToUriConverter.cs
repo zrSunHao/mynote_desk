@@ -21,7 +21,13 @@ namespace BlizzardWind.Desktop.Controls.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            var defaultText = "";
+            if (value == null)
+                return defaultText;
+            var uri = value as Uri;
+            if (uri == null)
+                return defaultText;
+            return uri.ToString();
         }
     }
 }

@@ -7,34 +7,81 @@
              mc:Ignorable="d" 
              x:Name="imageInfo"
              Height="60" d:DesignWidth="200">
+    <UserControl.Resources>
+        <Style x:Key="NameTextStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource Color.Warn}"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+        
+        <Style x:Key="OperatePanelStyle" TargetType="StackPanel">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+
+        <Style x:Key="OperateButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Color.Info}"/>
+            <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,7,0"/>
+            <Setter Property="Content" Value="选择文件"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" Value="{StaticResource Color.Warn}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Color.Warn}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Foreground" Value="{StaticResource Color.Second}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Color.Second}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="Gray"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="Gray"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" 
-               Stretch="UniformToFill"
-               Source="{Binding ImageUrl,ElementName=imageInfo}"/>
+        <Image Grid.Column="0" Stretch="UniformToFill"
+               Source="{Binding ImageUrl,ElementName=imageInfo,TargetNullValue={x:Null}}"/>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"  
-                       VerticalAlignment="Center" 
-                       Margin="10,0,0,0"
-                       FontSize="13"
-                       Width="120"
-                       HorizontalAlignment="Left"
-                       FontWeight="SemiBold"
-                       Foreground="Orange"
-                       TextTrimming="CharacterEllipsis"
+            <TextBlock Grid.Row="0"  Style="{StaticResource NameTextStyle}"
                        Text="{Binding FileName,ElementName=imageInfo}"/>
-            <StackPanel Grid.Row="1" Margin="10,0,0,0"  
-                        Orientation="Horizontal" VerticalAlignment="Center">
-                <Button Content="复制" Margin="5"/>
-                <Button Content="替换" Margin="5"/>
-                <Button Content="删除" Margin="5"/>
+            <StackPanel Grid.Row="1" Style="{StaticResource OperatePanelStyle}">
+                <Button Content="复制" Style="{StaticResource OperateButtonStyle}"/>
+                <Button Content="替换" Style="{StaticResource OperateButtonStyle}"/>
+                <Button Content="删除" Style="{StaticResource OperateButtonStyle}"/>
             </StackPanel>
         </Grid>
     </Grid>
