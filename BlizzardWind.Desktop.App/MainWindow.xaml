@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource MainWindowStyle}"
+        Style="{DynamicResource WindowStyle}"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
     <Window.Resources>
         <ResourceDictionary>
@@ -27,8 +27,8 @@
               MouseDown="TopBar_MouseDown" 
               Style="{StaticResource WindowTopBarGridStyle}">
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                <TextBlock Style="{StaticResource WindowTitleIconStyle}"/>
-                <TextBlock Style="{StaticResource WindowTitleTextStyle}"/>
+                <TextBlock Style="{StaticResource WindowTitleIconStyle}" Text="&#xe65f;"/>
+                <TextBlock Style="{StaticResource WindowTitleTextStyle}" Text="暴风雪"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="minimizeButton" Click="MinimizeButton_Click"

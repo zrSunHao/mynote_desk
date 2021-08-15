@@ -4,9 +4,143 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
-        mc:Ignorable="d"
-        Title="EditorWindow" Height="450" Width="800">
-    <Grid>
-        
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource WindowStyle}"
+        DataContext="{Binding EditorWindowViewModel, Source={StaticResource ViewModelLocator}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/EditorWindowStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Style="{StaticResource WindowGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              MouseDown="TopBar_MouseDown" 
+              Style="{StaticResource WindowTopBarGridStyle}">
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                <TextBlock Style="{StaticResource WindowTitleIconStyle}" Text="&#xe65f;"/>
+                <TextBlock Style="{StaticResource WindowTitleTextStyle}" Text="暴风雪 - 编辑器"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="minimizeButton" Click="MinimizeButton_Click"
+                        Content="&#xf108;" Style="{StaticResource WindowButtonStyle}"/>
+                <Button x:Name="maximizeButton" Click="MaximizeButton_Click"
+                        Style="{StaticResource WindowRestoreButtonStyle}"/>
+                <Button x:Name="closeButton" Click="CloseButton_Click"
+                        Content="&#xe14c;" Style="{StaticResource WindowCloseButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="210"/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3">
+                <Rectangle Style="{StaticResource DropFileRectStyle}"/>
+                <WrapPanel Orientation="Horizontal" Margin="15">
+                    <Button Content="&#xe161;" Tag="保存"
+                            Style="{DynamicResource OperateButtonStyle}"/>
+                    <Button Content="&#xe2c3;" Tag="同步"
+                            Style="{DynamicResource OperateButtonStyle}"/>
+                    <Button Content="&#xe153;" Tag="存档"
+                            Style="{DynamicResource OperateButtonStyle}"/>
+                    <Button Content="&#xe166;" Tag="取消"
+                            Style="{DynamicResource OperateButtonStyle}"/>
+                    <Button Content="&#xe3f4;" Tag="添加封面"
+                            Style="{DynamicResource OperateButtonStyle}"/>
+                </WrapPanel>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Style="{StaticResource ContainerBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
+                            <TextBlock Text="标题栏" Style="{StaticResource BarTextStyle}"/>
+                            <Separator Background="{StaticResource Color.Primary}"/>
+                        </StackPanel>
+                        <TreeView Grid.Row="1" Background="Transparent"
+                                  ItemContainerStyle="{StaticResource TreeViewItemStyle}"
+                                  ItemsSource="{Binding HeadlineCollection}"
+                                  ItemTemplate="{StaticResource HeadlineTreeTemplate}"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Margin="0,5,0,0" Style="{StaticResource ContainerBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
+                            <TextBlock Style="{StaticResource BarTextStyle}">
+                                <Run Text="版本信息 - "/>
+                                <Run Text="{Binding VersionCollection.Count,Mode=OneWay}"/>
+                            </TextBlock>
+                            <Separator Background="{StaticResource Color.Primary}"/>
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" Style="{StaticResource ScrollViewerStyle}">
+                            <ItemsControl ItemsSource="{Binding VersionCollection}"
+                                          ItemTemplate="{StaticResource VersionItemsTemplate}"/>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <TextBox Style="{DynamicResource EditorTextBoxStyle}"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Margin="0,0,0,5" Style="{StaticResource ContainerBorderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource ImageCountTextStyle}">
+                            <Run Text="{Binding ImageCollection.Count,Mode=OneWay}"/>
+                            <Run Text="项"/>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Margin="0,0,0,5" Padding="5" Style="{StaticResource ContainerBorderStyle}" >
+                    <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                        <ItemsControl ItemsSource="{Binding ImageCollection}" 
+                                      ItemTemplate="{StaticResource MarkImageInfoItemsTemplate}"/>
+                    </ScrollViewer>
+                </Border>
+                <Button Grid.Row="2" Click="SelectFileButton_Click"
+                        Style="{DynamicResource SelectFileButtonStyle}" />
+                <Grid Grid.Row="3">
+                    <Rectangle Style="{StaticResource DropFileRectStyle}"
+                               Drop="Rectangle_Drop"/>
+                    <StackPanel Style="{StaticResource DragFilePanelStyle}">
+                        <TextBlock Style="{StaticResource DragFileIconStyle}"/>
+                        <TextBlock Style="{StaticResource DragFileTextStyle}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

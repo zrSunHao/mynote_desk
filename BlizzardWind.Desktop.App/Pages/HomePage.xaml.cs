@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlizzardWind.Desktop.App.Windows;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,8 +27,15 @@ namespace BlizzardWind.Desktop.App.Pages
             InitializeComponent();
         }
 
-        
-
-        
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Window item in Application.Current.Windows)
+            {
+                if (item.GetType() == typeof(EditorWindow)) 
+                    return;
+            }
+            EditorWindow editerWindow = new EditorWindow();
+            editerWindow.Show();
+        }
     }
 }

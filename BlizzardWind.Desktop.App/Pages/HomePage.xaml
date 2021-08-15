@@ -9,16 +9,6 @@
       Title="HomePage">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1" Grid.Column="0"> 
-            
-        </Grid>
+        <Button Content="编辑器" Height="60" Width="200" Click="Button_Click"/>
     </Grid>
 </Page>
