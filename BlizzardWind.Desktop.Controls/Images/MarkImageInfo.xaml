@@ -79,9 +79,13 @@
             <TextBlock Grid.Row="0"  Style="{StaticResource NameTextStyle}"
                        Text="{Binding FileName,ElementName=imageInfo}"/>
             <StackPanel Grid.Row="1" Style="{StaticResource OperatePanelStyle}">
-                <Button Content="复制" Style="{StaticResource OperateButtonStyle}"/>
-                <Button Content="替换" Style="{StaticResource OperateButtonStyle}"/>
-                <Button Content="删除" Style="{StaticResource OperateButtonStyle}"/>
+                <Button Content="复制" 
+                        Style="{StaticResource OperateButtonStyle}"
+                        Command="{Binding UserCopy,ElementName=imageInfo}" CommandParameter="{Binding FilePath,ElementName=imageInfo}"/>
+                <Button Content="替换" Style="{StaticResource OperateButtonStyle}"
+                        Command="{Binding UserReplace,ElementName=imageInfo}" CommandParameter="{Binding FilePath,ElementName=imageInfo}"/>
+                <Button Content="删除" Style="{StaticResource OperateButtonStyle}"
+                        Command="{Binding UserDelete,ElementName=imageInfo}" CommandParameter="{Binding FilePath,ElementName=imageInfo}"/>
             </StackPanel>
         </Grid>
     </Grid>

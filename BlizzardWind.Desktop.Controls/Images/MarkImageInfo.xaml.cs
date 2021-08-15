@@ -34,6 +34,15 @@ namespace BlizzardWind.Desktop.Controls.Images
         public static readonly DependencyProperty FileNameProperty =
             DependencyProperty.Register("FileName", typeof(string), typeof(MarkImageInfo));
 
+        public string FilePath
+        {
+            get { return (string)GetValue(FilePathProperty); }
+            set { SetValue(FilePathProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for FilePath.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FilePathProperty =
+            DependencyProperty.Register("FilePath", typeof(string), typeof(MarkImageInfo));
+
         public Uri ImageUrl
         {
             get => (Uri)GetValue(ImageUrlProperty);
@@ -51,5 +60,36 @@ namespace BlizzardWind.Desktop.Controls.Images
         // Using a DependencyProperty as the backing store for IconFontFamily.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconFontFamilyProperty =
             DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(MarkImageInfo));
+
+
+
+        public ICommand UserCopy
+        {
+            get { return (ICommand)GetValue(UserCopyProperty); }
+            set { SetValue(UserCopyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for UserCopy.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UserCopyProperty =
+            DependencyProperty.Register("UserCopy", typeof(ICommand), typeof(MarkImageInfo));
+
+        public ICommand UserDelete
+        {
+            get { return (ICommand)GetValue(UserDeleteProperty); }
+            set { SetValue(UserDeleteProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for UserDelete.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UserDeleteProperty =
+            DependencyProperty.Register("UserDelete", typeof(ICommand), typeof(MarkImageInfo));
+
+        public ICommand UserReplace
+        {
+            get { return (ICommand)GetValue(UserReplaceProperty); }
+            set { SetValue(UserReplaceProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for UserReplace.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UserReplaceProperty =
+            DependencyProperty.Register("UserReplace", typeof(ICommand), typeof(MarkImageInfo));
+
     }
 }

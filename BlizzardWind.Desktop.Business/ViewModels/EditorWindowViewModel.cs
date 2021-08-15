@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.Desktop.Business.Models;
+using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class EditorWindowViewModel : MvxViewModel
     {
+        public IMvxCommand ImageCopyCommand => new MvxCommand<string>(OnImageCopyClick);
+        public IMvxCommand ImageReplaceCommand => new MvxCommand<string>(OnImageReplaceClick);
+        public IMvxCommand ImageDeleteCommand => new MvxCommand<string>(OnImageDeleteClick);
+
         public ObservableCollection<MarkTextImageModel> ImageCollection { get; set; }
         public ObservableCollection<MarkTextVersionModel> VersionCollection { get; set; }
         public ObservableCollection<MarkTextHeadlineModel> HeadlineCollection { get; set; }
@@ -77,6 +82,21 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 };
                 ImageCollection.Add(model);
             }
+        }
+
+        private void OnImageCopyClick(string path)
+        {
+            Console.WriteLine(path);
+        }
+
+        private void OnImageReplaceClick(string path)
+        {
+            Console.WriteLine(path);
+        }
+
+        private void OnImageDeleteClick(string path)
+        {
+            Console.WriteLine(path);
         }
     }
 }

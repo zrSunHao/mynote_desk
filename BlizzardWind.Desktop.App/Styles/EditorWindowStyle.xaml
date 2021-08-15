@@ -335,7 +335,11 @@
     <DataTemplate x:Key="MarkImageInfoItemsTemplate">
         <lci:MarkImageInfo Margin="0,0,0,5" IconFontFamily="{StaticResource Font.MaterialIcon}"
                            FileName="{Binding FileName}"
-                           ImageUrl="{Binding FilePath,Converter={StaticResource TextToUriConverter}}"/>
+                           FilePath="{Binding FilePath}"
+                           ImageUrl="{Binding FilePath,Converter={StaticResource TextToUriConverter}}"
+                           UserCopy="{Binding DataContext.ImageCopyCommand,RelativeSource={RelativeSource AncestorType=Window}}"
+                           UserReplace="{Binding DataContext.ImageReplaceCommand,RelativeSource={RelativeSource AncestorType=Window}}"
+                           UserDelete="{Binding DataContext.ImageDeleteCommand,RelativeSource={RelativeSource AncestorType=Window}}"/>
     </DataTemplate>
 
     <Style x:Key="ImageCountTextStyle" TargetType="TextBlock">
