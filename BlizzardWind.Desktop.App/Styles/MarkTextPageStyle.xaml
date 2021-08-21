@@ -43,6 +43,31 @@
 
     </DataTemplate>
 
+    <DataTemplate x:Key="LinkTemplate">
+        <Button Content="链接" Margin="5" FontSize="20"
+                            Height="50" Width="150" HorizontalAlignment="Left"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ListTemplate">
+        <Button Content="列表" Margin="5" FontSize="20"
+                            Height="50" Width="150" HorizontalAlignment="Left"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TableTemplate">
+        <Button Content="表格" Margin="5" FontSize="20"
+                            Height="50" Width="150" HorizontalAlignment="Left"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SummaryTemplate">
+        <Button Content="总结" Margin="5" FontSize="20"
+                            Height="50" Width="150" HorizontalAlignment="Left"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="QuoteTemplate">
+        <Button Content="引用" Margin="5" FontSize="20"
+                            Height="50" Width="150" HorizontalAlignment="Left"/>
+    </DataTemplate>
+
     <Style x:Key="TextItemContainerStyle" TargetType="ContentPresenter" >
         <!-- default for any index >= 2 -->
         <Setter Property="ContentTemplate" Value="{StaticResource ParagraphTemplate}"/>
@@ -54,7 +79,7 @@
                 <Setter Property="ContentTemplate" Value="{StaticResource H2Template}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding RowType}" Value="3">
-                <Setter Property="ContentTemplate" Value="{StaticResource H2Template}"/>
+                <Setter Property="ContentTemplate" Value="{StaticResource H3Template}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding RowType}" Value="4">
                 <Setter Property="ContentTemplate" Value="{StaticResource KeysTemplate}"/>
@@ -64,6 +89,21 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding RowType}" Value="6">
                 <Setter Property="ContentTemplate" Value="{StaticResource ImgTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RowType}" Value="7">
+                <Setter Property="ContentTemplate" Value="{StaticResource LinkTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RowType}" Value="8">
+                <Setter Property="ContentTemplate" Value="{StaticResource ListTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RowType}" Value="9">
+                <Setter Property="ContentTemplate" Value="{StaticResource TableTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RowType}" Value="10">
+                <Setter Property="ContentTemplate" Value="{StaticResource SummaryTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RowType}" Value="11">
+                <Setter Property="ContentTemplate" Value="{StaticResource QuoteTemplate}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
