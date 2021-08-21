@@ -3,6 +3,11 @@
     public enum MarkType
     {
         /// <summary>
+        /// 段落
+        /// </summary>
+        p,
+
+        /// <summary>
         /// 标题1,文章标题
         /// </summary>
         h1,
@@ -26,11 +31,6 @@
         /// 简介
         /// </summary>
         profile,
-
-        /// <summary>
-        /// 段落
-        /// </summary>
-        p,
 
         /// <summary>
         /// 图片

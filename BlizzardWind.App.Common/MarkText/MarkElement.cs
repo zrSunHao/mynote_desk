@@ -18,6 +18,8 @@
         public List<MarkPiece> Pieces { get; set; }
 
         public MarkTable Table { get; set; }
+
+        public int RowType => (int)Type;
     }
 
     public class MarkPiece

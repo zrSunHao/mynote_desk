@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="560" d:DesignWidth="960"
-      DataContext="{Binding MarkTextPageViewModel, Source={StaticResource ViewModelLocator}}">
+      DataContext="{Binding MarkTextPageViewModel, Source={StaticResource ViewModelLocator}}"
+      Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,6 +16,10 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding ElementCollection}" 
+                      HorizontalAlignment="Center" VerticalAlignment="Top"
+                      ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
+        </ScrollViewer>
     </Grid>
 </Page>

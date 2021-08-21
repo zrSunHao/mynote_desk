@@ -31,6 +31,9 @@ namespace BlizzardWind.Desktop.App.Pages
             VM = (MarkTextPageViewModel)DataContext;
         }
 
-        
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            VM.OnPageLoaded();
+        }
     }
 }
