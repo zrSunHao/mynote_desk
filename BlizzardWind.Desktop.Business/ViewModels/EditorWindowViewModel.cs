@@ -1,6 +1,9 @@
-﻿using BlizzardWind.Desktop.Business.Models;
+﻿using BlizzardWind.Desktop.Business.Entities;
+using BlizzardWind.Desktop.Business.Interfaces;
+using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,20 +15,29 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class EditorWindowViewModel : MvxViewModel
     {
+        private readonly IFileResourceService _fileService;
+
         public IMvxCommand ImageCopyCommand => new MvxCommand<string>(OnImageCopyClick);
         public IMvxCommand ImageReplaceCommand => new MvxCommand<string>(OnImageReplaceClick);
         public IMvxCommand ImageDeleteCommand => new MvxCommand<string>(OnImageDeleteClick);
 
-        public ObservableCollection<MarkTextImageModel> ImageCollection { get; set; }
+        public ObservableCollection<MarkTextFileModel> ImageCollection { get; set; }
         public ObservableCollection<MarkTextVersionModel> VersionCollection { get; set; }
         public ObservableCollection<MarkTextHeadlineModel> HeadlineCollection { get; set; }
     }
 
     public partial class EditorWindowViewModel
     {
-        public EditorWindowViewModel()
+        public EditorWindowViewModel(IFileResourceService fileService)
         {
-            ImageCollection = new ObservableCollection<MarkTextImageModel>();
+            _fileService = fileService;
+
+            Initial();
+        }
+
+        public void Initial()
+        {
+            ImageCollection = new ObservableCollection<MarkTextFileModel>();
             VersionCollection = new ObservableCollection<MarkTextVersionModel>()
             {
                 new MarkTextVersionModel(){Name = "版本1",Time = DateTime.Now},
@@ -66,20 +78,23 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             };
         }
 
-        public void AddImages(string[]? fileNames)
+        public async void OnWindowLoaded()
+        {
+            List<MarkTextFileModel> models = await _fileService.GetTextFilesAsync(MarkResourceType.image);
+            foreach (MarkTextFileModel model in models)
+            {
+                ImageCollection.Add(model);
+            }
+        }
+
+        public async void OnAddImagesClick(string[]? fileNames)
         {
             if (fileNames == null || fileNames.Length < 1)
                 return;
-            foreach (string fileName in fileNames)
+            List<MarkTextFileModel> models = await _fileService
+                .AddTextFileAsync(MarkResourceType.image, fileNames.ToList());
+            foreach (MarkTextFileModel model in models)
             {
-                if (ImageCollection.Any(x => x.FilePath == fileName))
-                    break;
-                var model = new MarkTextImageModel()
-                {
-                    FileName = System.IO.Path.GetFileName(fileName),
-                    Extension = System.IO.Path.GetExtension(fileName),
-                    FilePath = fileName
-                };
                 ImageCollection.Add(model);
             }
         }

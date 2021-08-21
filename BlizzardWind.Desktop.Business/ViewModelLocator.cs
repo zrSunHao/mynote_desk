@@ -1,4 +1,6 @@
-﻿using BlizzardWind.Desktop.Business.ViewModels;
+﻿using BlizzardWind.Desktop.Business.Interfaces;
+using BlizzardWind.Desktop.Business.Services;
+using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlizzardWind.Desktop.Business
@@ -19,6 +21,9 @@ namespace BlizzardWind.Desktop.Business
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IDatabaseService,DatabaseService>();
+            services.AddSingleton<IFileResourceService, FileResourceService>();
+
             services.AddSingleton<MarkTextPageViewModel>();
             services.AddSingleton<HomePageViewModel>();
 

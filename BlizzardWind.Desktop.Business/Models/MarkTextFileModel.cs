@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Models
 {
-    public class MarkTextImageModel
+    public class MarkTextFileModel
     {
+        public Guid ID { get; set; }
+
         public string FileName { get; set; }
 
         public string FilePath { get; set; }

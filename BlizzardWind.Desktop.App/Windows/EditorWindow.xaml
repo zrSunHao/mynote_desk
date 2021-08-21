@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource WindowStyle}"
-        DataContext="{Binding EditorWindowViewModel, Source={StaticResource ViewModelLocator}}">
+        DataContext="{Binding EditorWindowViewModel, Source={StaticResource ViewModelLocator}}"
+        Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

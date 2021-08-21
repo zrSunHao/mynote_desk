@@ -12,7 +12,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class MarkTextPageViewModel : MvxViewModel
     {
-        public ObservableCollection<MarkTextImageModel> ImageCollection { get; set; }
+        public ObservableCollection<MarkTextFileModel> ImageCollection { get; set; }
         public ObservableCollection<MarkTextVersionModel> VersionCollection { get; set; }
         public ObservableCollection<MarkTextHeadlineModel> HeadlineCollection { get; set; }
     }
@@ -21,7 +21,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         public MarkTextPageViewModel()
         {
-            ImageCollection = new ObservableCollection<MarkTextImageModel>();
+            ImageCollection = new ObservableCollection<MarkTextFileModel>();
             VersionCollection = new ObservableCollection<MarkTextVersionModel>()
             {
                 new MarkTextVersionModel(){Name = "版本1",Time = DateTime.Now},
@@ -70,7 +70,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 if (ImageCollection.Any(x => x.FilePath == fileName))
                     break;
-                var model = new MarkTextImageModel()
+                var model = new MarkTextFileModel()
                 {
                     FileName = System.IO.Path.GetFileName(fileName),
                     Extension = System.IO.Path.GetExtension(fileName),

@@ -61,7 +61,7 @@ namespace BlizzardWind.Desktop.App.Windows
             if (fileNames == null || fileNames.Length < 1)
                 return;
             //TODO 筛选图片
-            VM.AddImages(fileNames);
+            VM.OnAddImagesClick(fileNames);
         }
 
         private void SelectFileButton_Click(object sender, RoutedEventArgs e)
@@ -71,7 +71,12 @@ namespace BlizzardWind.Desktop.App.Windows
             dialog.Multiselect = true;
             if (dialog.ShowDialog() != true)
                 return;
-            VM.AddImages(dialog.FileNames);
+            VM.OnAddImagesClick(dialog.FileNames);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            VM.OnWindowLoaded();
         }
     }
 }
