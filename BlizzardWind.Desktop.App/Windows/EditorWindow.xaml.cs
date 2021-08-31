@@ -57,11 +57,11 @@ namespace BlizzardWind.Desktop.App.Windows
 
         
 
-        private void SelectFileButton_Click(string filter, int type)
+        private void SelectFileButton_Click(string filter, int type,bool multiselect = true)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = filter;
-            dialog.Multiselect = true;
+            dialog.Multiselect = multiselect;
             if (dialog.ShowDialog() != true)
                 return;
             VM.OnAddFileClick(dialog.FileNames, type);

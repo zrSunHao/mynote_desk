@@ -29,7 +29,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
 
-        public Action<string, int> OnUploadFileClickAction { get; set; }
+        public Action<string, int, bool> OnUploadFileClickAction { get; set; }
 
         private string coverPicture;
         public string CoverPicture
@@ -130,9 +130,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private void OnUploadOperateClick(int type)
         {
             string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
+            bool multiselect = true;
             switch (type)
             {
                 case EditorOperateType.UploadCoverPicture:
+                    filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
+                    multiselect= false;
+                    break;
                 case EditorOperateType.UploadImage:
                     filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
                     break;
@@ -154,7 +158,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
             if (OnUploadFileClickAction != null)
             {
-                OnUploadFileClickAction.Invoke(filter, type);
+                OnUploadFileClickAction.Invoke(filter, type, multiselect);
             }
         }
 
