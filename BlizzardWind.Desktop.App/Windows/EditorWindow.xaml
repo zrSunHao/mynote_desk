@@ -31,7 +31,7 @@
                 <ItemsControl ItemsSource="{Binding MainOperateCollection}"
                               Style="{StaticResource OperateItemsStyle}"
                               ItemTemplate="{StaticResource MainOperateItemsTemplate}"/>
-                <Border Width="2" Margin="5" Background="Gray" BorderBrush="Gray"/>
+                <Border Width="2" Margin="5,0,15,0" Background="Gray" BorderBrush="Gray"/>
                 <ItemsControl ItemsSource="{Binding UploadOperateCollection}"
                               Style="{StaticResource OperateItemsStyle}"
                               ItemTemplate="{StaticResource UploadOperateItemsTemplate}"/>

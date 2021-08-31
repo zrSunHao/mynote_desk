@@ -27,6 +27,7 @@ namespace BlizzardWind.Desktop.App.Windows
         {
             InitializeComponent();
             VM = (EditorWindowViewModel)DataContext;
+            VM.OnUploadFileClickAction += SelectFileButton_Click;
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
@@ -55,7 +56,7 @@ namespace BlizzardWind.Desktop.App.Windows
 
         
 
-        private void SelectFileButton_Click(object sender, RoutedEventArgs e)
+        private void SelectFileButton_Click(int type)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "图像文件(*.jpg;*.gif;*.png)|*.jpg;*jpeg;*.gif;*.png;";

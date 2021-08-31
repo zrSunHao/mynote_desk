@@ -15,21 +15,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="OperateButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentButtonStyle}">
         <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontFamily" Value="{StaticResource Font.MaterialIcon}"/>
+        <Setter Property="FontSize" Value="11"/>
         <Setter Property="Margin" Value="0,0,15,0"/>
-        <Setter Property="ToolTip">
-            <Setter.Value>
-                <ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}" 
-                         Background="{StaticResource Color.Canvas.Background}"
-                         Foreground="{StaticResource Color.Font.Primary}">
-                    <TextBlock Text="{Binding Tag}"/>
-                </ToolTip>
-            </Setter.Value>
-        </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Foreground"  Value="{StaticResource Color.Warn}"/>
@@ -42,16 +32,14 @@
 
     <DataTemplate x:Key="MainOperateItemsTemplate">
         <Button Style="{StaticResource OperateButtonStyle}"
-                Content="{Binding Icon}"
-                Tag="{Binding Name}"
+                Content="{Binding Name}"
                 Command="{Binding DataContext.MainOperateCommand,RelativeSource={RelativeSource AncestorType=Window}}" 
                 CommandParameter="{Binding Type}"/>
     </DataTemplate>
 
     <DataTemplate x:Key="UploadOperateItemsTemplate">
         <Button Style="{StaticResource OperateButtonStyle}"
-                Content="{Binding Icon}"
-                Tag="{Binding Name}"
+                Content="{Binding Name}"
                 Command="{Binding DataContext.MainUploadCommand,RelativeSource={RelativeSource AncestorType=Window}}" 
                 CommandParameter="{Binding Type}"/>
     </DataTemplate>

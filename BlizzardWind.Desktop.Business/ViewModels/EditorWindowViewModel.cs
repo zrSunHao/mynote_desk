@@ -28,6 +28,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
 
+        public Action<int> OnUploadFileClickAction { get; set; }
+
         private string coverPicture;
         public string CoverPicture
         {
@@ -115,7 +117,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 .AddTextFileAsync(MarkResourceType.image, fileNames.ToList());
             foreach (MarkTextFileModel model in models)
             {
-                FileCollection.Add(model);
+                FileCollection.Insert(0,model);
             }
         }
 
@@ -131,7 +133,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnUploadOperateClick(int type)
         {
-            Console.WriteLine(type);
+            if(OnUploadFileClickAction != null)
+            {
+                OnUploadFileClickAction.Invoke(type);
+            }
         }
 
         private void OnFileOperateClick(object[] args)
