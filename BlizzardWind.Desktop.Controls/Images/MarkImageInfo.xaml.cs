@@ -34,14 +34,14 @@ namespace BlizzardWind.Desktop.Controls.Images
         public static readonly DependencyProperty FileNameProperty =
             DependencyProperty.Register("FileName", typeof(string), typeof(MarkImageInfo));
 
-        public string FilePath
+        public Guid ID
         {
-            get { return (string)GetValue(FilePathProperty); }
-            set { SetValue(FilePathProperty, value); }
+            get { return (Guid)GetValue(IDProperty); }
+            set { SetValue(IDProperty, value); }
         }
         // Using a DependencyProperty as the backing store for FilePath.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FilePathProperty =
-            DependencyProperty.Register("FilePath", typeof(string), typeof(MarkImageInfo));
+        public static readonly DependencyProperty IDProperty =
+            DependencyProperty.Register("ID", typeof(Guid), typeof(MarkImageInfo));
 
         public Uri ImageUrl
         {
@@ -63,33 +63,53 @@ namespace BlizzardWind.Desktop.Controls.Images
 
 
 
-        public ICommand UserCopy
+        public ICommand UserOperate
         {
-            get { return (ICommand)GetValue(UserCopyProperty); }
-            set { SetValue(UserCopyProperty, value); }
+            get { return (ICommand)GetValue(UserOperateProperty); }
+            set { SetValue(UserOperateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for UserCopy.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UserCopyProperty =
-            DependencyProperty.Register("UserCopy", typeof(ICommand), typeof(MarkImageInfo));
+        public static readonly DependencyProperty UserOperateProperty =
+            DependencyProperty.Register("UserOperate", typeof(ICommand), typeof(MarkImageInfo));
 
-        public ICommand UserDelete
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            get { return (ICommand)GetValue(UserDeleteProperty); }
-            set { SetValue(UserDeleteProperty, value); }
+            var ele = sender as MenuItem;
+            if (ele != null && UserOperate != null)
+            {
+                UserOperate.Execute(new object[] { ele.Tag, ID });
+            }
         }
-        // Using a DependencyProperty as the backing store for UserDelete.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UserDeleteProperty =
-            DependencyProperty.Register("UserDelete", typeof(ICommand), typeof(MarkImageInfo));
 
-        public ICommand UserReplace
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            get { return (ICommand)GetValue(UserReplaceProperty); }
-            set { SetValue(UserReplaceProperty, value); }
+            var ele = sender as Button;
+            if(ele != null && UserOperate != null)
+            {
+                UserOperate.Execute(new object[] { ele.Tag, ID });
+            }
         }
-        // Using a DependencyProperty as the backing store for UserReplace.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UserReplaceProperty =
-            DependencyProperty.Register("UserReplace", typeof(ICommand), typeof(MarkImageInfo));
+    }
 
+    public class BindingProxy : Freezable
+    {
+        #region Overrides of Freezable
+
+        protected override Freezable CreateInstanceCore()
+        {
+            return new BindingProxy();
+        }
+
+        #endregion
+
+        public object Data
+        {
+            get { return (object)GetValue(DataProperty); }
+            set { SetValue(DataProperty, value); }
+        }
+
+        public static readonly DependencyProperty DataProperty =
+            DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy), new UIPropertyMetadata(null));
     }
 }

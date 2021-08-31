@@ -16,7 +16,8 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer  HorizontalScrollBarVisibility="Disabled" 
+                      VerticalScrollBarVisibility="Visible">
             <ItemsControl ItemsSource="{Binding ElementCollection}" 
                       HorizontalAlignment="Center" VerticalAlignment="Top"
                       ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>

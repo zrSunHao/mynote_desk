@@ -31,5 +31,7 @@ namespace BlizzardWind.Desktop.Business.Entities
         powerpoint,
         pdf,
         txt,
+        audio,
+        video,
     }
 }

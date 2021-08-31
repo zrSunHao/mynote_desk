@@ -16,14 +16,25 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class EditorWindowViewModel : MvxViewModel
     {
         private readonly IFileResourceService _fileService;
+        private List<MarkTextFileModel> _fileList = new List<MarkTextFileModel>();
 
-        public IMvxCommand ImageCopyCommand => new MvxCommand<string>(OnImageCopyClick);
-        public IMvxCommand ImageReplaceCommand => new MvxCommand<string>(OnImageReplaceClick);
-        public IMvxCommand ImageDeleteCommand => new MvxCommand<string>(OnImageDeleteClick);
+        public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
+        public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
+        public IMvxCommand FileOperateCommand => new MvxCommand<object[]>(OnFileOperateClick);
 
-        public ObservableCollection<MarkTextFileModel> ImageCollection { get; set; }
-        public ObservableCollection<MarkTextVersionModel> VersionCollection { get; set; }
+        public ObservableCollection<MarkTextFileModel> FileCollection { get; set; }
         public ObservableCollection<MarkTextHeadlineModel> HeadlineCollection { get; set; }
+
+        public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
+        public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
+
+        private string coverPicture;
+        public string CoverPicture
+        {
+            get => coverPicture;
+            set => SetProperty(ref coverPicture, value);
+        }
+
     }
 
     public partial class EditorWindowViewModel
@@ -37,14 +48,23 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public void Initial()
         {
-            ImageCollection = new ObservableCollection<MarkTextFileModel>();
-            VersionCollection = new ObservableCollection<MarkTextVersionModel>()
+            FileCollection = new ObservableCollection<MarkTextFileModel>();
+            MainOperateCollection = new ObservableCollection<EditorOperateModel>()
             {
-                new MarkTextVersionModel(){Name = "版本1",Time = DateTime.Now},
-                new MarkTextVersionModel(){Name = "版本2",Time = DateTime.Now},
-                new MarkTextVersionModel(){Name = "版本3",Time = DateTime.Now},
-                new MarkTextVersionModel(){Name = "版本4",Time = DateTime.Now},
-                new MarkTextVersionModel(){Name = "版本5",Time = DateTime.Now},
+                new EditorOperateModel(){Name = "保存", Icon="\xe161", Type=EditorOperateType.Save},
+                new EditorOperateModel(){Name = "云同步", Icon="\xe2c3", Type=EditorOperateType.CloudSync},
+            };
+            UploadOperateCollection = new ObservableCollection<EditorOperateModel>()
+            {
+                new EditorOperateModel(){Name = "添加封面", Icon="\xe3f4", Type=EditorOperateType.UploadCoverPicture},
+                new EditorOperateModel(){Name = "上传图片", Icon="\xe161", Type=EditorOperateType.UploadImage},
+                new EditorOperateModel(){Name = "上传Word", Icon="\xe161", Type=EditorOperateType.UploadWord},
+                new EditorOperateModel(){Name = "上传Excel", Icon="\xe161", Type=EditorOperateType.UploadExcel},
+                new EditorOperateModel(){Name = "上传PPT", Icon="\xe161", Type=EditorOperateType.UploadPPT},
+                new EditorOperateModel(){Name = "上传文本文档", Icon="\xe161", Type=EditorOperateType.UploadTxt},
+                new EditorOperateModel(){Name = "上传PDF", Icon="\xe161", Type=EditorOperateType.UploadPDF},
+                new EditorOperateModel(){Name = "上传音频", Icon="\xe161", Type=EditorOperateType.UploadAudio},
+                new EditorOperateModel(){Name = "上传视频", Icon="\xe161", Type=EditorOperateType.UploadVideo},
             };
             HeadlineCollection = new ObservableCollection<MarkTextHeadlineModel>()
             {
@@ -83,11 +103,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             List<MarkTextFileModel> models = await _fileService.GetTextFilesAsync(MarkResourceType.image);
             foreach (MarkTextFileModel model in models)
             {
-                ImageCollection.Add(model);
+                FileCollection.Add(model);
             }
         }
 
-        public async void OnAddImagesClick(string[]? fileNames)
+        public async void OnAddFileClick(string[]? fileNames,int type)
         {
             if (fileNames == null || fileNames.Length < 1)
                 return;
@@ -95,23 +115,30 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 .AddTextFileAsync(MarkResourceType.image, fileNames.ToList());
             foreach (MarkTextFileModel model in models)
             {
-                ImageCollection.Add(model);
+                FileCollection.Add(model);
             }
         }
 
-        private void OnImageCopyClick(string path)
+        public async void OnAddCoverPictureClick(string fileNames)
         {
-            Console.WriteLine(path);
+
         }
 
-        private void OnImageReplaceClick(string path)
+        private void OnMainOperateClick(int type)
         {
-            Console.WriteLine(path);
+            Console.WriteLine(type);
         }
 
-        private void OnImageDeleteClick(string path)
+        private void OnUploadOperateClick(int type)
         {
-            Console.WriteLine(path);
+            Console.WriteLine(type);
+        }
+
+        private void OnFileOperateClick(object[] args)
+        {
+            int type = int.Parse((string)args[0]);
+            Guid id = (Guid)args[1];
+            Console.WriteLine($"{type} ==> {id}");
         }
     }
 }

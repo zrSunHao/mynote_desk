@@ -53,16 +53,7 @@ namespace BlizzardWind.Desktop.App.Windows
             }
         }
 
-        private void Rectangle_Drop(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-                return;
-            string[]? fileNames = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (fileNames == null || fileNames.Length < 1)
-                return;
-            //TODO 筛选图片
-            VM.OnAddImagesClick(fileNames);
-        }
+        
 
         private void SelectFileButton_Click(object sender, RoutedEventArgs e)
         {
@@ -71,12 +62,21 @@ namespace BlizzardWind.Desktop.App.Windows
             dialog.Multiselect = true;
             if (dialog.ShowDialog() != true)
                 return;
-            VM.OnAddImagesClick(dialog.FileNames);
+            VM.OnAddFileClick(dialog.FileNames,1);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             VM.OnWindowLoaded();
         }
+
+        //private void Rectangle_Drop(object sender, DragEventArgs e)
+        //{
+        //    if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+        //        return;
+        //    string[]? fileNames = e.Data.GetData(DataFormats.FileDrop) as string[];
+        //    if (fileNames == null || fileNames.Length < 1)
+        //        return;
+        //}
     }
 }

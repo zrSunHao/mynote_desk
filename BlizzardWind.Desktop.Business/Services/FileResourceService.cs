@@ -72,6 +72,7 @@ namespace BlizzardWind.Desktop.Business.Services
             {
                 MarkTextFileModel model = new()
                 {
+                    ID = entity.ID,
                     FileName = entity.Name,
                     Extension = entity.Extension,
                     FilePath = Path.Combine(TEXT_DIRECTORY, entity.FileName)

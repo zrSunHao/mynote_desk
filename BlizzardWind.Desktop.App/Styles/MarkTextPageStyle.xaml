@@ -10,7 +10,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="H1Template">
-        <Button Content="标题1,文章标题" Margin="5" FontSize="20"
+        <Button Content="标题1" Margin="5" FontSize="20"
                             Height="50" Width="150" HorizontalAlignment="Left"/>
     </DataTemplate>
 

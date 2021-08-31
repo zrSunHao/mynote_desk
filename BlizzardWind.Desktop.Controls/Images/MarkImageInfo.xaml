@@ -63,6 +63,50 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="MenuButtonstyle" BasedOn="{StaticResource OperateButtonStyle}" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
+                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
+                                </BooleanAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <ControlTemplate x:Key="SubmenuHeaderTemplate" TargetType="{x:Type MenuItem}">
+            <Border Name="Border" Background="{TemplateBinding Background}" Margin="-1,0,0,-1" Padding="10,5,5,5">
+                <Grid MinWidth="80">
+                    <ContentPresenter  Name="HeaderHost" Grid.Column="0" 
+                                       ContentSource="Header"
+                                       RecognizesAccessKey="True" 
+                                       VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsHighlighted" Value="true">
+                    <Setter Property="Foreground" Value="{StaticResource Color.Second}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="#0f3c5a" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="MenuItemStyle"  TargetType="MenuItem">
+            <Setter Property="Background" Value="#424242"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+            <Setter Property="Template" Value="{StaticResource SubmenuHeaderTemplate}"/>
+        </Style>
+
+        <local:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -79,13 +123,22 @@
             <TextBlock Grid.Row="0"  Style="{StaticResource NameTextStyle}"
                        Text="{Binding FileName,ElementName=imageInfo}"/>
             <StackPanel Grid.Row="1" Style="{StaticResource OperatePanelStyle}">
-                <Button Content="复制" 
+                <Button Content="标识" 
                         Style="{StaticResource OperateButtonStyle}"
-                        Command="{Binding UserCopy,ElementName=imageInfo}" CommandParameter="{Binding FilePath,ElementName=imageInfo}"/>
-                <Button Content="替换" Style="{StaticResource OperateButtonStyle}"
-                        Command="{Binding UserReplace,ElementName=imageInfo}" CommandParameter="{Binding FilePath,ElementName=imageInfo}"/>
-                <Button Content="删除" Style="{StaticResource OperateButtonStyle}"
-                        Command="{Binding UserDelete,ElementName=imageInfo}" CommandParameter="{Binding FilePath,ElementName=imageInfo}"/>
+                        Click="Button_Click" Tag="21"/>
+                <Button Content="导出" Style="{StaticResource OperateButtonStyle}"
+                        Click="Button_Click" Tag="22"/>
+                <Button Content="操作" Style="{StaticResource MenuButtonstyle}">
+                    <Button.ContextMenu>
+                        <ContextMenu Background="#424242" BorderThickness="0" DataContext="{Binding Data,Source={StaticResource BindingProxy}}">
+                            <MenuItem Header="同类替换" 
+                                      Style="{StaticResource MenuItemStyle}" Tag="23"
+                                      Click="MenuItem_Click"/>
+                            <MenuItem Header="删除" Tag="24"
+                                      Style="{StaticResource MenuItemStyle}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>
