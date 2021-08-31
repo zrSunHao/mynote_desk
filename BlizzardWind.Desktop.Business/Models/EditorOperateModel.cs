@@ -27,19 +27,15 @@ namespace BlizzardWind.Desktop.Business.Models
 
         public const int UploadImage = 11;
 
-        public const int UploadWord = 12;
-
-        public const int UploadExcel = 13;
-
-        public const int UploadPPT = 14;
+        public const int UploadOfficeFile = 12;
 
         public const int UploadTxt = 15;
 
-        public const int UploadPDF = 15;
+        public const int UploadPDF = 16;
 
-        public const int UploadAudio = 16;
+        public const int UploadAudio = 17;
 
-        public const int UploadVideo = 17;
+        public const int UploadVideo = 18;
 
         #endregion
 

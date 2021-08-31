@@ -23,7 +23,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="210"/>
+            <ColumnDefinition Width="220"/>
         </Grid.ColumnDefinitions>
         <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3">
             <Rectangle Style="{StaticResource RectBorderStyle}"/>
@@ -78,9 +78,7 @@
                 <ComboBox Style="{DynamicResource FileTypeOptionBoxStyle}" >
                     <ComboBoxItem Content="全部"/>
                     <ComboBoxItem Content="图片"/>
-                    <ComboBoxItem Content="WORD文档"/>
-                    <ComboBoxItem Content="EXCEL文档"/>
-                    <ComboBoxItem Content="PPT"/>
+                    <ComboBoxItem Content="Office文档"/>
                     <ComboBoxItem Content="文本文档"/>
                     <ComboBoxItem Content="音频"/>
                     <ComboBoxItem Content="视频"/>

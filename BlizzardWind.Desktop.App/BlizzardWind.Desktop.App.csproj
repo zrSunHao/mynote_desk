@@ -10,6 +10,14 @@
 
   <ItemGroup>
     <None Remove="Assets\Fonts\materialIcons.ttf" />
+    <None Remove="Assets\Images\Icons\audio.png" />
+    <None Remove="Assets\Images\Icons\cover.png" />
+    <None Remove="Assets\Images\Icons\file.png" />
+    <None Remove="Assets\Images\Icons\image.png" />
+    <None Remove="Assets\Images\Icons\office.png" />
+    <None Remove="Assets\Images\Icons\pdf.png" />
+    <None Remove="Assets\Images\Icons\txt.png" />
+    <None Remove="Assets\Images\Icons\video.png" />
     <None Remove="Assets\Images\User.jpeg" />
   </ItemGroup>
 
@@ -28,6 +36,14 @@
 
   <ItemGroup>
     <Resource Include="Assets\Fonts\materialIcons.ttf" />
+    <Resource Include="Assets\Images\Icons\audio.png" />
+    <Resource Include="Assets\Images\Icons\cover.png" />
+    <Resource Include="Assets\Images\Icons\file.png" />
+    <Resource Include="Assets\Images\Icons\image.png" />
+    <Resource Include="Assets\Images\Icons\office.png" />
+    <Resource Include="Assets\Images\Icons\pdf.png" />
+    <Resource Include="Assets\Images\Icons\txt.png" />
+    <Resource Include="Assets\Images\Icons\video.png" />
     <Resource Include="Assets\Images\User.jpeg" />
   </ItemGroup>
 

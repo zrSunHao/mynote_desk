@@ -13,25 +13,13 @@ namespace BlizzardWind.Desktop.Business.Entities
         [MaxLength(128)]
         public string FileName { get; set; }
 
-        public MarkResourceType Type { get; set; }
+        public int Type { get; set; }
 
         public long Length { get; set; }
 
         [MaxLength(32)]
-        public string Extension {  get; set; }
+        public string Extension { get; set; }
 
         public DateTime CreatedAt { get; set; }
-    }
-
-    public enum MarkResourceType
-    {
-        image,
-        word,
-        excel,
-        powerpoint,
-        pdf,
-        txt,
-        audio,
-        video,
     }
 }

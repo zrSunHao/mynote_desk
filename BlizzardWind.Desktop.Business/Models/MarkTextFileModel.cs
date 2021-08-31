@@ -15,5 +15,7 @@ namespace BlizzardWind.Desktop.Business.Models
         public string FilePath { get; set; }
 
         public string Extension { get; set; }
+
+        public int Type { get; set; }
     }
 }

@@ -356,11 +356,17 @@
     
     <lcc:TextToUriConverter x:Key="TextToUriConverter"/>
     <DataTemplate x:Key="MarkImageInfoItemsTemplate">
-        <lci:MarkImageInfo Margin="0,0,0,5" IconFontFamily="{StaticResource Font.MaterialIcon}"
+        <lci:MarkImageInfo Margin="5,0,5,10" IconFontFamily="{StaticResource Font.MaterialIcon}"
                            FileName="{Binding FileName}"
                            ID="{Binding ID}"
-                           ImageUrl="{Binding FilePath,Converter={StaticResource TextToUriConverter}}"
-                           UserOperate="{Binding DataContext.FileOperateCommand,RelativeSource={RelativeSource AncestorType=Window}}"/>
+                           UserOperate="{Binding DataContext.FileOperateCommand,RelativeSource={RelativeSource AncestorType=Window}}">
+            <lci:MarkImageInfo.ImageUrl>
+                <MultiBinding Converter="{StaticResource TextToUriConverter}">
+                    <Binding  Path="Type" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"></Binding>
+                    <Binding  Path="FilePath" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"></Binding>
+                </MultiBinding>
+            </lci:MarkImageInfo.ImageUrl>
+        </lci:MarkImageInfo>
     </DataTemplate>
 
     <Style x:Key="ImageCountTextStyle" TargetType="TextBlock">

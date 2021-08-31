@@ -1,4 +1,5 @@
-﻿using BlizzardWind.Desktop.Business.Entities;
+﻿using BlizzardWind.App.Common.MarkText;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
@@ -28,7 +29,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
 
-        public Action<int> OnUploadFileClickAction { get; set; }
+        public Action<string, int> OnUploadFileClickAction { get; set; }
 
         private string coverPicture;
         public string CoverPicture
@@ -58,15 +59,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             };
             UploadOperateCollection = new ObservableCollection<EditorOperateModel>()
             {
-                new EditorOperateModel(){Name = "添加封面", Icon="\xe3f4", Type=EditorOperateType.UploadCoverPicture},
-                new EditorOperateModel(){Name = "上传图片", Icon="\xe161", Type=EditorOperateType.UploadImage},
-                new EditorOperateModel(){Name = "上传Word", Icon="\xe161", Type=EditorOperateType.UploadWord},
-                new EditorOperateModel(){Name = "上传Excel", Icon="\xe161", Type=EditorOperateType.UploadExcel},
-                new EditorOperateModel(){Name = "上传PPT", Icon="\xe161", Type=EditorOperateType.UploadPPT},
-                new EditorOperateModel(){Name = "上传文本文档", Icon="\xe161", Type=EditorOperateType.UploadTxt},
-                new EditorOperateModel(){Name = "上传PDF", Icon="\xe161", Type=EditorOperateType.UploadPDF},
-                new EditorOperateModel(){Name = "上传音频", Icon="\xe161", Type=EditorOperateType.UploadAudio},
-                new EditorOperateModel(){Name = "上传视频", Icon="\xe161", Type=EditorOperateType.UploadVideo},
+                new EditorOperateModel(){Name = "封面", Icon="\xe3f4", Type=EditorOperateType.UploadCoverPicture},
+                new EditorOperateModel(){Name = "图片", Icon="\xe161", Type=EditorOperateType.UploadImage},
+                new EditorOperateModel(){Name = "office文件", Icon="\xe161", Type=EditorOperateType.UploadOfficeFile},
+                new EditorOperateModel(){Name = "文本文档", Icon="\xe161", Type=EditorOperateType.UploadTxt},
+                new EditorOperateModel(){Name = "PDF", Icon="\xe161", Type=EditorOperateType.UploadPDF},
+                new EditorOperateModel(){Name = "音频", Icon="\xe161", Type=EditorOperateType.UploadAudio},
+                new EditorOperateModel(){Name = "视频", Icon="\xe161", Type=EditorOperateType.UploadVideo},
             };
             HeadlineCollection = new ObservableCollection<MarkTextHeadlineModel>()
             {
@@ -102,28 +101,25 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public async void OnWindowLoaded()
         {
-            List<MarkTextFileModel> models = await _fileService.GetTextFilesAsync(MarkResourceType.image);
+            List<MarkTextFileModel> models = await _fileService.GetTextFilesAsync();
+            _fileList.AddRange(models);
             foreach (MarkTextFileModel model in models)
             {
                 FileCollection.Add(model);
             }
         }
 
-        public async void OnAddFileClick(string[]? fileNames,int type)
+        public async void OnAddFileClick(string[]? fileNames, int type)
         {
             if (fileNames == null || fileNames.Length < 1)
                 return;
             List<MarkTextFileModel> models = await _fileService
-                .AddTextFileAsync(MarkResourceType.image, fileNames.ToList());
+                .AddTextFileAsync(type, fileNames.ToList());
+            _fileList.InsertRange(0, models);
             foreach (MarkTextFileModel model in models)
             {
-                FileCollection.Insert(0,model);
+                FileCollection.Insert(0, model);
             }
-        }
-
-        public async void OnAddCoverPictureClick(string fileNames)
-        {
-
         }
 
         private void OnMainOperateClick(int type)
@@ -133,9 +129,32 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnUploadOperateClick(int type)
         {
-            if(OnUploadFileClickAction != null)
+            string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
+            switch (type)
             {
-                OnUploadFileClickAction.Invoke(type);
+                case EditorOperateType.UploadCoverPicture:
+                case EditorOperateType.UploadImage:
+                    filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
+                    break;
+                case EditorOperateType.UploadOfficeFile:
+                    filter = "office文件(word,excel.ppt)|*.docx;*.doc;*.xlsx;*.xls;*.pptx;*.ppt;";
+                    break;
+                case EditorOperateType.UploadTxt:
+                    filter = "文本文件(*.txt;*.cs;)| *.txt;*.cs;";
+                    break;
+                case EditorOperateType.UploadPDF:
+                    filter = "PDF(*.pdf;)|*.pdf;";
+                    break;
+                case EditorOperateType.UploadAudio:
+                    filter = "音频文件(*.mp3;*.flac;)|*.mp3;*.flac;";
+                    break;
+                case EditorOperateType.UploadVideo:
+                    filter = "图像文件(*.mp4;*.flv;)|*.mp4;*.flv;";
+                    break;
+            }
+            if (OnUploadFileClickAction != null)
+            {
+                OnUploadFileClickAction.Invoke(filter, type);
             }
         }
 

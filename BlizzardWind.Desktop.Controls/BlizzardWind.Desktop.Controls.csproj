@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlizzardWind.App.Common\BlizzardWind.App.Common.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using BlizzardWind.Desktop.Business.ViewModels;
+﻿using BlizzardWind.Desktop.Business.Models;
+using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -56,14 +57,14 @@ namespace BlizzardWind.Desktop.App.Windows
 
         
 
-        private void SelectFileButton_Click(int type)
+        private void SelectFileButton_Click(string filter, int type)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "图像文件(*.jpg;*.gif;*.png)|*.jpg;*jpeg;*.gif;*.png;";
+            dialog.Filter = filter;
             dialog.Multiselect = true;
             if (dialog.ShowDialog() != true)
                 return;
-            VM.OnAddFileClick(dialog.FileNames,1);
+            VM.OnAddFileClick(dialog.FileNames, type);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
