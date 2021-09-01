@@ -169,15 +169,15 @@ namespace BlizzardWind.App.Common.MarkText
                     case MarkType.key:
                         string value = row.Value.Replace("，", ",");
                         element.List = value.Split(",").ToList();
+                        element.Content = row.Value;
                         break;
                     case MarkType.img:
                     case MarkType.link:
-                        var piece = new MarkPiece
+                        element.KeyValue = new MarkKeyValue
                         {
                             Name = _nameRg.Match(row.Value).Value,
                             Value = _valueRg.Match(row.Value).Value
                         };
-                        element.Pieces = new List<MarkPiece> { piece };
                         break;
                     case MarkType.list:
                     case MarkType.quote:
@@ -222,10 +222,10 @@ namespace BlizzardWind.App.Common.MarkText
         {
             if (rowsBuffer == null || !rowsBuffer.Any())
                 return null;
-            List<MarkPiece> pieces = new List<MarkPiece>();
+            List<MarkKeyValue> pieces = new List<MarkKeyValue>();
             foreach (string text in rowsBuffer)
             {
-                var piece = new MarkPiece
+                var piece = new MarkKeyValue
                 {
                     Name = _nameRg.Match(text).Value,
                     Value = _valueRg.Match(text).Value

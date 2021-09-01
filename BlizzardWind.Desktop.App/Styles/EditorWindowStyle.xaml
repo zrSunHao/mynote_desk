@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:lci="clr-namespace:BlizzardWind.Desktop.Controls.Images;assembly=BlizzardWind.Desktop.Controls"
                     xmlns:lcc="clr-namespace:BlizzardWind.Desktop.Controls.Converters;assembly=BlizzardWind.Desktop.Controls"
-    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+                    xmlns:lmt="clr-namespace:BlizzardWind.App.Common.MarkText;assembly=BlizzardWind.App.Common">
 
     <Style x:Key="OperateItemsStyle" TargetType="ItemsControl">
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -45,7 +45,9 @@
     </DataTemplate>
 
     <HierarchicalDataTemplate x:Key="HeadlineTreeTemplate" ItemsSource="{Binding Children}">
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding TypeName}" Margin="3,0,0,0" Foreground="{StaticResource Color.Info}"/>
+            <TextBlock Text=" - " Foreground="{StaticResource Color.Info}"/>
             <TextBlock Text="{Binding Name}"/>
         </StackPanel>
     </HierarchicalDataTemplate>
@@ -57,6 +59,7 @@
         <Setter Property="Foreground" Value="Silver" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="IsExpanded" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -120,6 +123,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Level}" Value="512">
+                <Setter Property="IsExpanded" Value="True"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="TreeViewStyle" TargetType="TreeView">
@@ -127,6 +135,7 @@
         <Setter Property="ItemTemplate" Value="{StaticResource HeadlineTreeTemplate}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="5"/>
     </Style>
     
     <Style x:Key="EditorTextBoxStyle" TargetType="{x:Type TextBox}">

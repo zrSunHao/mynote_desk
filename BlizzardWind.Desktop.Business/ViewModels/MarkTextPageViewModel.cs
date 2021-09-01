@@ -13,7 +13,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class MarkTextPageViewModel : MvxViewModel
     {
-        public ObservableCollection<MarkTextHeadlineModel> HeadlineCollection { get; set; }
+        public ObservableCollection<ArticleStructureModel> HeadlineCollection { get; set; }
         public ObservableCollection<MarkElement> ElementCollection { get; set; }
     }
 
@@ -21,36 +21,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         public MarkTextPageViewModel()
         {
-            HeadlineCollection = new ObservableCollection<MarkTextHeadlineModel>()
-            {
-                new MarkTextHeadlineModel(){ 
-                    Name = "大飒飒打撒打撒打撒",
-                    Children = new List<MarkTextHeadlineModel>(){
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                    }
-                },
-                new MarkTextHeadlineModel(){
-                    Name = "发生发射点发射点发生",
-                    Children = new List<MarkTextHeadlineModel>(){
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                    }
-                },
-                new MarkTextHeadlineModel(){
-                    Name = "发生发射点发射点发生",
-                    Children = new List<MarkTextHeadlineModel>(){
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                    }
-                },
-            };
             ElementCollection = new ObservableCollection<MarkElement>();
         }
 

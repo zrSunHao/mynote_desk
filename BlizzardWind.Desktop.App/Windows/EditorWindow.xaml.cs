@@ -4,6 +4,8 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +24,8 @@ namespace BlizzardWind.Desktop.App.Windows
     /// </summary>
     public partial class EditorWindow : Window
     {
+        static Subject<string> MySubject = new Subject<string>();
+
         private readonly EditorWindowViewModel VM;
 
         public EditorWindow()
@@ -29,6 +33,14 @@ namespace BlizzardWind.Desktop.App.Windows
             InitializeComponent();
             VM = (EditorWindowViewModel)DataContext;
             VM.OnUploadFileClickAction += SelectFileButton_Click;
+            MySubject.Throttle(TimeSpan.FromSeconds(1))
+                .Subscribe((s) =>
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        VM.OnTextChange(s);
+                    }));
+                });
         }
 
         private void SelectFileButton_Click(string filter, int type,bool multiselect = true)
@@ -57,6 +69,11 @@ namespace BlizzardWind.Desktop.App.Windows
         {
             if (e.Key == Key.Enter && VM != null)
                 VM.OnFileFilter();
+        }
+
+        private void EditerBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MySubject.OnNext("");
         }
 
         //private void Rectangle_Drop(object sender, DragEventArgs e)

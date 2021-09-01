@@ -24,7 +24,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public IMvxCommand FileOperateCommand => new MvxCommand<object[]>(OnFileOperateClick);
 
         public ObservableCollection<MarkTextFileModel> FileCollection { get; set; }
-        public ObservableCollection<MarkTextHeadlineModel> HeadlineCollection { get; set; }
+        public ObservableCollection<ArticleStructureModel> ArticleStructureCollection { get; set; }
         public ObservableCollection<EditorFileTypeItem> EditorFileTypeCollection { get; set; }
 
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
@@ -61,6 +61,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             set => SetProperty(ref fileCount, value);
         }
 
+        private string document;
+        public string Document
+        {
+            get => document;
+            set => SetProperty(ref document, value);
+        }
 
     }
 
@@ -102,36 +108,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 new EditorFileTypeItem(){Name = "音频",Type = EditorOperateType.UploadAudio },
                 new EditorFileTypeItem(){Name = "视频",Type = EditorOperateType.UploadVideo },
             };
-            HeadlineCollection = new ObservableCollection<MarkTextHeadlineModel>()
-            {
-                new MarkTextHeadlineModel(){
-                    Name = "大飒飒打撒打撒打撒",
-                    Children = new List<MarkTextHeadlineModel>(){
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                    }
-                },
-                new MarkTextHeadlineModel(){
-                    Name = "发生发射点发射点发生",
-                    Children = new List<MarkTextHeadlineModel>(){
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                    }
-                },
-                new MarkTextHeadlineModel(){
-                    Name = "发生发射点发射点发生",
-                    Children = new List<MarkTextHeadlineModel>(){
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                        new MarkTextHeadlineModel(){Name ="fsdfdss" },
-                    }
-                },
-            };
+            ArticleStructureCollection = new ObservableCollection<ArticleStructureModel>();
 
             FileFilterType = -1;
         }
@@ -174,6 +151,74 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 list = list.Where(x => x.Type == FileFilterType).ToList();
             foreach (MarkTextFileModel model in list)
                 FileCollection.Add(model);
+        }
+
+        public void OnTextChange(string value)
+        {
+            var parser = new MarkTextParser();
+            var elements = parser.GetMarkElements(Document);
+            ArticleStructureCollection.Clear();
+            ArticleStructureModel? topComponent = null;
+            bool hasTitle_2 = false;
+            foreach (var el in elements)
+            {
+                if (el.Level == MarkTypeLevel.Skip)
+                {
+                    hasTitle_2 = false;
+                    continue;
+                }
+                ArticleStructureModel component = new()
+                {
+                    Name = el.ShortContent,
+                    Type = el.RowType,
+                    TypeName = el.TypeName,
+                    Level = el.Level,
+                };
+                if(component.Level == MarkTypeLevel.Title_1)
+                {
+                    if(topComponent != null)
+                        ArticleStructureCollection.Add(topComponent);
+                    topComponent = component;
+                    hasTitle_2 = false;
+                    continue;
+                }
+                if (component.Level == MarkTypeLevel.Single)
+                {
+                    if (topComponent != null)
+                        ArticleStructureCollection.Add(topComponent);
+                    topComponent = null;
+                    ArticleStructureCollection.Add(component);
+                    hasTitle_2 = false;
+                    continue;
+                }
+                if (component.Level == MarkTypeLevel.Title_2)
+                {
+                    if (topComponent == null)
+                        topComponent = component;
+                    else
+                        topComponent.AddChildren(component);
+                    hasTitle_2 = true;
+                    continue;
+                }
+                if (component.Level == MarkTypeLevel.Leaf)
+                {
+                    if (topComponent == null)
+                        ArticleStructureCollection.Add(component);
+                    else if (!hasTitle_2)
+                        topComponent.AddChildren(component);
+                    else if (!topComponent.Children.Any())
+                        topComponent.AddChildren(component);
+                    else
+                    {
+                        int index = topComponent.Children.Count - 1;
+                        topComponent.Children[index].AddChildren(component);
+                    }
+                }
+            }
+            if (topComponent != null)
+            {
+                ArticleStructureCollection.Add(topComponent);
+            }
         }
 
         private void OnMainOperateClick(int type)

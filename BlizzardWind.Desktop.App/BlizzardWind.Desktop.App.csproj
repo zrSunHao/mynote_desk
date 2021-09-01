@@ -40,6 +40,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\Fonts\materialIcons.ttf" />
     <Resource Include="Assets\Images\Icons\audio.png" />
     <Resource Include="Assets\Images\Icons\cover.png" />
