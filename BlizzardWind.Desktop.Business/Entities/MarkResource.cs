@@ -17,6 +17,8 @@ namespace BlizzardWind.Desktop.Business.Entities
 
         public long Length { get; set; }
 
+        public Guid? ArticleID { get; set; }
+
         [MaxLength(32)]
         public string Extension { get; set; }
 

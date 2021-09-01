@@ -10,13 +10,13 @@ namespace BlizzardWind.Desktop.Business.Interfaces
         /// </summary>
         /// <param name="fileNames"></param>
         /// <returns></returns>
-        public Task<List<MarkTextFileModel>> AddTextFileAsync(int type,List<string> fileNames);
+        public Task<List<MarkTextFileModel>> AddArticleFileAsync(int type,  List<string> fileNames, Guid? articleID = null);
 
         /// <summary>
         /// 获取文本资源
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public Task<List<MarkTextFileModel>> GetTextFilesAsync(int type = -1);
+        public Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleID,int type = -1);
     }
 }

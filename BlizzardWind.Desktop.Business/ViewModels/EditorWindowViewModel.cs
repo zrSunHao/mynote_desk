@@ -17,7 +17,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class EditorWindowViewModel : MvxViewModel
     {
         private readonly IFileResourceService _fileService;
+        private readonly IArticleService _articleService;
         private List<MarkTextFileModel> _fileList = new List<MarkTextFileModel>();
+        private Guid? _articleID;
+        private Article _article;
 
         public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
         public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
@@ -72,9 +75,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
     public partial class EditorWindowViewModel
     {
-        public EditorWindowViewModel(IFileResourceService fileService)
+        public EditorWindowViewModel(IFileResourceService fileService, IArticleService articleService)
         {
             _fileService = fileService;
+            _articleService = articleService;
 
             Initial();
         }
@@ -113,16 +117,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FileFilterType = -1;
         }
 
-        public async void OnWindowLoaded()
+        public void OnWindowLoaded()
         {
-            List<MarkTextFileModel> models = await _fileService.GetTextFilesAsync();
-            _fileList.AddRange(models);
-            foreach (MarkTextFileModel model in models)
-            {
-                FileCollection.Add(model);
-            }
-            FileCount = _fileList.Count;
-            CoverPicture = _fileList.FirstOrDefault(x => x.Type == EditorOperateType.UploadCoverPicture)?.FilePath;
+            _articleID = Guid.Parse("26a53d07-5afb-4bd3-a578-2f315d3b1e79");
+            if (_articleID.HasValue)
+                LoadArticleAsync(_articleID.Value);
+            else
+                InitArticleAsync();
         }
 
         public async void OnAddFileClick(string[]? fileNames, int type)
@@ -130,7 +131,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (fileNames == null || fileNames.Length < 1)
                 return;
             List<MarkTextFileModel> models = await _fileService
-                .AddTextFileAsync(type, fileNames.ToList());
+                .AddArticleFileAsync(type, fileNames.ToList(),_article.ID);
             _fileList.InsertRange(0, models);
             foreach (MarkTextFileModel model in models)
             {
@@ -138,7 +139,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
             FileCount = _fileList.Count;
             if (type == EditorOperateType.UploadCoverPicture)
+            {
                 CoverPicture = models[0].FilePath;
+                _article.CoverPictureID = models[0].ID;
+                await _articleService.UpdateAsync(_article);
+            }
         }
 
         public void OnFileFilter()
@@ -153,10 +158,14 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FileCollection.Add(model);
         }
 
-        public void OnTextChange(string value)
+        public async void OnTextChange(string value)
         {
             var parser = new MarkTextParser();
             var elements = parser.GetMarkElements(Document);
+            _article.Content = Document;
+            _article.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
+            _article.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
+            await _articleService.UpdateAsync(_article);
             ArticleStructureCollection.Clear();
             ArticleStructureModel? topComponent = null;
             bool hasTitle_2 = false;
@@ -268,6 +277,35 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             Console.WriteLine($"{type} ==> {id}");
         }
 
-        
+        private async void LoadArticleAsync(Guid articleID)
+        {
+            _article = await _articleService.GetAsync(articleID);
+            if (_article == null)
+                throw new Exception("文章数据为空！");
+            Document = _article.Content;
+            List<MarkTextFileModel> models = await _fileService.GetArticleFilesAsync(articleID);
+            _fileList.AddRange(models);
+            foreach (MarkTextFileModel model in models)
+            {
+                FileCollection.Add(model);
+            }
+            FileCount = _fileList.Count;
+            if(_article.CoverPictureID.HasValue)
+                CoverPicture = _fileList.FirstOrDefault(x => x.ID == _article.CoverPictureID.Value)?.FilePath;
+        }
+
+        private async void InitArticleAsync()
+        {
+            _article = new Article()
+            {
+                ID = Guid.NewGuid(),
+                Title = "新建文档",
+                State = -1,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Deleted = false,
+            };
+            await _articleService.AddAsync(_article);
+        }
     }
 }

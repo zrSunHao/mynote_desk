@@ -23,12 +23,13 @@ namespace BlizzardWind.Desktop.Business
         {
             services.AddSingleton<IDatabaseService,DatabaseService>();
             services.AddSingleton<IFileResourceService, FileResourceService>();
+            services.AddSingleton<IArticleService, ArticleService>();
 
-            services.AddSingleton<MarkTextPageViewModel>();
-            services.AddSingleton<HomePageViewModel>();
+            services.AddTransient<MarkTextPageViewModel>();
+            services.AddTransient<HomePageViewModel>();
 
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<EditorWindowViewModel>();
+            services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<EditorWindowViewModel>();
         }
 
         public HomePageViewModel? HomePageViewModel => _serviceProvider.GetService<HomePageViewModel>();

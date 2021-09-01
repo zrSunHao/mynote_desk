@@ -12,5 +12,7 @@ namespace BlizzardWind.Desktop.Business.Entities
 
         [MaxLength(1024)]
         public string Value { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

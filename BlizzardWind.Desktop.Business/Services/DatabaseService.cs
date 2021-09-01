@@ -28,6 +28,7 @@ namespace BlizzardWind.Desktop.Business.Services
         {
             await _encryptedDb.CreateTableAsync<Information>();
             await _encryptedDb.CreateTableAsync<MarkResource>();
+            await _encryptedDb.CreateTableAsync<Article>();
         }
     }
 }

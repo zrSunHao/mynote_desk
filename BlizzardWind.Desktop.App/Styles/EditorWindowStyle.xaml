@@ -270,7 +270,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
                     <Border Name="Back" Background="#424242"  BorderThickness="0,0,0,0" BorderBrush="#424242" >
-                        <ContentPresenter ContentSource="{Binding Source,TargetNullValue={x:Null}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"></ContentPresenter>
+                        <ContentPresenter  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"></ContentPresenter>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

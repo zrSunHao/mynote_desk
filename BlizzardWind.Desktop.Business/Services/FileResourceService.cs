@@ -19,7 +19,7 @@ namespace BlizzardWind.Desktop.Business.Services
             _dbService = service;
         }
 
-        public async Task<List<MarkTextFileModel>> AddTextFileAsync(int type, List<string> fileNames)
+        public async Task<List<MarkTextFileModel>> AddArticleFileAsync(int type, List<string> fileNames, Guid? articleID = null)
         {
             List<MarkTextFileModel> models = new();
             List<MarkResource> entities = new();
@@ -35,6 +35,7 @@ namespace BlizzardWind.Desktop.Business.Services
                 Guid id = Guid.NewGuid();
                 MarkTextFileModel model = new()
                 {
+                    ID = id,
                     FileName = file.Name,
                     Type = type,
                     Extension = file.Extension,
@@ -50,6 +51,7 @@ namespace BlizzardWind.Desktop.Business.Services
                     FileName = model.FilePath,
                     Length = file.Length,
                     Type = type,
+                    ArticleID = articleID,
                     CreatedAt = DateTime.Now
                 };
 
@@ -61,10 +63,12 @@ namespace BlizzardWind.Desktop.Business.Services
             return models;
         }
 
-        public async Task<List<MarkTextFileModel>> GetTextFilesAsync(int type = -1)
+        public async Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleID, int type = -1)
         {
             var db = await _dbService.GetConnectionAsync();
-            var query = db.Table<MarkResource>().OrderByDescending(s => s.CreatedAt);
+            var query = db.Table<MarkResource>()
+                .Where(x=>x.ArticleID == articleID)
+                .OrderByDescending(s => s.CreatedAt);
             if (type != -1)
                 query.Where(x => x.Type == type);
             var entities = await query.ToListAsync();
