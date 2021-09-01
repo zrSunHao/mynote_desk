@@ -25,9 +25,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public ObservableCollection<MarkTextFileModel> FileCollection { get; set; }
         public ObservableCollection<MarkTextHeadlineModel> HeadlineCollection { get; set; }
+        public ObservableCollection<EditorFileTypeItem> EditorFileTypeCollection { get; set; }
 
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
+
 
         public Action<string, int, bool> OnUploadFileClickAction { get; set; }
 
@@ -37,6 +39,28 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             get => coverPicture;
             set => SetProperty(ref coverPicture, value);
         }
+
+        private int fileFilterType;
+        public int FileFilterType
+        {
+            get => fileFilterType;
+            set => SetProperty(ref fileFilterType, value);
+        }
+
+        private string fileFilterName;
+        public string FileFilterName
+        {
+            get => fileFilterName;
+            set => SetProperty(ref fileFilterName, value);
+        }
+
+        private int fileCount;
+        public int FileCount
+        {
+            get => fileCount;
+            set => SetProperty(ref fileCount, value);
+        }
+
 
     }
 
@@ -66,6 +90,17 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 new EditorOperateModel(){Name = "PDF", Icon="\xe161", Type=EditorOperateType.UploadPDF},
                 new EditorOperateModel(){Name = "音频", Icon="\xe161", Type=EditorOperateType.UploadAudio},
                 new EditorOperateModel(){Name = "视频", Icon="\xe161", Type=EditorOperateType.UploadVideo},
+            };
+            EditorFileTypeCollection = new ObservableCollection<EditorFileTypeItem>()
+            {
+                new EditorFileTypeItem(){Name = "全部",Type = -1 },
+                new EditorFileTypeItem(){Name = "封面",Type = EditorOperateType.UploadCoverPicture },
+                new EditorFileTypeItem(){Name = "图片",Type = EditorOperateType.UploadImage },
+                new EditorFileTypeItem(){Name = "office文件",Type = EditorOperateType.UploadOfficeFile },
+                new EditorFileTypeItem(){Name = "文本文件",Type = EditorOperateType.UploadTxt },
+                new EditorFileTypeItem(){Name = "PDF",Type = EditorOperateType.UploadPDF },
+                new EditorFileTypeItem(){Name = "音频",Type = EditorOperateType.UploadAudio },
+                new EditorFileTypeItem(){Name = "视频",Type = EditorOperateType.UploadVideo },
             };
             HeadlineCollection = new ObservableCollection<MarkTextHeadlineModel>()
             {
@@ -97,6 +132,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     }
                 },
             };
+
+            FileFilterType = -1;
         }
 
         public async void OnWindowLoaded()
@@ -107,6 +144,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 FileCollection.Add(model);
             }
+            FileCount = _fileList.Count;
         }
 
         public async void OnAddFileClick(string[]? fileNames, int type)
@@ -120,6 +158,19 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 FileCollection.Insert(0, model);
             }
+            FileCount = _fileList.Count;
+        }
+
+        public void OnFileFilter()
+        {
+            FileCollection.Clear();
+            List<MarkTextFileModel> list = _fileList;
+            if(!string.IsNullOrEmpty(FileFilterName))
+                list = list.Where(x => x.FileName.Contains(FileFilterName)).ToList();
+            if (FileFilterType != -1)
+                list = list.Where(x => x.Type == FileFilterType).ToList();
+            foreach (MarkTextFileModel model in list)
+                FileCollection.Add(model);
         }
 
         private void OnMainOperateClick(int type)
@@ -135,7 +186,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 case EditorOperateType.UploadCoverPicture:
                     filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
-                    multiselect= false;
+                    multiselect = false;
                     break;
                 case EditorOperateType.UploadImage:
                     filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
@@ -168,5 +219,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             Guid id = (Guid)args[1];
             Console.WriteLine($"{type} ==> {id}");
         }
+
+        
     }
 }

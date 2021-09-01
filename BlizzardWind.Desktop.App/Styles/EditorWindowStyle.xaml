@@ -265,10 +265,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource Color.Font.Second}"></Setter>
+                            <Setter Property="Foreground" Value="{StaticResource Color.Font.Second}"/>
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource Color.Font.Second}"></Setter>
+                            <Setter Property="Foreground" Value="{StaticResource Color.Font.Second}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -324,7 +324,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Height" Value="30"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemStyle}"/>
         <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
         <Setter Property="FontSize" Value="13"/>
@@ -356,7 +356,7 @@
     
     <lcc:TextToUriConverter x:Key="TextToUriConverter"/>
     <DataTemplate x:Key="MarkImageInfoItemsTemplate">
-        <lci:MarkImageInfo Margin="5,0,5,10" IconFontFamily="{StaticResource Font.MaterialIcon}"
+        <lci:MarkImageInfo Margin="5,0,5,5" IconFontFamily="{StaticResource Font.MaterialIcon}"
                            FileName="{Binding FileName}"
                            ID="{Binding ID}"
                            UserOperate="{Binding DataContext.FileOperateCommand,RelativeSource={RelativeSource AncestorType=Window}}">
@@ -369,10 +369,10 @@
         </lci:MarkImageInfo>
     </DataTemplate>
 
-    <Style x:Key="ImageCountTextStyle" TargetType="TextBlock">
+    <Style x:Key="FileCountTextStyle" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource Color.Font.Second}"/>
     </Style>

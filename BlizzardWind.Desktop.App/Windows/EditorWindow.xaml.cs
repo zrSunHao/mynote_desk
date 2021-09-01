@@ -31,32 +31,6 @@ namespace BlizzardWind.Desktop.App.Windows
             VM.OnUploadFileClickAction += SelectFileButton_Click;
         }
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void TopBar_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                DragMove();
-            }
-        }
-
-        
-
         private void SelectFileButton_Click(string filter, int type,bool multiselect = true)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -69,7 +43,20 @@ namespace BlizzardWind.Desktop.App.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            VM.OnWindowLoaded();
+            if (VM != null)
+                VM.OnWindowLoaded();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (VM != null)
+                VM.OnFileFilter();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && VM != null)
+                VM.OnFileFilter();
         }
 
         //private void Rectangle_Drop(object sender, DragEventArgs e)

@@ -33,7 +33,7 @@ namespace BlizzardWind.Desktop.Controls.Converters
                     defaultUrl = new Uri($"{pack}txt.png");
                     break;
                 case MarkResourceType.PDF:
-                    defaultUrl = new Uri($"{pack}file.png");
+                    defaultUrl = new Uri($"{pack}pdf.png");
                     break;
                 case MarkResourceType.Audio:
                     defaultUrl = new Uri($"{pack}audio.png");

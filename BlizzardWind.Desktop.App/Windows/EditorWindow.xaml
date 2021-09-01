@@ -50,6 +50,7 @@
             <Grid Grid.Row="1" Margin="0,5,0,0">
                 <Rectangle Style="{StaticResource RectBorderStyle}"/>
                 <Image Style="{StaticResource CoverImageStyle}"/>
+                <Border Background="Black" Opacity="0.2"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
@@ -67,22 +68,22 @@
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
                 <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>
-                <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}"/>
-                <TextBlock Grid.Column="1" Style="{StaticResource ImageCountTextStyle}">
+                <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}"
+                         KeyDown="TextBox_KeyDown" Text="{Binding FileFilterName,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Column="1" Style="{StaticResource FileCountTextStyle}">
                             <Run Text="{Binding FileCollection.Count,Mode=OneWay}"/>
-                            <Run Text="项"/>
+                            <Run Text="/"/>
+                            <Run Text="{Binding FileCount,Mode=OneWay}"/>
                 </TextBlock>
             </Grid>
             <Grid Grid.Row="1" Margin="0,0,0,5">
                 <Rectangle Style="{StaticResource RectBorderStyle}"/>
-                <ComboBox Style="{DynamicResource FileTypeOptionBoxStyle}" >
-                    <ComboBoxItem Content="全部"/>
-                    <ComboBoxItem Content="图片"/>
-                    <ComboBoxItem Content="Office文档"/>
-                    <ComboBoxItem Content="文本文档"/>
-                    <ComboBoxItem Content="音频"/>
-                    <ComboBoxItem Content="视频"/>
-                </ComboBox>
+                <ComboBox Style="{DynamicResource FileTypeOptionBoxStyle}" 
+                          ItemsSource="{Binding EditorFileTypeCollection,TargetNullValue={x:Null}}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Type"
+                          SelectedValue="{Binding FileFilterType}"
+                          SelectionChanged="ComboBox_SelectionChanged"/>
             </Grid>
             <Grid Grid.Row="2">
                 <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>

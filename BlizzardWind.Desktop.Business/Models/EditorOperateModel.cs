@@ -51,4 +51,11 @@ namespace BlizzardWind.Desktop.Business.Models
 
         #endregion
     }
+
+    public class EditorFileTypeItem
+    {
+        public int Type { get; set; }
+
+        public string Name { get; set; }
+    }
 }
