@@ -14,11 +14,16 @@
     <None Remove="Assets\Images\Icons\cover.png" />
     <None Remove="Assets\Images\Icons\file.png" />
     <None Remove="Assets\Images\Icons\image.png" />
+    <None Remove="Assets\Images\Icons\note.png" />
     <None Remove="Assets\Images\Icons\office.png" />
     <None Remove="Assets\Images\Icons\pdf.png" />
     <None Remove="Assets\Images\Icons\txt.png" />
     <None Remove="Assets\Images\Icons\video.png" />
     <None Remove="Assets\Images\User.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\Icons\note.png" />
   </ItemGroup>
 
   <ItemGroup>

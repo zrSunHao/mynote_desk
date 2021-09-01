@@ -145,6 +145,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FileCollection.Add(model);
             }
             FileCount = _fileList.Count;
+            CoverPicture = _fileList.FirstOrDefault(x => x.Type == EditorOperateType.UploadCoverPicture)?.FilePath;
         }
 
         public async void OnAddFileClick(string[]? fileNames, int type)
@@ -159,6 +160,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FileCollection.Insert(0, model);
             }
             FileCount = _fileList.Count;
+            if (type == EditorOperateType.UploadCoverPicture)
+                CoverPicture = models[0].FilePath;
         }
 
         public void OnFileFilter()

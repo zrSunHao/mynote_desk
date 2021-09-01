@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace BlizzardWind.Desktop.Controls.Images
 {
     /// <summary>
-    /// MarkImageInfo.xaml 的交互逻辑
+    /// MarkFileInfo.xaml 的交互逻辑
     /// </summary>
-    public partial class MarkImageInfo : UserControl
+    public partial class MarkFileInfo : UserControl
     {
-        public MarkImageInfo()
+        public MarkFileInfo()
         {
             InitializeComponent();
         }
@@ -32,7 +32,7 @@ namespace BlizzardWind.Desktop.Controls.Images
         }
         // Using a DependencyProperty as the backing store for FileName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FileNameProperty =
-            DependencyProperty.Register("FileName", typeof(string), typeof(MarkImageInfo));
+            DependencyProperty.Register("FileName", typeof(string), typeof(MarkFileInfo));
 
         public Guid ID
         {
@@ -41,7 +41,7 @@ namespace BlizzardWind.Desktop.Controls.Images
         }
         // Using a DependencyProperty as the backing store for FilePath.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IDProperty =
-            DependencyProperty.Register("ID", typeof(Guid), typeof(MarkImageInfo));
+            DependencyProperty.Register("ID", typeof(Guid), typeof(MarkFileInfo));
 
         public Uri ImageUrl
         {
@@ -50,7 +50,7 @@ namespace BlizzardWind.Desktop.Controls.Images
         }
         // Using a DependencyProperty as the backing store for ImageUrl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageUrlProperty =
-            DependencyProperty.Register("ImageUrl", typeof(Uri), typeof(MarkImageInfo));
+            DependencyProperty.Register("ImageUrl", typeof(Uri), typeof(MarkFileInfo));
 
         public FontFamily IconFontFamily
         {
@@ -59,7 +59,7 @@ namespace BlizzardWind.Desktop.Controls.Images
         }
         // Using a DependencyProperty as the backing store for IconFontFamily.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconFontFamilyProperty =
-            DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(MarkImageInfo));
+            DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(MarkFileInfo));
 
 
 
@@ -71,7 +71,7 @@ namespace BlizzardWind.Desktop.Controls.Images
 
         // Using a DependencyProperty as the backing store for UserCopy.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UserOperateProperty =
-            DependencyProperty.Register("UserOperate", typeof(ICommand), typeof(MarkImageInfo));
+            DependencyProperty.Register("UserOperate", typeof(ICommand), typeof(MarkFileInfo));
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
