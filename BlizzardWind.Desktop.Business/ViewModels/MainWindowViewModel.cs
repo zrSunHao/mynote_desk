@@ -38,8 +38,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             NavMenus = new ObservableCollection<NavMenuModel>()
             {
                 new NavMenuModel(){ Name = "起始页", Icon = "\xe88a" , Route = "HomePage",Checked = true },
-                new NavMenuModel(){ Name = "笔记", Icon = "\xe22b" , Route = "MarkTextPage",Checked = false},
-                new NavMenuModel(){ Name = "TODO", Icon = "\xf0c5" , Route = ""},
+                new NavMenuModel(){ Name = "文章首页", Icon = "\xe22b" , Route = "ArticleListPage",Checked = false},
+                new NavMenuModel(){ Name = "笔记", Icon = "\xf0c5" , Route = "MarkTextPage"},
                 new NavMenuModel(){ Name = "图片集", Icon = "\xe8a7" , Route = ""},
                 new NavMenuModel(){ Name = "视频集", Icon = "\xe04a" , Route = ""},
                 new NavMenuModel(){ Name = "个人云盘", Icon = "\xe2bd" , Route = ""},
