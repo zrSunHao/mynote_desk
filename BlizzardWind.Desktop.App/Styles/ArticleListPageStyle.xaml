@@ -4,27 +4,17 @@
 
     <lcc:WidthToColumsConverter x:Key="WidthToColumsConverter"/>
 
-    <DataTemplate x:Key="FolderDataTemplate">
-        <Button Height="30" Content="{Binding}"/>
-    </DataTemplate>
-
-    <Style x:Key="FolderItemsStyle" TargetType="ItemsControl">
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="15,0,0,0"/>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="FamilyRadioButtonStyle" TargetType="{x:Type RadioButton}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="200"/>
         <Setter Property="BorderBrush" Value="{StaticResource Color.Info}"/>
         <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -33,13 +23,14 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1,1,2,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <Border Name="btn_bg"  Background="ForestGreen" Opacity="0.1"/>
+                        <Border x:Name="radioButtonBorder" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid x:Name="markGrid" Margin="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="30"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="optionMark" Text="关闭" Foreground="{StaticResource Color.Info}"/>
+                                <TextBlock x:Name="optionMark" Text="关闭" FontSize="12"  Foreground="{StaticResource Color.Info}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Grid>
                         </Border>
@@ -49,34 +40,56 @@
                             <Setter Property="Padding" Value="4,-1,0,0"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource Color.Warn}"/>
+                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Warn}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource Color.Warn}"/>
+                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Warn}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource Color.Second}"/>
+                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Second}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Text" TargetName="optionMark" Value="展开"/>
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource Color.Second}"/>
+                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Second}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}">
                             <Setter Property="Text" TargetName="optionMark" Value="关闭"/>
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource Color.Second}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <DataTemplate x:Key="FolderDataTemplate">
+        <RadioButton Margin="0,0,0,5" Width="175" GroupName="folder_Group" Style="{DynamicResource FamilyRadioButtonStyle}" Name="文件夹"/>
+    </DataTemplate>
+
+    <Style x:Key="FolderItemsStyle" TargetType="ItemsControl">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <DataTemplate x:Key="FamilyDataTemplate">
-        <StackPanel Orientation="Vertical">
-            <RadioButton x:Name="radioButton" GroupName="familyBar" Style="{DynamicResource FamilyRadioButtonStyle}" Height="30" Content="大类" />
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+            <RadioButton x:Name="radioButton" GroupName="familyBar" Style="{DynamicResource FamilyRadioButtonStyle}" Content="大类" />
             <Expander Style="{DynamicResource ExpanderStyle}" IsExpanded="{Binding IsChecked ,ElementName=radioButton}">
-                <ItemsControl ItemsSource="{Binding Folders}" ItemTemplate="{StaticResource FolderDataTemplate}"
-                              Style="{StaticResource FolderItemsStyle}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Line Y1="0" Y2="{Binding ActualHeight,ElementName=folders}"  HorizontalAlignment="Center" VerticalAlignment="Center"  StrokeThickness="2" Stroke="{StaticResource Color.Primary}" StrokeDashArray="3"/>
+                    <ItemsControl x:Name="folders" Grid.Column="1"  ItemsSource="{Binding Folders}" Margin="0,5,0,5"
+                                  ItemTemplate="{StaticResource FolderDataTemplate}"
+                                  Style="{StaticResource FolderItemsStyle}"/>
+                </Grid>
             </Expander>
         </StackPanel>
     </DataTemplate>

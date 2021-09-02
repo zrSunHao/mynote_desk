@@ -15,9 +15,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+    <Grid x:Name="page_Grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -29,7 +30,7 @@
                       ItemTemplate="{StaticResource FamilyDataTemplate}"
                       Style="{StaticResource FamilyItemsStyle}"/>
         </ScrollViewer>
-        <Grid Grid.Row="0" Grid.Column="1">
+        <Grid Grid.Row="0" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
@@ -51,7 +52,8 @@
                 <Button Content="新建" Style="{DynamicResource OperateButtonStyle}"/>
             </WrapPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="1"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+        <Line Grid.RowSpan="2" Grid.Column="1" Y1="0" Y2="{Binding ActualHeight,ElementName=page_Grid}"  HorizontalAlignment="Center" VerticalAlignment="Center"  StrokeThickness="2" Stroke="{StaticResource Color.Primary}" StrokeDashArray="3"/>
+        <ScrollViewer Grid.Row="1" Grid.Column="2"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
             <ItemsControl ItemsSource="{Binding ArticleCollection}" 
                       ItemTemplate="{StaticResource ArticleCardDataTemplate}"
                       Style="{StaticResource ArticleItemsStyle}"/>
