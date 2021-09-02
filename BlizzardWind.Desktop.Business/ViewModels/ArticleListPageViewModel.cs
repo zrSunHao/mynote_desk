@@ -14,6 +14,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IArticleService _articleService;
 
         public ObservableCollection<int> ArticleCollection { get; set; }
+
+        public ObservableCollection<ArticleFamily> FamilyCollection { get; set; }
     }
 
     public partial class ArticleListPageViewModel
@@ -21,7 +23,23 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public ArticleListPageViewModel(IArticleService articleService)
         {
             _articleService = articleService;
-            ArticleCollection = new ObservableCollection<int>() {1,2,3,4,5,6,7,8,9,10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, };
+            ArticleCollection = new ObservableCollection<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, };
+            FamilyCollection = new ObservableCollection<ArticleFamily>() 
+            {
+                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+            };
+            
         }
+    }
+
+    public class ArticleFamily
+    {
+        public List<int> Folders { get; set; }
     }
 }
