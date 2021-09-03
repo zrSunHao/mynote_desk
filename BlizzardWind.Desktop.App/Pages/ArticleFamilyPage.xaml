@@ -39,15 +39,16 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="210"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="标题 :" Style="{StaticResource FilterLableTextStyle}"/>
-            <TextBox Grid.Column="1" Style="{StaticResource FilterTextBoxStyle}"/>
+            <TextBox Grid.Column="1" Text="{Binding FolderName}"
+                     Style="{StaticResource FilterTextBoxStyle}"/>
             <WrapPanel Grid.Column="2" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="搜索" Style="{DynamicResource FamilyOperateButtonStyle}"/>
-                <Button Content="重置" Style="{DynamicResource FamilyOperateButtonStyle}"/>
-                <Button Content="新建文件夹" Style="{DynamicResource FamilyOperateButtonStyle}"/>
-                <Button Content="新建大类" Style="{DynamicResource FamilyOperateButtonStyle}"/>
+                <Button Content="搜索" Command="{Binding SearchCommand}"
+                        Style="{DynamicResource FamilyOperateButtonStyle}"/>
+                <Button Content="新建大类" Click="CraeteFamilyButton_Click"
+                        Style="{DynamicResource FamilyOperateButtonStyle}"/>
             </WrapPanel>
         </Grid>
         <ScrollViewer Grid.Row="1" Grid.Column="2"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">

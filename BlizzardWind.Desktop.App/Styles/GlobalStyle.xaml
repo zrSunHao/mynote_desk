@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:lcb="clr-namespace:BlizzardWind.Desktop.Controls.Buttons;assembly=BlizzardWind.Desktop.Controls">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--#region 颜色-->
     <SolidColorBrush x:Key="Color.Windows.Background" Color="#2D2D30"/>
     <SolidColorBrush x:Key="Color.Canvas.Background" Color="#1E1E1E"/>
@@ -182,7 +181,7 @@
         <Setter Property="Stroke" Value="{StaticResource Color.Primary}"/>
     </Style>
 
-    <Style x:Key="ComminFamilyRadioStyle" TargetType="lcb:FamilyRadioButton">
+    <Style x:Key="ComminFamilyRadioStyle" TargetType="RadioButton">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -193,14 +192,13 @@
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <Style x:Key="FamilyBarRadioStyle" TargetType="{x:Type lcb:FamilyRadioButton}" BasedOn="{StaticResource ComminFamilyRadioStyle}">
+    <Style x:Key="FamilyBarRadioStyle" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource ComminFamilyRadioStyle}">
         <Setter Property="Margin" Value="0,0,0,5"/>
         <Setter Property="GroupName" Value="folder_Group"/>
-        <Setter Property="Width" Value="175"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type lcb:FamilyRadioButton}">
+                <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
                         <Border Name="btn_bg"  Background="ForestGreen" Opacity="0.1"/>
                         <Border x:Name="radioButtonBorder" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">

@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlizzardWind.Desktop.Business.Entities;
+using MvvmCross.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace BlizzardWind.Desktop.Business.Models
 {
-    public class ArticleFamilyModel
+    public class ArticleFamilyModel : ArticleFamily
     {
-        public List<int> Folders { get; set; }
+        public bool? IsDeleted {  get; set; }
+
+        public int FolderCount => FoldersCollection == null ? 0 : FoldersCollection.Count;
+
+        public ObservableCollection<ArticleFolder> FoldersCollection { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace BlizzardWind.Desktop.Business.Entities
         [PrimaryKey]
         public Guid ID { get; set; }
 
-        public Guid? OrganizationID { get; set; }
+        public Guid? FolderID { get; set; }
 
         public int State { get; set; }
 

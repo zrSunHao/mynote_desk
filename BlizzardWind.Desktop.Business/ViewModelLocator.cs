@@ -21,9 +21,11 @@ namespace BlizzardWind.Desktop.Business
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDatabaseService,DatabaseService>();
+            services.AddSingleton<IDatabaseService, DatabaseService>();
             services.AddSingleton<IFileResourceService, FileResourceService>();
             services.AddSingleton<IArticleService, ArticleService>();
+            services.AddSingleton<IFolderService, FolderService>();
+            services.AddSingleton<IFamilyService, FamilyService>();
 
             services.AddTransient<MarkTextPageViewModel>();
             services.AddTransient<HomePageViewModel>();

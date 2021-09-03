@@ -24,5 +24,15 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             InitializeComponent();
         }
+
+        private void CraeteFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CraeteFamilyButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -10,7 +10,8 @@
     </Style>
     
     <DataTemplate x:Key="FolderDataTemplate">
-        <lcb:FamilyRadioButton Style="{DynamicResource FamilyBarRadioStyle}" Content="文件夹"/>
+        <lcb:FamilyRadioButton Style="{DynamicResource FamilyBarRadioStyle}" Width="175"
+                               Content="文件夹"/>
     </DataTemplate>
     
     <Style x:Key="FamilyRadioIconStyle" TargetType="TextBlock">
@@ -84,7 +85,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Line Y1="0" Y2="{Binding ActualHeight,ElementName=folders}"  HorizontalAlignment="Right" VerticalAlignment="Center"  StrokeThickness="2" Stroke="{StaticResource Color.Primary}" StrokeDashArray="3"/>
-                    <ItemsControl x:Name="folders" Grid.Column="1"  ItemsSource="{Binding Folders}" Margin="0,5,0,5"
+                    <ItemsControl x:Name="folders" Grid.Column="1"  ItemsSource="{Binding FoldersCollection}" Margin="0,5,0,5"
                                   ItemTemplate="{StaticResource FolderDataTemplate}"
                                   Style="{StaticResource FamilyBarItemsStyle}"/>
                 </Grid>
