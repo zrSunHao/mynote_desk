@@ -124,9 +124,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
         }
 
-        public void OnCreateFamilyClick()
+        public async void OnCreateFamilyClick(string name)
         {
-            Console.WriteLine();
+            if (string.IsNullOrEmpty(name))
+                return;
+            Console.WriteLine(name);
         }
 
         public void OnCreateFolderClick()

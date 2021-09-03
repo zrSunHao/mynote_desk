@@ -28,7 +28,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public ObservableCollection<MarkTextFileModel> FileCollection { get; set; }
         public ObservableCollection<ArticleStructureModel> ArticleStructureCollection { get; set; }
-        public ObservableCollection<EditorFileTypeItem> EditorFileTypeCollection { get; set; }
+        public ObservableCollection<OptionTypeItem> EditorFileTypeCollection { get; set; }
 
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
@@ -101,16 +101,16 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 new EditorOperateModel(){Name = "音频", Icon="\xe161", Type=EditorOperateType.UploadAudio},
                 new EditorOperateModel(){Name = "视频", Icon="\xe161", Type=EditorOperateType.UploadVideo},
             };
-            EditorFileTypeCollection = new ObservableCollection<EditorFileTypeItem>()
+            EditorFileTypeCollection = new ObservableCollection<OptionTypeItem>()
             {
-                new EditorFileTypeItem(){Name = "全部",Type = -1 },
-                new EditorFileTypeItem(){Name = "封面",Type = EditorOperateType.UploadCoverPicture },
-                new EditorFileTypeItem(){Name = "图片",Type = EditorOperateType.UploadImage },
-                new EditorFileTypeItem(){Name = "office文件",Type = EditorOperateType.UploadOfficeFile },
-                new EditorFileTypeItem(){Name = "文本文件",Type = EditorOperateType.UploadTxt },
-                new EditorFileTypeItem(){Name = "PDF",Type = EditorOperateType.UploadPDF },
-                new EditorFileTypeItem(){Name = "音频",Type = EditorOperateType.UploadAudio },
-                new EditorFileTypeItem(){Name = "视频",Type = EditorOperateType.UploadVideo },
+                new OptionTypeItem(){Name = "全部",Type = -1 },
+                new OptionTypeItem(){Name = "封面",Type = EditorOperateType.UploadCoverPicture },
+                new OptionTypeItem(){Name = "图片",Type = EditorOperateType.UploadImage },
+                new OptionTypeItem(){Name = "office文件",Type = EditorOperateType.UploadOfficeFile },
+                new OptionTypeItem(){Name = "文本文件",Type = EditorOperateType.UploadTxt },
+                new OptionTypeItem(){Name = "PDF",Type = EditorOperateType.UploadPDF },
+                new OptionTypeItem(){Name = "音频",Type = EditorOperateType.UploadAudio },
+                new OptionTypeItem(){Name = "视频",Type = EditorOperateType.UploadVideo },
             };
             ArticleStructureCollection = new ObservableCollection<ArticleStructureModel>();
 

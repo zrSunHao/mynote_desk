@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlizzardWind.Desktop.Business.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,21 +16,27 @@ using System.Windows.Shapes;
 namespace BlizzardWind.Desktop.App.Dialogs
 {
     /// <summary>
-    /// FolderClassifyDialog.xaml 的交互逻辑
+    /// FolderDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class FolderClassifyDialog : Window
+    public partial class FolderDialog : Window
     {
-        public string FamilyName { get; set; }
+        public Guid? FamilyId { get; set; }
 
-        public FolderClassifyDialog()
+        public string FolderName { get; set; }
+
+        public FolderDialog(List<OptionIdItem> options)
         {
             InitializeComponent();
+            if (options != null)
+                this.comboBox.ItemsSource = options;
+
         }
 
         private void Yes_Btn_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
-            FamilyName = this.text_box.Text;
+            FolderName = this.text_box.Text;
+            FamilyId = (this.comboBox.SelectedItem as OptionIdItem)?.Id;
         }
     }
 }

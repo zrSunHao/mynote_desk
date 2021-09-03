@@ -39,7 +39,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="280"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="标题 :" Style="{StaticResource FilterLableTextStyle}"/>
             <TextBox Grid.Column="1" Text="{Binding FolderName}"
@@ -48,6 +48,8 @@
                 <Button Content="搜索" Command="{Binding SearchCommand}"
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
                 <Button Content="新建大类" Click="CraeteFamilyButton_Click"
+                        Style="{DynamicResource FamilyOperateButtonStyle}"/>
+                <Button Content="新建文件夹" Click="CraeteFolderButton_Click"
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
             </WrapPanel>
         </Grid>

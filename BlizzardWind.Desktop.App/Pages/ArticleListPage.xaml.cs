@@ -28,12 +28,7 @@ namespace BlizzardWind.Desktop.App.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FolderClassifyDialog dialog = new FolderClassifyDialog();
-            dialog.ShowDialog();
-            if (dialog.DialogResult == true)
-            {
-                var z = dialog.Message;
-            }
+            
         }
     }
 }
