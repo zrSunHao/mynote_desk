@@ -1,4 +1,97 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:lcb="clr-namespace:BlizzardWind.Desktop.Controls.Buttons;assembly=BlizzardWind.Desktop.Controls"
+                    xmlns:lcc="clr-namespace:BlizzardWind.Desktop.Controls.Converters;assembly=BlizzardWind.Desktop.Controls">
+
+    <lcc:FamilyPageWidthToColumsConverter x:Key="WidthToColumsConverter"/>
+
+    <Style x:Key="FamilyOperateButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource CommonOperateButtonStyle}">
+        <Setter Property="Width" Value="70"/>
+    </Style>
     
+    <DataTemplate x:Key="FamilyDataTemplate">
+        <lcb:FamilyRadioButton Style="{DynamicResource FamilyBarRadioStyle}" Content="文件夹"/>
+    </DataTemplate>
+
+    <Style x:Key="FolderCardButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="Height" Value="120"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="border" Background="Black" BorderBrush="Transparent" Opacity="0.1" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="/Assets/Images/Icons/folder.png" Stretch="UniformToFill"/>
+                            <Border Grid.Row="0" Background="Black" Opacity="0.2"/>
+                            <TextBlock x:Name="folder_Name" Grid.Row="1" Margin="10,5,10,0" Text="文件夹名称文件夹名称文件夹名称" 
+                                       Foreground="{TemplateBinding Foreground}"
+                                       HorizontalAlignment="Center"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       TextWrapping="Wrap"
+                                       Width="{TemplateBinding Width}"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            
+                        </Grid>
+                        
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" TargetName="folder_Name" Value="{StaticResource Color.Warn}"/>
+                            <Setter Property="Background" TargetName="border" Value="Black"/>
+                            <Setter Property="Opacity" TargetName="border" Value="0.3"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Foreground" TargetName="folder_Name" Value="{StaticResource Color.Second}"/>
+                            <Setter Property="Background" TargetName="border" Value="Black"/>
+                            <Setter Property="Opacity" TargetName="border" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="border" Value="Gray"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="Gray"/>
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="FolderCardDataTemplate">
+        <Button Style="{DynamicResource FolderCardButtonStyle}" Content="{Binding}"/>
+    </DataTemplate>
+
+    <Style x:Key="FolderItemsStyle" TargetType="ItemsControl">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding ActualWidth,Converter={StaticResource WidthToColumsConverter},RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

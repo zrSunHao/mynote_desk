@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
+      xmlns:lce="clr-namespace:BlizzardWind.Desktop.Controls.Element;assembly=BlizzardWind.Desktop.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="560" d:DesignWidth="960"
       DataContext="{Binding ArticleFamilyPageViewModel, Source={StaticResource ViewModelLocator}}">
@@ -14,7 +15,46 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
-        <TextBlock Text="ArticleFamilyPage" FontSize="25" Foreground="{StaticResource Color.Primary}"/>
+    <Grid x:Name="page_Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"  
+                      VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding FamilyCollection}" 
+                      ItemTemplate="{StaticResource FamilyDataTemplate}"
+                      Style="{StaticResource FamilyBarItemsStyle}"/>
+        </ScrollViewer>
+        <Line Grid.RowSpan="2" Grid.Column="1" Y1="0" 
+              Y2="{Binding ActualHeight,ElementName=page_Grid}"  
+              Style="{StaticResource VerticalSeparatorLineStyle}"/>
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="标题 :" Style="{StaticResource FilterLableTextStyle}"/>
+            <TextBox Grid.Column="1" Style="{StaticResource FilterTextBoxStyle}"/>
+            <WrapPanel Grid.Column="2" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Content="搜索" Style="{DynamicResource FamilyOperateButtonStyle}"/>
+                <Button Content="重置" Style="{DynamicResource FamilyOperateButtonStyle}"/>
+                <Button Content="新建文件夹" Style="{DynamicResource FamilyOperateButtonStyle}"/>
+                <Button Content="新建大类" Style="{DynamicResource FamilyOperateButtonStyle}"/>
+            </WrapPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="1" Grid.Column="2"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding FolderCollection}" 
+                          ItemTemplate="{StaticResource FolderCardDataTemplate}"
+                          Style="{StaticResource FolderItemsStyle}"/>
+        </ScrollViewer>
+        <lce:Paginator  Grid.Row="2" Grid.Column="2"/>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.Desktop.Business.Interfaces;
+using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 using System;
@@ -18,7 +19,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public ObservableCollection<int> ArticleCollection { get; set; }
 
-        public ObservableCollection<ArticleFamily> FamilyCollection { get; set; }
+        public ObservableCollection<ArticleFamilyModel> FamilyCollection { get; set; }
     }
 
     public partial class ArticleListPageViewModel
@@ -27,15 +28,15 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             _articleService = articleService;
             ArticleCollection = new ObservableCollection<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, };
-            FamilyCollection = new ObservableCollection<ArticleFamily>() 
+            FamilyCollection = new ObservableCollection<ArticleFamilyModel>() 
             {
-                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
-                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
-                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
-                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
-                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
-                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
-                new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamilyModel() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamilyModel() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamilyModel() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamilyModel() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamilyModel() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamilyModel() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
+                new ArticleFamilyModel() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
             };
             
         }
@@ -44,10 +45,5 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             Console.WriteLine(type.ToString());
         }
-    }
-
-    public class ArticleFamily
-    {
-        public List<int> Folders { get; set; }
     }
 }

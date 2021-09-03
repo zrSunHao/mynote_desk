@@ -3,72 +3,16 @@
                     xmlns:lcc="clr-namespace:BlizzardWind.Desktop.Controls.Converters;assembly=BlizzardWind.Desktop.Controls"
                     xmlns:lcb="clr-namespace:BlizzardWind.Desktop.Controls.Buttons;assembly=BlizzardWind.Desktop.Controls">
 
-    <lcc:WidthToColumsConverter x:Key="WidthToColumsConverter"/>
+    <lcc:ListPageWidthToColumsConverter x:Key="WidthToColumsConverter"/>
 
-    <Style x:Key="ComminFamilyRadioStyle" TargetType="lcb:FamilyRadioButton">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Color.Info}"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="BorderThickness" Value="0"/>
-    </Style>
-
-    <Style x:Key="FolderRadioButtonStyle" TargetType="{x:Type lcb:FamilyRadioButton}" BasedOn="{StaticResource ComminFamilyRadioStyle}">
-        <Setter Property="Margin" Value="0,0,0,5"/>
-        <Setter Property="GroupName" Value="folder_Group"/>
-        <Setter Property="Width" Value="175"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type lcb:FamilyRadioButton}">
-                    <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
-                        <Border Name="btn_bg"  Background="ForestGreen" Opacity="0.1"/>
-                        <Border x:Name="radioButtonBorder" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <Grid x:Name="markGrid" Margin="2">
-                                <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="HasContent" Value="true">
-                            <Setter Property="Padding" Value="4,-1,0,0"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Warn}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Warn}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Second}"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Background" TargetName="btn_bg" Value="{StaticResource Color.Second}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="ListOperateButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource CommonOperateButtonStyle}">
+        <Setter Property="Width" Value="50"/>
     </Style>
     
     <DataTemplate x:Key="FolderDataTemplate">
-        <lcb:FamilyRadioButton Style="{DynamicResource FolderRadioButtonStyle}" Content="文件夹"/>
+        <lcb:FamilyRadioButton Style="{DynamicResource FamilyBarRadioStyle}" Content="文件夹"/>
     </DataTemplate>
-
-    <Style x:Key="FolderItemsStyle" TargetType="ItemsControl">
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+    
     <Style x:Key="FamilyRadioIconStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="25"/>
         <Setter Property="Text" Value="&#xe5df;"/>
@@ -76,7 +20,7 @@
         <Setter Property="FontFamily" Value="{StaticResource Font.MaterialIcon}"/>
     </Style>
     
-    <Style x:Key="FamilyRadioButtonStyle" TargetType="{x:Type lcb:FamilyRadioButton}" BasedOn="{StaticResource ComminFamilyRadioStyle}">
+    <Style x:Key="FamilyRadioStyle" TargetType="{x:Type lcb:FamilyRadioButton}" BasedOn="{StaticResource ComminFamilyRadioStyle}">
         <Setter Property="Width" Value="200"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Template">
@@ -125,7 +69,7 @@
     <DataTemplate x:Key="FamilyDataTemplate">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
             <lcb:FamilyRadioButton x:Name="radioButton" GroupName="familyBar" 
-                                   Style="{DynamicResource FamilyRadioButtonStyle}" Content="大类(6)" 
+                                   Style="{DynamicResource FamilyRadioStyle}" Content="大类(6)" 
                                    Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
                 <lcb:FamilyRadioButton.ContextMenu>
                     <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
@@ -142,7 +86,7 @@
                     <Line Y1="0" Y2="{Binding ActualHeight,ElementName=folders}"  HorizontalAlignment="Right" VerticalAlignment="Center"  StrokeThickness="2" Stroke="{StaticResource Color.Primary}" StrokeDashArray="3"/>
                     <ItemsControl x:Name="folders" Grid.Column="1"  ItemsSource="{Binding Folders}" Margin="0,5,0,5"
                                   ItemTemplate="{StaticResource FolderDataTemplate}"
-                                  Style="{StaticResource FolderItemsStyle}"/>
+                                  Style="{StaticResource FamilyBarItemsStyle}"/>
                 </Grid>
             </Expander>
         </StackPanel>
@@ -204,49 +148,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="OperateButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Color.Info}"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="1"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Margin" Value="0,0,10,0"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="Width" Value="50"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsDefaulted" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Color.Info}"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="Orange"/>
-                            <Setter Property="Foreground" Value="Orange"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Color.Second}"/>
-                            <Setter Property="Foreground" Value="{StaticResource Color.Second}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="border" Value="Gray"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="Gray"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="Gray"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Style x:Key="ArticleButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="ArticleCardButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Margin" Value="5"/>
         <Setter Property="MinWidth" Value="280"/>
         <Setter Property="Height" Value="130"/>
@@ -309,7 +211,7 @@
     </Style>
 
     <DataTemplate x:Key="ArticleCardDataTemplate">
-        <Button Style="{DynamicResource ArticleButtonStyle}" />
+        <Button Style="{DynamicResource ArticleCardButtonStyle}" />
     </DataTemplate>
 
     <Style x:Key="ArticleItemsStyle" TargetType="ItemsControl">
@@ -322,20 +224,5 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="FilterLableTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-    </Style>
-        
-    <Style x:Key="FilterTextBoxStyle" TargetType="TextBox">
-        <Setter Property="Margin" Value="10,0,10,0"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="Background" Value="{StaticResource Color.Canvas.Background}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Second}"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 </ResourceDictionary>

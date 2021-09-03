@@ -13,6 +13,7 @@
     <None Remove="Assets\Images\Icons\audio.png" />
     <None Remove="Assets\Images\Icons\cover.png" />
     <None Remove="Assets\Images\Icons\file.png" />
+    <None Remove="Assets\Images\Icons\folder.png" />
     <None Remove="Assets\Images\Icons\image.png" />
     <None Remove="Assets\Images\Icons\note.png" />
     <None Remove="Assets\Images\Icons\office.png" />
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Images\Icons\folder.png" />
     <Resource Include="Assets\Images\Icons\note.png" />
   </ItemGroup>
 
