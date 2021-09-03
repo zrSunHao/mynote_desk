@@ -1,5 +1,4 @@
-﻿using BlizzardWind.Desktop.App.Dialogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,23 +16,13 @@ using System.Windows.Shapes;
 namespace BlizzardWind.Desktop.App.Pages
 {
     /// <summary>
-    /// ArticleListPage.xaml 的交互逻辑
+    /// ArticleFamilyPage.xaml 的交互逻辑
     /// </summary>
-    public partial class ArticleListPage : Page
+    public partial class ArticleFamilyPage : Page
     {
-        public ArticleListPage()
+        public ArticleFamilyPage()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            FolderClassifyDialog dialog = new FolderClassifyDialog();
-            dialog.ShowDialog();
-            if (dialog.DialogResult == true)
-            {
-                var z = dialog.Message;
-            }
         }
     }
 }

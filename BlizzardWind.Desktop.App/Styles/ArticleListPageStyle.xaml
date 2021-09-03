@@ -124,7 +124,15 @@
     
     <DataTemplate x:Key="FamilyDataTemplate">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-            <lcb:FamilyRadioButton x:Name="radioButton" GroupName="familyBar" Style="{DynamicResource FamilyRadioButtonStyle}" Content="大类" />
+            <lcb:FamilyRadioButton x:Name="radioButton" GroupName="familyBar" 
+                                   Style="{DynamicResource FamilyRadioButtonStyle}" Content="大类(6)" 
+                                   Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
+                <lcb:FamilyRadioButton.ContextMenu>
+                    <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="编辑" Command="{Binding ContextMenuCommand}" CommandParameter="1"/>
+                    </ContextMenu>
+                </lcb:FamilyRadioButton.ContextMenu>
+            </lcb:FamilyRadioButton>
             <Expander Style="{DynamicResource ExpanderStyle}" IsExpanded="{Binding IsChecked ,ElementName=radioButton}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -267,8 +275,8 @@
                                     <RowDefinition Height="2*"/>
                                     <RowDefinition Height="1*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="微软宣布Windows 11正式版将于10月5日发布：Windows 10免费升级！" FontSize="15" TextTrimming="CharacterEllipsis"  TextWrapping="Wrap" FontWeight="SemiBold" Foreground="{StaticResource Color.Second}"/>
-                                <TextBlock Grid.Row="1" Text="原创、记录生活、时间、文章、风儿、西游记" FontSize="12" TextTrimming="CharacterEllipsis"  TextWrapping="Wrap" Foreground="{StaticResource Color.Primary}"/>
+                                <TextBlock Grid.Row="0" Text="微软宣布Windows 11正式版将于10月5日发布：Windows 10免费升级！" FontSize="15" TextTrimming="CharacterEllipsis"  TextWrapping="Wrap" FontWeight="SemiBold" Foreground="{StaticResource Color.Primary}"/>
+                                <TextBlock Grid.Row="1" Text="原创、记录生活、时间、文章、风儿、西游记" FontSize="12" TextTrimming="CharacterEllipsis"  TextWrapping="Wrap" Foreground="{StaticResource Color.Font.Primary}"/>
                                 <UniformGrid Grid.Row="2" Columns="2">
                                     <TextBlock Text="25个字" Foreground="{StaticResource Color.Font.Primary}"/>
                                     <TextBlock Text="2020年9月1日" HorizontalAlignment="Right" Foreground="{StaticResource Color.Font.Primary}"/>

@@ -6,7 +6,6 @@
       xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="560" d:DesignWidth="960"
-      Title="ArticleListPage"
       DataContext="{Binding ArticleListPageViewModel, Source={StaticResource ViewModelLocator}}">
     <Page.Resources>
         <ResourceDictionary>
@@ -24,8 +23,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.RowSpan="2" Grid.Column="0"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+        <ScrollViewer Grid.RowSpan="3" Grid.Column="0"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
             <ItemsControl ItemsSource="{Binding FamilyCollection}" 
                       ItemTemplate="{StaticResource FamilyDataTemplate}"
                       Style="{StaticResource FamilyItemsStyle}"/>
@@ -49,14 +49,30 @@
             <WrapPanel Grid.Column="6" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Content="搜索" Style="{DynamicResource OperateButtonStyle}"/>
                 <Button Content="重置" Style="{DynamicResource OperateButtonStyle}"/>
-                <Button Content="新建" Style="{DynamicResource OperateButtonStyle}"/>
+                <Button Content="新建" Click="Button_Click"  Style="{DynamicResource OperateButtonStyle}"/>
             </WrapPanel>
         </Grid>
-        <Line Grid.RowSpan="2" Grid.Column="1" Y1="0" Y2="{Binding ActualHeight,ElementName=page_Grid}"  HorizontalAlignment="Center" VerticalAlignment="Center"  StrokeThickness="2" Stroke="{StaticResource Color.Primary}" StrokeDashArray="3"/>
+        <Line Grid.RowSpan="3" Grid.Column="1" Y1="0" Y2="{Binding ActualHeight,ElementName=page_Grid}"  HorizontalAlignment="Center" VerticalAlignment="Center"  StrokeThickness="2" Stroke="{StaticResource Color.Primary}" StrokeDashArray="3"/>
         <ScrollViewer Grid.Row="1" Grid.Column="2"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
             <ItemsControl ItemsSource="{Binding ArticleCollection}" 
                       ItemTemplate="{StaticResource ArticleCardDataTemplate}"
                       Style="{StaticResource ArticleItemsStyle}"/>
         </ScrollViewer>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Border Background="ForestGreen" Opacity="0.1"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <TextBlock Text="共18条 - 20/30页" VerticalAlignment="Center" Foreground="Gray"/>
+                <ComboBox Height="30" Width="70">
+                    <ComboBoxItem Content="10"/>
+                    <ComboBoxItem Content="20"/>
+                    <ComboBoxItem Content="50"/>
+                    <ComboBoxItem Content="100"/>
+                </ComboBox>
+                <Button Content="最前" Height="30" Width="60"/>
+                <Button Content="上一页" Height="30" Width="60"/>
+                <Button Content="下一页" Height="30" Width="60"/>
+                <Button  Content="最后" Height="30" Width="60"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

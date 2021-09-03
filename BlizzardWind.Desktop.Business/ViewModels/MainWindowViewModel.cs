@@ -33,22 +33,18 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void MenuInitial()
         {
-            Route = "/Pages/HomePage.xaml";
+            Route = "/Pages/ArticleListPage.xaml";
 
             NavMenus = new ObservableCollection<NavMenuModel>()
             {
-                new NavMenuModel(){ Name = "起始页", Icon = "\xe88a" , Route = "HomePage",Checked = true },
-                new NavMenuModel(){ Name = "文章首页", Icon = "\xe22b" , Route = "ArticleListPage",Checked = false},
-                new NavMenuModel(){ Name = "笔记", Icon = "\xf0c5" , Route = "MarkTextPage"},
-                new NavMenuModel(){ Name = "图片集", Icon = "\xe8a7" , Route = ""},
-                new NavMenuModel(){ Name = "视频集", Icon = "\xe04a" , Route = ""},
-                new NavMenuModel(){ Name = "个人云盘", Icon = "\xe2bd" , Route = ""},
-                new NavMenuModel(){ Name = "上传下载", Icon = "\xe2c0" , Route = ""},
+                //new NavMenuModel(){ Name = "起始页", Icon = "\xe88a" , Route = "HomePage",Checked = true },
+                new NavMenuModel(){ Name = "起始页", Icon = "\xe88a" , Route = "ArticleListPage",Checked = true},
+                new NavMenuModel(){ Name = "文章类别管理页", Icon = "\xe8a7" , Route = "ArticleFamilyPage"},
+                new NavMenuModel(){ Name = "阅读文章页", Icon = "\xf0c5" , Route = "MarkTextPage"},
             };
 
             SettingMenus = new ObservableCollection<NavMenuModel>()
             {
-                new NavMenuModel(){ Name = "账号", Icon = "\xe853" , Route = ""},
                 new NavMenuModel(){ Name = "设置", Icon = "\xe8b9" , Route = ""},
             };
 

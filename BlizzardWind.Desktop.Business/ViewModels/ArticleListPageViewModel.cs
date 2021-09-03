@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.Desktop.Business.Interfaces;
+using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class ArticleListPageViewModel : MvxViewModel
     {
         private readonly IArticleService _articleService;
+
+        public IMvxCommand ContextMenuCommand => new MvxCommand<int>(OnContextMenuClick);
 
         public ObservableCollection<int> ArticleCollection { get; set; }
 
@@ -35,6 +38,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 new ArticleFamily() { Folders = new List<int>() { 1, 2, 3, 4, 5, } },
             };
             
+        }
+
+        private void OnContextMenuClick(int type)
+        {
+            Console.WriteLine(type.ToString());
         }
     }
 
