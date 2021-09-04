@@ -11,6 +11,6 @@ namespace BlizzardWind.Desktop.Business.Interfaces
 
         public Task<bool> DeleteAsync(Guid id);
 
-        public Task<PagingResult<ArticleFolder>> GetListAsync(Guid familyId, int index, int size, string name);
+        public Task<List<ArticleFolder>> GetListAsync(Guid familyId, string name);
     }
 }

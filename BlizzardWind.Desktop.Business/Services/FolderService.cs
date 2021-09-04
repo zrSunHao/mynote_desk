@@ -25,25 +25,15 @@ namespace BlizzardWind.Desktop.Business.Services
             return true;
         }
 
-        public async Task<PagingResult<ArticleFolder>> GetListAsync(Guid familyId,int index, int size, string name)
+        public async Task<List<ArticleFolder>> GetListAsync(Guid familyId, string name)
         {
-            if (index < 0) index = 0;
-            if (size < 0) size = 20;
-            var result = new PagingResult<ArticleFolder>() { PageIndex = index, PageSize = size };
-
             var db = await _dbService.GetConnectionAsync();
-            result.Total = await db.Table<ArticleFolder>()
-                .Where(x => !x.Deleted).CountAsync();
-
             var query = db.Table<ArticleFolder>()
                 .Where(x=>x.FamilyId == familyId && !x.Deleted)
-                .OrderBy(x => x.Name)
-                .Skip(index * size)
-                .Take(size);
+                .OrderBy(x => x.Name);
             if (!string.IsNullOrEmpty(name))
                 query = query.Where(x => x.Name.Contains(name));
-            result.Items = await query.ToListAsync();
-            return result;
+            return await query.ToListAsync(); ;
         }
 
         public async Task<bool> DeleteAsync(Guid id)

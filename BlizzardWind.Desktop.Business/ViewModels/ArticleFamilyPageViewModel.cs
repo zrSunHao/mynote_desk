@@ -52,27 +52,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             get => _folderName;
             set => SetProperty(ref _folderName, value);
         }
-
-        private int _pageIndex;
-        public int PageIndex
-        {
-            get => _pageIndex;
-            set => SetProperty(ref _pageIndex, value);
-        }
-
-        private int _pageSize;
-        public int PageSize
-        {
-            get => _pageSize;
-            set => SetProperty(ref _pageSize, value);
-        }
-
-        private int _total;
-        public int Total
-        {
-            get => _total;
-            set => SetProperty(ref _total, value);
-        }
     }
 
     public partial class ArticleFamilyPageViewModel
@@ -87,8 +66,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
             FamilyCollection = new ObservableCollection<ArticleFamily>();
             FolderCollection = new ObservableCollection<ArticleFolder>();
-            PageIndex = 0;
-            PageSize = 20;
         }
 
         public async Task<bool> PageLoad()
@@ -201,10 +178,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 if (item.FamilyId == FamilyId)
                     list.Add(item);
             }
-            if(string.IsNullOrEmpty(FolderName))
+            if (string.IsNullOrEmpty(FolderName))
                 list = list.OrderBy(x => x.Name).ToList();
             else
-                list = list.Where(x=>x.Name.Contains(FolderName)).OrderBy(x => x.Name).ToList();
+                list = list.Where(x => x.Name.Contains(FolderName)).OrderBy(x => x.Name).ToList();
             FolderCollection.Clear();
             foreach (var item in list)
             {
@@ -216,8 +193,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public async Task<bool> DeleteFolder(ArticleFolder folder)
         {
             await _FolderService.DeleteAsync(folder.Id);
-
-            FolderCollection.Remove(folder);
+            await LoadFolderAsync(FamilyId);
             return true;
         }
 
@@ -294,10 +270,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             FamilyId = familyId;
             FolderCollection.Clear();
-            var result = await _FolderService.GetListAsync(familyId, PageIndex, PageSize, FolderName);
-            Total = result.Total;
-            FamilyId = familyId;
-            foreach (var folder in result.Items)
+            var list = await _FolderService.GetListAsync(familyId, FolderName);
+            foreach (var folder in list)
                 FolderCollection.Add(folder);
             return true;
         }

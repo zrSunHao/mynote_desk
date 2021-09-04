@@ -207,8 +207,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
-                        <Border Name="btn_bg"  Background="ForestGreen" Opacity="0.1"/>
-                        <Border x:Name="radioButtonBorder" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <Border Name="btn_bg"  Background="{TemplateBinding Background}" Opacity="0.1"/>
+                        <Border x:Name="radioButtonBorder" Width="{TemplateBinding Width}" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid x:Name="markGrid" Margin="2">
                                 <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Grid>
@@ -420,14 +420,14 @@
     <SolidColorBrush x:Key="ScrollBar.Static.Background" Color="#606060"/>
     <SolidColorBrush x:Key="ScrollBar.Static.Border" Color="#606060"/>
     <SolidColorBrush x:Key="ScrollBar.Static.Glyph" Color="Orange"/>
-    <SolidColorBrush x:Key="ScrollBar.Static.Thumb" Color="ForestGreen"/>
+    <SolidColorBrush x:Key="ScrollBar.Static.Thumb" Color="#333E46"/>
     <SolidColorBrush x:Key="ScrollBar.MouseOver.Background" Color="#606060"/>
     <SolidColorBrush x:Key="ScrollBar.MouseOver.Border" Color="#606060"/>
     <SolidColorBrush x:Key="ScrollBar.MouseOver.Glyph" Color="Orange"/>
-    <SolidColorBrush x:Key="ScrollBar.MouseOver.Thumb" Color="ForestGreen"/>
+    <SolidColorBrush x:Key="ScrollBar.MouseOver.Thumb" Color="#333E46"/>
     <SolidColorBrush x:Key="ScrollBar.Pressed.Background" Color="#606060"/>
     <SolidColorBrush x:Key="ScrollBar.Pressed.Border" Color="#606060"/>
-    <SolidColorBrush x:Key="ScrollBar.Pressed.Thumb" Color="ForestGreen"/>
+    <SolidColorBrush x:Key="ScrollBar.Pressed.Thumb" Color="#333E46"/>
     <SolidColorBrush x:Key="ScrollBar.Pressed.Glyph" Color="Orange"/>
     <SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="#606060"/>
     <SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="#606060"/>

@@ -8,10 +8,13 @@
     <Style x:Key="FamilyOperateButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource CommonOperateButtonStyle}">
         <Setter Property="Width" Value="70"/>
     </Style>
-    
+
     <DataTemplate x:Key="FamilyDataTemplate">
         <RadioButton Style="{DynamicResource FamilyBarRadioStyle}" Width="200"
                      Content="{Binding Name}"
+                     Background="{StaticResource Color.Primary}"
+                     ToolTipService.InitialShowDelay="1000"
+                     ToolTipService.BetweenShowDelay="200"
                      Command="{Binding DataContext.SelectedFamilyCommand,RelativeSource={RelativeSource AncestorType=Page}}"
                      CommandParameter="{Binding}"
                      Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
@@ -32,6 +35,11 @@
                     <Binding Path="DataContext.FamilyId" RelativeSource="{RelativeSource AncestorType=Page}"></Binding>
                 </MultiBinding>
             </RadioButton.IsChecked>
+            <RadioButton.ToolTip>
+                <ToolTip Background="{StaticResource Color.Canvas.Background}">
+                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource Color.Font.Primary}"/>
+                </ToolTip>
+            </RadioButton.ToolTip>
         </RadioButton>
     </DataTemplate>
 
