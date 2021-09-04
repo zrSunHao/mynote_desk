@@ -20,6 +20,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public IMvxCommand SelectedFamilyCommand => new MvxCommand<ArticleFamilyModel>(OnSelectedClick);
         public IMvxCommand SearchCommand => new MvxCommand(OnSearchClick);
+        public IMvxCommand EditFamilyCommand => new MvxCommand<ArticleFamilyModel>(OnEditFamilyClick);
+        public IMvxCommand RemoveFamilyCommand => new MvxCommand<ArticleFamilyModel>(OnRemoveFamilyClick);
+        public IMvxCommand EdiFolderCommand => new MvxCommand<ArticleFolder>(OnEditFolderClick);
+        public IMvxCommand RemoveFolderCommand => new MvxCommand<ArticleFolder>(OnRemoveFolderClick);
 
         public ObservableCollection<ArticleFamilyModel> FamilyCollection { get; set; }
         public ObservableCollection<ArticleFolder> FolderCollection { get; set; }
@@ -132,6 +136,26 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         }
 
         public void OnCreateFolderClick()
+        {
+            Console.WriteLine();
+        }
+
+        private void OnEditFamilyClick(ArticleFamilyModel family)
+        {
+            Console.WriteLine();
+        }
+
+        private void OnRemoveFamilyClick(ArticleFamilyModel family)
+        {
+            Console.WriteLine();
+        }
+
+        private void OnEditFolderClick(ArticleFolder folderd)
+        {
+            Console.WriteLine();
+        }
+
+        private void OnRemoveFolderClick(ArticleFolder folder)
         {
             Console.WriteLine();
         }

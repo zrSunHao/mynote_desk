@@ -11,9 +11,21 @@
     
     <DataTemplate x:Key="FamilyDataTemplate">
         <RadioButton Style="{DynamicResource FamilyBarRadioStyle}" Width="200"
-                               Content="{Binding Name}"
-                               Command="{Binding DataContext.SelectedFamilyCommand,RelativeSource={RelativeSource AncestorType=Page}}"
-                               CommandParameter="{Binding}">
+                     Content="{Binding Name}"
+                     Command="{Binding DataContext.SelectedFamilyCommand,RelativeSource={RelativeSource AncestorType=Page}}"
+                     CommandParameter="{Binding}"
+                     Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
+            <RadioButton.ContextMenu>
+                <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                             Style="{StaticResource ContextMenuStyle}">
+                    <MenuItem Header="重命名" Command="{Binding EditFamilyCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                    <MenuItem Header="删除" Command="{Binding RemoveFamilyCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                </ContextMenu>
+            </RadioButton.ContextMenu>
             <RadioButton.IsChecked>
                 <MultiBinding Converter="{StaticResource IDToRadioCheckedConverter}" Mode="OneWay" UpdateSourceTrigger="PropertyChanged">
                     <Binding Path="ID"></Binding>
@@ -91,7 +103,20 @@
 
     <DataTemplate x:Key="FolderCardDataTemplate">
         <Button Style="{DynamicResource FolderCardButtonStyle}" 
-                Content="{Binding Name}"/>
+                Content="{Binding Name}"
+                Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
+            <Button.ContextMenu>
+                <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                             Style="{StaticResource ContextMenuStyle}">
+                    <MenuItem Header="重命名" Command="{Binding EdiFolderCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                    <MenuItem Header="删除" Command="{Binding RemoveFolderCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
     </DataTemplate>
 
     <Style x:Key="FolderItemsStyle" TargetType="ItemsControl">

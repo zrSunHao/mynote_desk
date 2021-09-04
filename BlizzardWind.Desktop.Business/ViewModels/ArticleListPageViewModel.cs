@@ -17,7 +17,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IArticleService _articleService;
         private readonly IFamilyService _familyService;
 
-        public IMvxCommand ContextMenuCommand => new MvxCommand<int>(OnContextMenuClick);
+        public IMvxCommand ContextMenuCommand => new MvxCommand<object>(OnContextMenuClick);
 
         public ObservableCollection<int> ArticleCollection { get; set; }
 
@@ -101,7 +101,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             };
         }
 
-        private void OnContextMenuClick(int type)
+        private void OnContextMenuClick(object type)
         {
             Console.WriteLine(type.ToString());
         }

@@ -18,6 +18,8 @@
     <SolidColorBrush x:Key="Color.Warn" Color="#F59E0B"/>
     <SolidColorBrush x:Key="Color.Error" Color="#DC2626"/>
 
+    <SolidColorBrush x:Key="Color.ContextMenu.Background" Color="#424242"/>
+
     <Color x:Key="Text.Color.Primary">#059669</Color>
     <Color x:Key="Text.Color.Second">#f14479</Color>
     <Color x:Key="Text.Color.Tertiary">#ffffff</Color>
@@ -328,7 +330,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border x:Name="Border" Grid.ColumnSpan="2" Background="{StaticResource Color.Canvas.Background}" BorderBrush="Gray" BorderThickness="0" />
-            <Border Grid.Column="0" Margin="1"  Background="Transparent"  BorderBrush="Gray" BorderThickness="0,0,2,0" />
+            <Border Grid.Column="0" Margin="1"  Background="Transparent"  BorderBrush="{StaticResource Color.Primary}" BorderThickness="0,0,2,0" />
             <Path x:Name="Arrow" Grid.Column="1" Fill="{StaticResource Color.Primary}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 8 8 L 16 0 Z"/>
         </Grid>
         <ControlTemplate.Triggers>
@@ -373,6 +375,37 @@
         <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemStyle}"/>
         <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
         <Setter Property="FontSize" Value="13"/>
+    </Style>
+
+    <Style x:Key="ContextMenuStyle"  TargetType="ContextMenu">
+        <Setter Property="Background" Value="{StaticResource Color.ContextMenu.Background}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    
+    <ControlTemplate x:Key="ContextMenuHeaderTemplate" TargetType="{x:Type MenuItem}">
+        <Border Name="Border" Background="{TemplateBinding Background}" Margin="-1,0,0,-1" Padding="10,5,5,5">
+            <Grid MinWidth="80">
+                <ContentPresenter  Name="HeaderHost" Grid.Column="0" 
+                                       ContentSource="Header"
+                                       RecognizesAccessKey="True" 
+                                       VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource Color.Second}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="#0f3c5a" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="ContextMenuItemStyle"  TargetType="MenuItem">
+        <Setter Property="Background" Value="{StaticResource Color.ContextMenu.Background}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+        <Setter Property="Template" Value="{StaticResource ContextMenuHeaderTemplate}"/>
     </Style>
 
     <Style x:Key="FocusVisual">

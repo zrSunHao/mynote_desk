@@ -74,7 +74,8 @@
                                    Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
                 <lcb:FamilyRadioButton.ContextMenu>
                     <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                        <MenuItem Header="编辑" Command="{Binding ContextMenuCommand}" CommandParameter="1"/>
+                        <MenuItem Header="编辑" Command="{Binding ContextMenuCommand}" 
+                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
                     </ContextMenu>
                 </lcb:FamilyRadioButton.ContextMenu>
             </lcb:FamilyRadioButton>

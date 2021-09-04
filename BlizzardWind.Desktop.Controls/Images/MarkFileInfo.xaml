@@ -82,32 +82,6 @@
             </Style.Triggers>
         </Style>
 
-        <ControlTemplate x:Key="SubmenuHeaderTemplate" TargetType="{x:Type MenuItem}">
-            <Border Name="Border" Background="{TemplateBinding Background}" Margin="-1,0,0,-1" Padding="10,5,5,5">
-                <Grid MinWidth="80">
-                    <ContentPresenter  Name="HeaderHost" Grid.Column="0" 
-                                       ContentSource="Header"
-                                       RecognizesAccessKey="True" 
-                                       VerticalAlignment="Center"/>
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsHighlighted" Value="true">
-                    <Setter Property="Foreground" Value="{StaticResource Color.Second}" />
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="false">
-                    <Setter Property="Foreground" Value="#0f3c5a" />
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-
-        <Style x:Key="MenuItemStyle"  TargetType="MenuItem">
-            <Setter Property="Background" Value="#424242"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
-            <Setter Property="Template" Value="{StaticResource SubmenuHeaderTemplate}"/>
-        </Style>
-
         <local:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
     </UserControl.Resources>
     <Grid>
@@ -134,12 +108,13 @@
                         Click="Button_Click" Tag="22"/>
                 <Button Content="操作" Style="{StaticResource MenuButtonstyle}">
                     <Button.ContextMenu>
-                        <ContextMenu Background="#424242" BorderThickness="0" DataContext="{Binding Data,Source={StaticResource BindingProxy}}">
+                        <ContextMenu Style="{StaticResource ContextMenuStyle}"
+                                     DataContext="{Binding Data,Source={StaticResource BindingProxy}}">
                             <MenuItem Header="同类替换" 
-                                      Style="{StaticResource MenuItemStyle}" Tag="23"
+                                      Style="{StaticResource ContextMenuItemStyle}" Tag="23"
                                       Click="MenuItem_Click"/>
                             <MenuItem Header="删除" Tag="24"
-                                      Style="{StaticResource MenuItemStyle}"/>
+                                      Style="{StaticResource ContextMenuItemStyle}"/>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>

@@ -53,8 +53,7 @@
             <ComboBox Grid.Column="1" x:Name="comboBox"  Width="200"
                       Style="{StaticResource CommonComboBoxStyle}"
                       DisplayMemberPath="Name"
-                      SelectedValuePath="Id"
-                      Background="{StaticResource Color.Canvas.Background}"/>
+                      SelectedValuePath="Id"/>
         </Grid>
         <UniformGrid Grid.Row="2" Columns="2">
             <Button x:Name="yes_btn" Content="确定" 
