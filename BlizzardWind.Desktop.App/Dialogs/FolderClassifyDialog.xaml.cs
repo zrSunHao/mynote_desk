@@ -21,9 +21,11 @@ namespace BlizzardWind.Desktop.App.Dialogs
     {
         public string FamilyName { get; set; }
 
-        public FolderClassifyDialog()
+        public FolderClassifyDialog(string familyName)
         {
             InitializeComponent();
+            if(!string.IsNullOrEmpty(familyName))
+                this.text_box.Text =  familyName;
         }
 
         private void Yes_Btn_Click(object sender, RoutedEventArgs e)

@@ -24,12 +24,20 @@ namespace BlizzardWind.Desktop.App.Dialogs
 
         public string FolderName { get; set; }
 
-        public FolderDialog(List<OptionIdItem> options)
+        public FolderDialog(List<OptionIdItem> options, Guid? familyId ,string folderName)
         {
             InitializeComponent();
             if (options != null)
                 this.comboBox.ItemsSource = options;
-
+            FamilyId = familyId;
+            if (familyId.HasValue && options != null)
+            {
+                var item = options.FirstOrDefault(x=>x.Id ==  familyId.Value);
+                if (item != null)
+                    this.comboBox.SelectedIndex = options.IndexOf(item);
+            }
+            if (!string.IsNullOrEmpty(folderName))
+                this.text_box.Text = folderName;
         }
 
         private void Yes_Btn_Click(object sender, RoutedEventArgs e)
@@ -37,6 +45,11 @@ namespace BlizzardWind.Desktop.App.Dialogs
             this.DialogResult = true;
             FolderName = this.text_box.Text;
             FamilyId = (this.comboBox.SelectedItem as OptionIdItem)?.Id;
+        }
+
+        private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
         }
     }
 }

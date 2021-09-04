@@ -149,6 +149,7 @@
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="AcceptsTab" Value="True"/>
         <Setter Property="TextBlock.LineHeight" Value="25"/>
         <Setter Property="TextBlock.LineStackingStrategy" Value="BlockLineHeight"/>
         <Setter Property="FontSize" Value="15"/>

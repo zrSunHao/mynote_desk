@@ -7,7 +7,8 @@
       xmlns:lce="clr-namespace:BlizzardWind.Desktop.Controls.Element;assembly=BlizzardWind.Desktop.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="560" d:DesignWidth="960"
-      DataContext="{Binding ArticleFamilyPageViewModel, Source={StaticResource ViewModelLocator}}">
+      DataContext="{Binding ArticleFamilyPageViewModel, Source={StaticResource ViewModelLocator}}"
+      Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -49,7 +50,7 @@
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
                 <Button Content="新建大类" Click="CraeteFamilyButton_Click"
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
-                <Button Content="新建文件夹" Click="CraeteFolderButton_Click"
+                <Button Content="新建文件夹" Command="{Binding CreateFolderCommand}"
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
             </WrapPanel>
         </Grid>

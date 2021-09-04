@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlizzardWind.Desktop.Business.Entities;
+using BlizzardWind.Desktop.Business.Models;
 
 namespace BlizzardWind.Desktop.Business.Interfaces
 {
     public interface IFolderService
     {
+        public Task<bool> AddAsync(ArticleFolder family);
 
+        public Task<bool> UpdateAsync(ArticleFolder family);
+
+        public Task<bool> RemoveAsync(Guid id);
+
+        public Task<PagingResult<ArticleFolder>> GetListAsync(Guid familyId, int index, int size, string name);
     }
 }

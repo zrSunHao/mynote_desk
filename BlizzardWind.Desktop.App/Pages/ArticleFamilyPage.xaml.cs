@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Models;
 using BlizzardWind.Desktop.Business.ViewModels;
 using System;
@@ -29,34 +30,57 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             InitializeComponent();
             VM = (ArticleFamilyPageViewModel)DataContext;
+            VM.FamilyEditDialogAction += EditFamilyDialog;
+            VM.FolderCreateDialogAction += CraeteFolderDialog;
+            VM.FolderEditDialogAction += EditFolderDialog;
         }
 
-        private void CraeteFolderButton_Click(object sender, RoutedEventArgs e)
+        private async void CraeteFamilyButton_Click(object sender, RoutedEventArgs e)
         {
-            var options = new List<OptionIdItem>()
-            {
-                new OptionIdItem(){ Id = Guid.NewGuid(), Name="日常"},
-                new OptionIdItem(){ Id = Guid.NewGuid(), Name="学习"},
-                new OptionIdItem(){ Id = Guid.NewGuid(), Name="生活"},
-                new OptionIdItem(){ Id = Guid.NewGuid(), Name="赚钱"},
-                new OptionIdItem(){ Id = Guid.NewGuid(), Name="社交"},
-            };
-            FolderDialog dialog = new FolderDialog(options);
+            FolderClassifyDialog dialog = new FolderClassifyDialog("");
+            dialog.ShowDialog();
+            if (dialog.DialogResult == true && VM != null)
+                await VM.CreateFamily(dialog.FamilyName);
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (VM != null)
+                await VM.PageLoad();
+        }
+
+        private async void EditFamilyDialog(ArticleFamily family)
+        {
+            FolderClassifyDialog dialog = new FolderClassifyDialog(family.Name);
             dialog.ShowDialog();
             if (dialog.DialogResult == true && VM != null)
             {
-                VM.OnCreateFamilyClick(dialog.FolderName);
+                family.Name = dialog.FamilyName;
+                await VM.EditFamily(family);
+            }   
+        }
+
+        private async void CraeteFolderDialog(List<OptionIdItem> options)
+        {
+            FolderDialog dialog = new FolderDialog(options, null, "");
+            dialog.ShowDialog();
+            if (dialog.DialogResult == true && VM != null && dialog.FamilyId.HasValue)
+            {
+                await VM.CreateFolder(dialog.FamilyId.Value, dialog.FolderName);
             }
         }
 
-        private void CraeteFamilyButton_Click(object sender, RoutedEventArgs e)
+        private async void EditFolderDialog(ArticleFolder folder, List<OptionIdItem> options)
         {
-            FolderClassifyDialog dialog = new FolderClassifyDialog();
+            FolderDialog dialog = new FolderDialog(options, folder.FamilyId, folder.Name);
             dialog.ShowDialog();
-            if (dialog.DialogResult == true && VM != null)
-            { 
-                VM.OnCreateFamilyClick(dialog.FamilyName);
+            if (dialog.DialogResult == true && VM != null && dialog.FamilyId.HasValue)
+            {
+                folder.Name = dialog.FolderName;
+                folder.FamilyId = dialog.FamilyId.Value;
+                await VM.EditFolder(folder);
             }
         }
+
     }
 }

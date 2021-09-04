@@ -28,8 +28,8 @@
             </RadioButton.ContextMenu>
             <RadioButton.IsChecked>
                 <MultiBinding Converter="{StaticResource IDToRadioCheckedConverter}" Mode="OneWay" UpdateSourceTrigger="PropertyChanged">
-                    <Binding Path="ID"></Binding>
-                    <Binding Path="DataContext.FamilyID" RelativeSource="{RelativeSource AncestorType=Page}"></Binding>
+                    <Binding Path="Id"></Binding>
+                    <Binding Path="DataContext.FamilyId" RelativeSource="{RelativeSource AncestorType=Page}"></Binding>
                 </MultiBinding>
             </RadioButton.IsChecked>
         </RadioButton>
@@ -108,7 +108,7 @@
             <Button.ContextMenu>
                 <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
                              Style="{StaticResource ContextMenuStyle}">
-                    <MenuItem Header="重命名" Command="{Binding EdiFolderCommand}" 
+                    <MenuItem Header="编辑" Command="{Binding EdiFolderCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
                     <MenuItem Header="删除" Command="{Binding RemoveFolderCommand}" 

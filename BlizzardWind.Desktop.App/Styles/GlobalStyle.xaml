@@ -404,7 +404,7 @@
     <Style x:Key="ContextMenuItemStyle"  TargetType="MenuItem">
         <Setter Property="Background" Value="{StaticResource Color.ContextMenu.Background}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
         <Setter Property="Template" Value="{StaticResource ContextMenuHeaderTemplate}"/>
     </Style>
 

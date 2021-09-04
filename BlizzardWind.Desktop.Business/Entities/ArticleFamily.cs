@@ -5,7 +5,7 @@ namespace BlizzardWind.Desktop.Business.Entities
     public class ArticleFamily
     {
         [PrimaryKey]
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
 
         [MaxLength(64)]
         public string Name { get; set; }

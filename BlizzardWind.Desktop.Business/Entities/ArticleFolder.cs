@@ -5,11 +5,11 @@ namespace BlizzardWind.Desktop.Business.Entities
     public class ArticleFolder
     {
         [PrimaryKey]
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
 
-        public Guid FamilyID { get; set; }
+        public Guid FamilyId { get; set; }
 
-        [MaxLength(64)]
+        [MaxLength(128)]
         public string Name { get; set; }
 
         public DateTime CreatedAt { get; set; }

@@ -31,74 +31,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _articleService = articleService;
             _familyService = familyService;
             ArticleCollection = new ObservableCollection<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, };
-            FamilyCollection = new ObservableCollection<ArticleFamilyModel>()
-            {
-                new ArticleFamilyModel()
-                {
-                    ID = Guid.NewGuid(),
-                    Name = "大类 - 1",
-                    FoldersCollection = new ObservableCollection<ArticleFolder>()
-                    {
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 1"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 2"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 3"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 4"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 5"},
-                    }
-                },
-                new ArticleFamilyModel()
-                {
-                    ID = Guid.NewGuid(),
-                    Name = "大类 - 2",
-                    FoldersCollection = new ObservableCollection<ArticleFolder>()
-                    {
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 1"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 2"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 3"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 4"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 5"},
-                    }
-                },
-                new ArticleFamilyModel()
-                {
-                    ID = Guid.NewGuid(),
-                    Name = "大类 - 3",
-                    FoldersCollection = new ObservableCollection<ArticleFolder>()
-                    {
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 1"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 2"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 3"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 4"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 5"},
-                    }
-                },
-                new ArticleFamilyModel()
-                {
-                    ID = Guid.NewGuid(),
-                    Name = "大类 - 4",
-                    FoldersCollection = new ObservableCollection<ArticleFolder>()
-                    {
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 1"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 2"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 3"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 4"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 5"},
-                    }
-                },
-                new ArticleFamilyModel()
-                {
-                    ID = Guid.NewGuid(),
-                    Name = "大类 - 5",
-                    FoldersCollection = new ObservableCollection<ArticleFolder>()
-                    {
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 1"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 2"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 3"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 4"},
-                        new ArticleFolder(){ ID = Guid.NewGuid(),Name="文件夹 - 5"},
-                    }
-                },
-            };
+            FamilyCollection = new ObservableCollection<ArticleFamilyModel>();
         }
 
         private void OnContextMenuClick(object type)
