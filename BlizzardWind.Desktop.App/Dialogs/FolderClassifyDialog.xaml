@@ -40,10 +40,12 @@
             <TextBox Grid.Column="1" x:Name="text_box"  Style="{StaticResource NameTextBoxStyle}"/>
         </Grid>
         <UniformGrid Grid.Row="1" Columns="2">
-            <Button x:Name="yes_btn" Content="确定" 
+            <Button x:Name="yes_btn" Content="确定" Width="60" 
                     Style="{StaticResource YesButtonStyle}"
-                    Width="60" Click="Yes_Btn_Click"/>
-            <Button x:Name="cancel_btn" Content="取消" Style="{StaticResource CommonOperateButtonStyle}" Width="60"/>
+                    Click="Yes_Btn_Click"/>
+            <Button x:Name="cancel_btn" Content="取消" Width="60" 
+                    Style="{StaticResource CommonOperateButtonStyle}" 
+                    Click="Cancel_Btn_Click"/>
         </UniformGrid>
     </Grid>
 </Window>

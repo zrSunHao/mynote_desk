@@ -28,7 +28,7 @@ namespace BlizzardWind.Desktop.Business.Services
         {
             var db = await _dbService.GetConnectionAsync();
             var entity = await db.Table<Article>()
-                .FirstOrDefaultAsync(x => x.ID == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
             if(entity != null)
             {
                 entity.DeletedAt = DateTime.Now;
@@ -41,7 +41,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<Article> GetAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
-            return await db.Table<Article>().FirstOrDefaultAsync(x => x.ID == id);
+            return await db.Table<Article>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> UpdateAsync(Article entity)
@@ -50,6 +50,32 @@ namespace BlizzardWind.Desktop.Business.Services
             var db = await _dbService.GetConnectionAsync();
             await db.UpdateAsync(entity);
             return true;
+        }
+
+        public async Task<int> GetFamilyCountAsync(Guid familyId)
+        {
+            var db = await _dbService.GetConnectionAsync();
+            var folsers = await db.Table<ArticleFolder>()
+                .Where(x => !x.Deleted && x.FamilyId == familyId)
+                .ToListAsync();
+            if (!folsers.Any())
+                return 0;
+            var count = 0;
+            foreach (var foler in folsers)
+            {
+                count += await db.Table<Article>()
+                .Where(x => !x.Deleted && x.FolderId == foler.Id)
+                .CountAsync();
+            }
+            return count;
+        }
+
+        public async Task<int> GetFolderCountAsync(Guid folderId)
+        {
+            var db = await _dbService.GetConnectionAsync();
+            return await db.Table<Article>()
+                .Where(x => !x.Deleted && x.FolderId == folderId)
+                .CountAsync();
         }
     }
 }

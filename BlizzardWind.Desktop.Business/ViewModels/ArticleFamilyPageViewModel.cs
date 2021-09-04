@@ -1,4 +1,5 @@
-﻿using BlizzardWind.Desktop.Business.Entities;
+﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using BlizzardWind.Desktop.Business.Services;
@@ -17,22 +18,26 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         private readonly IFolderService _FolderService;
         private readonly IFamilyService _FamilyService;
+        private readonly IArticleService _ArticleService;
 
         public IMvxCommand SelectedFamilyCommand => new MvxCommand<ArticleFamily>(OnSelectedClick);
         public IMvxCommand SearchCommand => new MvxCommand(OnSearchClick);
         public IMvxCommand EditFamilyCommand => new MvxCommand<ArticleFamily>(OnEditFamilyClick);
-        public IMvxCommand RemoveFamilyCommand => new MvxCommand<ArticleFamily>(OnRemoveFamilyClick);
+        public IMvxCommand DeleteFamilyCommand => new MvxCommand<ArticleFamily>(OnDeleteFamilyClick);
         public IMvxCommand CreateFolderCommand => new MvxCommand(OnCreateFolderClick);
         public IMvxCommand EdiFolderCommand => new MvxCommand<ArticleFolder>(OnEditFolderClick);
-        public IMvxCommand RemoveFolderCommand => new MvxCommand<ArticleFolder>(OnRemoveFolderClick);
+        public IMvxCommand DeleteFolderCommand => new MvxCommand<ArticleFolder>(OnDeleteFolderClick);
 
         public ObservableCollection<ArticleFamily> FamilyCollection { get; set; }
         public ObservableCollection<ArticleFolder> FolderCollection { get; set; }
 
+        public Action<int, string> PromptInformationAction { get; set; }
         public Action<string> ConfirmDialogAction { get; set; }
         public Action<ArticleFamily> FamilyEditDialogAction { get; set; }
         public Action<List<OptionIdItem>> FolderCreateDialogAction { get; set; }
-        public Action<ArticleFolder,List<OptionIdItem>> FolderEditDialogAction { get; set; }
+        public Action<int, string, ArticleFamily> FamilyDeleteDialogAction { get; set; }
+        public Action<int, string, ArticleFolder> FolderDeleteDialogAction { get; set; }
+        public Action<ArticleFolder, List<OptionIdItem>> FolderEditDialogAction { get; set; }
 
         private Guid _familyId;
         public Guid FamilyId
@@ -72,10 +77,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
     public partial class ArticleFamilyPageViewModel
     {
-        public ArticleFamilyPageViewModel(IFolderService folderService, IFamilyService familyService)
+        public ArticleFamilyPageViewModel(IFolderService folderService,
+            IFamilyService familyService,
+            IArticleService articleService)
         {
             _FolderService = folderService;
             _FamilyService = familyService;
+            _ArticleService = articleService;
 
             FamilyCollection = new ObservableCollection<ArticleFamily>();
             FolderCollection = new ObservableCollection<ArticleFolder>();
@@ -126,7 +134,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             var list = new List<ArticleFamily>();
             foreach (var item in FamilyCollection)
             {
-                if(item.Id == family.Id)
+                if (item.Id == family.Id)
                     item.Name = family.Name;
                 list.Add(item);
             }
@@ -135,6 +143,21 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             foreach (var item in list)
             {
                 FamilyCollection.Add(item);
+            }
+            return true;
+        }
+
+        public async Task<bool> DeleteFamily(ArticleFamily family)
+        {
+            await _FamilyService.DeleteAsync(family.Id);
+
+            FamilyCollection.Remove(family);
+            if (family.Id == FamilyId)
+            {
+                if (FamilyCollection.Any())
+                    await LoadFolderAsync(FamilyCollection[0].Id);
+                else
+                    FamilyId = Guid.Empty;
             }
             return true;
         }
@@ -154,7 +177,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             };
             await _FolderService.AddAsync(folder);
 
-            if (familyId != FamilyId || !name.Contains(FolderName))
+            if (familyId != FamilyId || (!string.IsNullOrEmpty(FolderName) && !name.Contains(FolderName)))
                 return true;
             var list = new List<ArticleFolder>();
             list.AddRange(FolderCollection);
@@ -178,7 +201,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 if (item.FamilyId == FamilyId)
                     list.Add(item);
             }
-            list = list.OrderBy(x => x.Name).ToList();
+            if(string.IsNullOrEmpty(FolderName))
+                list = list.OrderBy(x => x.Name).ToList();
+            else
+                list = list.Where(x=>x.Name.Contains(FolderName)).OrderBy(x => x.Name).ToList();
             FolderCollection.Clear();
             foreach (var item in list)
             {
@@ -187,6 +213,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
+        public async Task<bool> DeleteFolder(ArticleFolder folder)
+        {
+            await _FolderService.DeleteAsync(folder.Id);
+
+            FolderCollection.Remove(folder);
+            return true;
+        }
 
 
         private void OnEditFamilyClick(ArticleFamily family)
@@ -195,9 +228,17 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FamilyEditDialogAction.Invoke(family);
         }
 
-        private void OnRemoveFamilyClick(ArticleFamily family)
+        private async void OnDeleteFamilyClick(ArticleFamily family)
         {
-            Console.WriteLine();
+            var count = await _ArticleService.GetFamilyCountAsync(family.Id);
+            if (count <= 0)
+            {
+                await DeleteFamily(family);
+                return;
+            }
+            var msg = $"【{family.Name}】大类下共有【{count}】篇文章，确定要删除吗？";
+            if (FamilyDeleteDialogAction != null)
+                FamilyDeleteDialogAction.Invoke(MesssageType.Warn, msg, family);  
         }
 
         private void OnCreateFolderClick()
@@ -216,9 +257,17 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FolderEditDialogAction.Invoke(folder, options);
         }
 
-        private void OnRemoveFolderClick(ArticleFolder folder)
+        private async void OnDeleteFolderClick(ArticleFolder folder)
         {
-            Console.WriteLine();
+            var count = await _ArticleService.GetFolderCountAsync(folder.Id);
+            if (count <= 0)
+            {
+                await DeleteFolder(folder);
+                return;
+            }
+            var msg = $"【{folder.Name}】文件夹下共有【{count}】篇文章，确定要删除吗？";
+            if (FolderDeleteDialogAction != null)
+                FolderDeleteDialogAction.Invoke(MesssageType.Warn, msg, folder);
         }
 
         private async void OnSelectedClick(ArticleFamily family)

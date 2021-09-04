@@ -30,9 +30,24 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             InitializeComponent();
             VM = (ArticleFamilyPageViewModel)DataContext;
+            VM.PromptInformationAction += PromptInformation;
             VM.FamilyEditDialogAction += EditFamilyDialog;
+            VM.FamilyDeleteDialogAction += DeleteFamilyDialog;
             VM.FolderCreateDialogAction += CraeteFolderDialog;
             VM.FolderEditDialogAction += EditFolderDialog;
+            VM.FolderDeleteDialogAction += DeleteFolderDialog;
+        }
+
+        private void PromptInformation(int type, string msg)
+        {
+            var dialog = new ConfirmDialog(type, msg);
+            dialog.ShowDialog();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (VM != null)
+                await VM.PageLoad();
         }
 
         private async void CraeteFamilyButton_Click(object sender, RoutedEventArgs e)
@@ -41,12 +56,6 @@ namespace BlizzardWind.Desktop.App.Pages
             dialog.ShowDialog();
             if (dialog.DialogResult == true && VM != null)
                 await VM.CreateFamily(dialog.FamilyName);
-        }
-
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (VM != null)
-                await VM.PageLoad();
         }
 
         private async void EditFamilyDialog(ArticleFamily family)
@@ -58,6 +67,16 @@ namespace BlizzardWind.Desktop.App.Pages
                 family.Name = dialog.FamilyName;
                 await VM.EditFamily(family);
             }   
+        }
+
+        private async void DeleteFamilyDialog(int type,string msg,ArticleFamily family)
+        {
+            var dialog = new ConfirmDialog(type, msg);
+            dialog.ShowDialog();
+            if (dialog.DialogResult == true && VM != null)
+            {
+                await VM.DeleteFamily(family);
+            }
         }
 
         private async void CraeteFolderDialog(List<OptionIdItem> options)
@@ -79,6 +98,16 @@ namespace BlizzardWind.Desktop.App.Pages
                 folder.Name = dialog.FolderName;
                 folder.FamilyId = dialog.FamilyId.Value;
                 await VM.EditFolder(folder);
+            }
+        }
+
+        private async void DeleteFolderDialog(int type, string msg, ArticleFolder folder)
+        {
+            var dialog = new ConfirmDialog(type, msg);
+            dialog.ShowDialog();
+            if (dialog.DialogResult == true && VM != null)
+            {
+                await VM.DeleteFolder(folder);
             }
         }
 

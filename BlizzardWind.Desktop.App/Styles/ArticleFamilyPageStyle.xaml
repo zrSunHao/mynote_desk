@@ -21,7 +21,7 @@
                     <MenuItem Header="重命名" Command="{Binding EditFamilyCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
-                    <MenuItem Header="删除" Command="{Binding RemoveFamilyCommand}" 
+                    <MenuItem Header="删除" Command="{Binding DeleteFamilyCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
                 </ContextMenu>
@@ -47,6 +47,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="5"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+        <Setter Property="ToolTipService.BetweenShowDelay" Value="200"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -55,10 +57,10 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="40"/>
                             </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="/Assets/Images/Icons/folder.png" Stretch="UniformToFill"/>
-                            <Border Grid.Row="0" Background="Black" Opacity="0.2"/>
+                            <Image Grid.Row="0" Source="/Assets/Images/Icons/folder.png" Height="60" Width="60"  Stretch="UniformToFill"/>
+                            <Border Grid.Row="0" Background="Black" Opacity="0.3"/>
                             <TextBlock x:Name="folder_Name" Grid.Row="1" Margin="10,5,10,0" Text="{Binding Content,ElementName=contentPresenter}" 
                                        Foreground="{TemplateBinding Foreground}"
                                        HorizontalAlignment="Center"
@@ -111,11 +113,16 @@
                     <MenuItem Header="编辑" Command="{Binding EdiFolderCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
-                    <MenuItem Header="删除" Command="{Binding RemoveFolderCommand}" 
+                    <MenuItem Header="删除" Command="{Binding DeleteFolderCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
                 </ContextMenu>
             </Button.ContextMenu>
+            <Button.ToolTip>
+                <ToolTip Background="{StaticResource Color.Canvas.Background}">
+                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource Color.Font.Primary}"/>
+                </ToolTip>
+            </Button.ToolTip>
         </Button>
     </DataTemplate>
 

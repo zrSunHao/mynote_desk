@@ -9,7 +9,7 @@ namespace BlizzardWind.Desktop.Business.Interfaces
 
         public Task<bool> UpdateAsync(ArticleFolder family);
 
-        public Task<bool> RemoveAsync(Guid id);
+        public Task<bool> DeleteAsync(Guid id);
 
         public Task<PagingResult<ArticleFolder>> GetListAsync(Guid familyId, int index, int size, string name);
     }

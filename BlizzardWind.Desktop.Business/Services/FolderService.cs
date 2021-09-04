@@ -46,7 +46,7 @@ namespace BlizzardWind.Desktop.Business.Services
             return result;
         }
 
-        public async Task<bool> RemoveAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
             var entity = await db.Table<ArticleFolder>()
@@ -57,6 +57,8 @@ namespace BlizzardWind.Desktop.Business.Services
                 entity.Deleted = true;
                 await db.UpdateAsync(entity);
             }
+            var sql = $"UPDATE Article SET Deleted= '1', DeletedAt = '{DateTime.Now.Ticks.ToString()}' WHERE FolderId = '{id.ToString()}'";
+            await db.ExecuteAsync(sql);
             return true;
         }
 

@@ -10,13 +10,13 @@ namespace BlizzardWind.Desktop.Business.Entities
     public class Article
     {
         [PrimaryKey]
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
 
-        public Guid? FolderID { get; set; }
+        public Guid? FolderId { get; set; }
 
         public int State { get; set; }
 
-        public Guid? CoverPictureID { get; set; }
+        public Guid? CoverPictureId { get; set; }
 
         [MaxLength(256)]
         public string Title { get; set; }

@@ -131,7 +131,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (fileNames == null || fileNames.Length < 1)
                 return;
             List<MarkTextFileModel> models = await _fileService
-                .AddArticleFileAsync(type, fileNames.ToList(),_article.ID);
+                .AddArticleFileAsync(type, fileNames.ToList(),_article.Id);
             _fileList.InsertRange(0, models);
             foreach (MarkTextFileModel model in models)
             {
@@ -141,7 +141,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (type == EditorOperateType.UploadCoverPicture)
             {
                 CoverPicture = models[0].FilePath;
-                _article.CoverPictureID = models[0].ID;
+                _article.CoverPictureId = models[0].ID;
                 await _articleService.UpdateAsync(_article);
             }
         }
@@ -290,15 +290,15 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FileCollection.Add(model);
             }
             FileCount = _fileList.Count;
-            if(_article.CoverPictureID.HasValue)
-                CoverPicture = _fileList.FirstOrDefault(x => x.ID == _article.CoverPictureID.Value)?.FilePath;
+            if(_article.CoverPictureId.HasValue)
+                CoverPicture = _fileList.FirstOrDefault(x => x.ID == _article.CoverPictureId.Value)?.FilePath;
         }
 
         private async void InitArticleAsync()
         {
             _article = new Article()
             {
-                ID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Title = "新建文档",
                 State = -1,
                 CreatedAt = DateTime.Now,

@@ -11,5 +11,9 @@ namespace BlizzardWind.Desktop.Business.Interfaces
         public Task<bool> UpdateAsync(Article entity);
 
         public Task<bool> DeleteAsync(Guid id);
+
+        public Task<int> GetFolderCountAsync(Guid folderId);
+
+        public Task<int> GetFamilyCountAsync(Guid familyId);
     }
 }

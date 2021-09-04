@@ -33,5 +33,10 @@ namespace BlizzardWind.Desktop.App.Dialogs
             this.DialogResult = true;
             FamilyName = this.text_box.Text;
         }
+
+        private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+        }
     }
 }

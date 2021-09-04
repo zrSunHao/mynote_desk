@@ -34,16 +34,29 @@ namespace BlizzardWind.Desktop.Business.Services
             return await query.ToListAsync(); ;
         }
 
-        public async Task<bool> RemoveAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
             var entity = await db.Table<ArticleFamily>()
                 .FirstOrDefaultAsync(x => x.Id == id);
-            if (entity != null)
+            if (entity == null)
+                return false;
+            entity.DeletedAt = DateTime.Now;
+            entity.Deleted = true;
+            await db.UpdateAsync(entity);
+
+            var folsers = await db.Table<ArticleFolder>()
+                .Where(x => !x.Deleted && x.FamilyId == id)
+                .ToListAsync();
+            var deleteFolderSql = $"UPDATE ArticleFolder SET Deleted= '1', DeletedAt = '{DateTime.Now.Ticks.ToString()}' WHERE FamilyId = '{entity.Id.ToString()}'";
+            await db.ExecuteAsync(deleteFolderSql);
+
+            if (!folsers.Any())
+                return true;
+            foreach (var folder in folsers)
             {
-                entity.DeletedAt = DateTime.Now;
-                entity.Deleted = true;
-                await db.UpdateAsync(entity);
+                var deleteArticleSql = $"UPDATE Article SET Deleted= '1', DeletedAt = '{DateTime.Now.Ticks.ToString()}' WHERE FolderId = '{folder.Id.ToString()}'";
+                await db.ExecuteAsync(deleteArticleSql);
             }
             return true;
         }
