@@ -19,13 +19,13 @@ namespace BlizzardWind.Desktop.Business.Services
             _dbService = service;
         }
 
-        public async Task<List<MarkTextFileModel>> AddArticleFileAsync(int type, List<string> fileNames, Guid? articleID = null)
+        public async Task<List<MarkTextFileModel>> AddArticleFileAsync(int type, List<string> fileNames, Guid? articleId = null)
         {
             List<MarkTextFileModel> models = new();
             List<MarkResource> entities = new();
             if (fileNames == null || !fileNames.Any())
                 return models;
-            if(!Directory.Exists(TEXT_DIRECTORY))
+            if (!Directory.Exists(TEXT_DIRECTORY))
                 Directory.CreateDirectory(TEXT_DIRECTORY);
             foreach (string fileName in fileNames)
             {
@@ -51,7 +51,7 @@ namespace BlizzardWind.Desktop.Business.Services
                     FileName = model.FilePath,
                     Length = file.Length,
                     Type = type,
-                    ArticleID = articleID,
+                    ArticleID = articleId,
                     CreatedAt = DateTime.Now
                 };
 
@@ -63,11 +63,11 @@ namespace BlizzardWind.Desktop.Business.Services
             return models;
         }
 
-        public async Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleID, int type = -1)
+        public async Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleId, int type = -1)
         {
             var db = await _dbService.GetConnectionAsync();
             var query = db.Table<MarkResource>()
-                .Where(x=>x.ArticleID == articleID)
+                .Where(x => x.ArticleID == articleId)
                 .OrderByDescending(s => s.CreatedAt);
             if (type != -1)
                 query.Where(x => x.Type == type);
@@ -86,6 +86,15 @@ namespace BlizzardWind.Desktop.Business.Services
                 models.Add(model);
             }
             return models;
+        }
+
+        public async Task<string> GetPathByIdAsync(Guid id)
+        {
+            var db = await _dbService.GetConnectionAsync();
+            var entity = await db.Table<MarkResource>().FirstOrDefaultAsync(x => x.ID == id);
+            if (entity == null)
+                return string.Empty;
+            return Path.Combine(TEXT_DIRECTORY, entity.FileName);
         }
     }
 }

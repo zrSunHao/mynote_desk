@@ -1,9 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Entities
 {
@@ -38,5 +33,11 @@ namespace BlizzardWind.Desktop.Business.Entities
         public string DisplayTime => CreatedAt.ToString("D");
 
         public string ContentLength => string.IsNullOrEmpty(Content)? "0": Content.Length.ToString();
+
+        public string CoverPicturePath => _CoverPicturePath;
+
+        private string _CoverPicturePath = string.Empty;
+
+        public void SetCoverPicturePath(string path) => _CoverPicturePath = path;
     }
 }

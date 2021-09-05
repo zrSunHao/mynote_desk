@@ -17,6 +17,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IArticleService _ArticleService;
         private readonly IFamilyService _FamilyService;
         private readonly IFolderService _FolderService;
+        private readonly IFileResourceService _FileService;
 
         private List<ArticleFamily> _Familys = new();
         private List<ArticleFolder> _Folders = new();
@@ -24,16 +25,27 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private ArticleFolder? _CurrentFolder = null;
         private int _NewArticleCount = 0;
         private int _ArticleTotal = 0;
-        private string _OrigionRightMsg = "";
+        private int _FilterTotal = 0;
 
         public IMvxCommand FamilyClickCommand => new MvxCommand<ArticleFamilyModel>(OnFamilyClick);
         public IMvxCommand FolderClickCommand => new MvxCommand<ArticleFolder>(OnFolderClick);
         public IMvxCommand SearchAticleClickCommand => new MvxCommand(OnSearchAticleClick);
         public IMvxCommand ResetSearchClickCommand => new MvxCommand(OnResetSearchClick);
+        public IMvxCommand ArticleSeeCommand => new MvxCommand<Article>(OnArticleSeeClick);
+        public IMvxCommand ArticleMoveCommand => new MvxCommand<Article>(OnArticleMoveClick);
+        public IMvxCommand ArticleEditCommand => new MvxCommand<Article>(OnArticleEditClick);
+        public IMvxCommand ArticleUploadCoverCommand => new MvxCommand<Article>(OnArticleUploadCoverClick);
+        public IMvxCommand ArticleDeleteCommand => new MvxCommand<Article>(OnArticleDeleteClick);
 
         public List<OptionValueItem> ArticleSortColumns { get; set; }
         public ObservableCollection<Article> ArticleCollection { get; set; }
         public ObservableCollection<ArticleFamilyModel> FamilyCollection { get; set; }
+
+        public Action<int, string> PromptInformationAction { get; set; }
+        public Action<Article> ArticleSeeDialogAction { get; set; }
+        public Action<Article> ArticleEditDialogAction { get; set; }
+        public Action<Article> ArticleMoveDialogAction { get; set; }
+        public Action<int,string,Article> ArticleUploadCoverDialogAction { get; set; }
 
         private Guid _familyId;
         public Guid FamilyId
@@ -95,11 +107,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class ArticleListPageViewModel
     {
         public ArticleListPageViewModel(IArticleService articleService,
-            IFamilyService familyService, IFolderService folderService)
+            IFamilyService familyService, IFolderService folderService,
+            IFileResourceService fileService)
         {
             _ArticleService = articleService;
             _FamilyService = familyService;
             _FolderService = folderService;
+            _FileService = fileService;
 
             ArticleCollection = new ObservableCollection<Article>();
             FamilyCollection = new ObservableCollection<ArticleFamilyModel>();
@@ -145,13 +159,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 _NewArticleCount++;
                 ArticleCollection.Insert(0, article);
-                RightMsg = $"新添加 {_NewArticleCount}  |  当前显示 - {ArticleCollection.Count}   | {_OrigionRightMsg}  |  总共 - {_ArticleTotal}";
             }
-            else
-            {
-                RightMsg = $"当前显示 - {ArticleCollection.Count}  |  {_OrigionRightMsg} | 总共 - {_ArticleTotal}";
-            }
-
+            ShowRightMsg();
             return true;
         }
 
@@ -163,6 +172,63 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 Folders = _Folders,
             };
         }
+
+        public async Task<bool> ArticleMove(Article article)
+        {
+            await _ArticleService.UpdateAsync(article);
+
+            if (FolderId != Guid.Empty && article.FolderId != FolderId)
+            {
+                ArticleCollection.Remove(article);
+                _ArticleTotal--;
+                _FilterTotal--;
+                ShowRightMsg();
+            }
+            //if (SearchSortColumn == ArticleColumnConsts.UpdatedAt)
+            //{
+            //    ArticleCollection.Remove(article);
+            //    ArticleCollection.Insert(0, article);
+            //}
+            //else
+            //{
+            //    var list = ArticleCollection.OrderBy(x => x.Title).ToList();
+            //    var index = list.IndexOf(article);
+            //    ArticleCollection.Remove(article);
+            //    if(ArticleCollection.Count < index)
+            //        ArticleCollection.Add(article);
+            //    else
+            //        ArticleCollection.Insert(index, article);
+            //}
+            
+            return true;
+        }
+
+        public async Task<bool> ArticleUploadCover(Article article)
+        {
+            await _ArticleService.UpdateAsync(article);
+
+            if (!article.CoverPictureId.HasValue)
+                return false;
+            var coverPath = await _FileService.GetPathByIdAsync(article.CoverPictureId.Value);
+            article.SetCoverPicturePath(coverPath);
+            var index = ArticleCollection.IndexOf(article);
+            ArticleCollection.Remove(article);
+            ArticleCollection.Insert(index, article);
+            return true;
+        }
+
+        public async Task<Guid> AddFile(string[]? fileNames, int type,Guid articleId)
+        {
+            if (fileNames == null || fileNames.Length < 1)
+                return Guid.Empty;
+            List<MarkTextFileModel> models = await _FileService
+                .AddArticleFileAsync(type, fileNames.ToList(), articleId);
+            if (models.Any())
+                return models[0].ID;
+            return Guid.Empty;
+        }
+
+
 
         private async void OnFamilyClick(ArticleFamilyModel family)
         {
@@ -201,6 +267,46 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             await LoadArticles();
         }
 
+        private void OnArticleSeeClick(Article article)
+        {
+            if (ArticleSeeDialogAction == null)
+                return;
+            ArticleSeeDialogAction.Invoke(article);
+        }
+
+        private void OnArticleMoveClick(Article article)
+        {
+            if (ArticleMoveDialogAction == null)
+                return;
+            ArticleMoveDialogAction.Invoke(article);
+        }
+
+        private void OnArticleEditClick(Article article)
+        {
+            if (ArticleEditDialogAction == null)
+                return;
+            ArticleEditDialogAction.Invoke(article);
+        }
+
+        private void OnArticleUploadCoverClick(Article article)
+        {
+            if (ArticleUploadCoverDialogAction == null)
+                return;
+            string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
+            ArticleUploadCoverDialogAction.Invoke(EditorOperateType.UploadCoverPicture, filter, article);
+        }
+
+        private async void OnArticleDeleteClick(Article article)
+        {
+            await _ArticleService.DeleteAsync(article.Id);
+            ArticleCollection.Remove(article);
+            _ArticleTotal--;
+            _FilterTotal--;
+            ShowRightMsg();
+        }
+
+
+
         private void InitialDefaultValue()
         {
             LeftMsg = string.Empty;
@@ -213,7 +319,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             SearchArticleKey = string.Empty;
 
             _ArticleTotal = 0;
-            _OrigionRightMsg = "";
+            _FilterTotal = 0;
+            _NewArticleCount = 0;
             _CurrentFamily = null;
             _CurrentFolder = null;
         }
@@ -265,18 +372,25 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private async Task<bool> LoadArticles()
         {
+            _FilterTotal = 0;
             _NewArticleCount = 0;
             _ArticleTotal = 0;
             ArticleCollection.Clear();
+
             var result = await _ArticleService.GetListAsync(FolderId, SearchSortColumn, SearchArticleTitle, SearchArticleKey);
-            _ArticleTotal = result.Total;
             foreach (var item in result.Items)
             {
+                if(item.CoverPictureId.HasValue)
+                {
+                    var coverPath = await _FileService.GetPathByIdAsync(item.CoverPictureId.Value);
+                    item.SetCoverPicturePath(coverPath);
+                }
                 ArticleCollection.Add(item);
             }
 
-            _OrigionRightMsg = $"符合筛选条件 - {result.FilterTotal}";
-            RightMsg = $"当前显示 - {result.Items.Count}  |  {_OrigionRightMsg}  |  总共 - {_ArticleTotal}";
+            _ArticleTotal = result.Total;
+            _FilterTotal = result.FilterTotal;
+            ShowRightMsg();
             return true;
         }
 
@@ -287,6 +401,14 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (_CurrentFamily != null && _CurrentFolder != null)
                 familyMsg = $"  |  {_CurrentFamily.Name}  ==>  {_CurrentFolder.Name}";
             LeftMsg = $"大类 - {FamilyCollection.Count} / {_Familys.Count}  |  文件夹 - {currentFolderTotal} / {_Folders.Count}{familyMsg}";
+        }
+
+        private void ShowRightMsg()
+        {
+            var newMsg = "";
+            if (_NewArticleCount > 0)
+                newMsg = $"新添加 {_NewArticleCount}  |  ";
+            RightMsg = $"{newMsg}当前显示 - {ArticleCollection.Count}   | 符合筛选条件 - {_FilterTotal}  |  总共 - {_ArticleTotal}";
         }
     }
 

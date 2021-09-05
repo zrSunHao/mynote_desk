@@ -182,7 +182,7 @@
     <Style x:Key="ArticleCardButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Margin" Value="5"/>
         <Setter Property="MinWidth" Value="280"/>
-        <Setter Property="Height" Value="130"/>
+        <Setter Property="Height" Value="120"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -200,7 +200,8 @@
                                 <ColumnDefinition  Width="120"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="/Assets/Images/Icons/note.png" Stretch="UniformToFill"/>
+                            <Image Grid.Column="0" Stretch="UniformToFill"  Width="120"
+                                   Source="{Binding CoverPicturePath,Converter={StaticResource CoverPathToUriConverter},TargetNullValue={x:Null}}" />
                             <Border Grid.Column="0" Background="Black" Opacity="0.2"/>
                             <Grid Grid.Column="1" Margin="5">
                                 <Grid.RowDefinitions>
@@ -249,7 +250,29 @@
     </Style>
 
     <DataTemplate x:Key="ArticleCardDataTemplate">
-        <Button Style="{DynamicResource ArticleCardButtonStyle}" />
+        <Button Style="{DynamicResource ArticleCardButtonStyle}" 
+                Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
+            <Button.ContextMenu>
+                <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                             Style="{StaticResource ContextMenuStyle}">
+                    <MenuItem Header="查看" Command="{Binding ArticleSeeCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                    <MenuItem Header="编辑" Command="{Binding ArticleEditCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                    <MenuItem Header="移动" Command="{Binding ArticleMoveCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                    <MenuItem Header="修改封面" Command="{Binding ArticleUploadCoverCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                    <MenuItem Header="删除" Command="{Binding ArticleDeleteCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
     </DataTemplate>
 
     <Style x:Key="ArticleItemsStyle" TargetType="ItemsControl">

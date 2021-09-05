@@ -1,5 +1,7 @@
 ﻿using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.ViewModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,17 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             InitializeComponent();
             VM = (ArticleListPageViewModel)DataContext;
+            VM.PromptInformationAction += PromptInformation;
+            VM.ArticleSeeDialogAction += ArticleSeeDialog;
+            VM.ArticleEditDialogAction += ArticleEditDialog;
+            VM.ArticleMoveDialogAction += ArticleMoveDialog;
+            VM.ArticleUploadCoverDialogAction += ArticleUploadCoverDialog;
+        }
+
+        private void PromptInformation(int type, string msg)
+        {
+            var dialog = new ConfirmDialog(type, msg);
+            dialog.ShowDialog();
         }
 
         private async void CreateArticle_Button_Click(object sender, RoutedEventArgs e)
@@ -35,7 +48,7 @@ namespace BlizzardWind.Desktop.App.Pages
             if (VM == null)
                 return;
             var model = VM.GetFamilyOptions();
-            var dialog = new ArticleCreateDialog(model);
+            var dialog = new ArticleDialog(model,null,string.Empty);
             dialog.ShowDialog();
             if(dialog.DialogResult == true && dialog.FolderId.HasValue && !string.IsNullOrEmpty(dialog.ArticleName))
             {
@@ -53,6 +66,45 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             if (e.Key == Key.Enter && VM != null)
                 VM.SerachFolder();
+        }
+
+        private void ArticleSeeDialog(Article article)
+        {
+            // TODO
+        }
+
+        private void ArticleEditDialog(Article article)
+        {
+            // TODO
+        }
+
+        private async void ArticleMoveDialog(Article article)
+        {
+            if (VM == null)
+                return;
+            var model = VM.GetFamilyOptions();
+            var dialog = new ArticleDialog(model, article.FolderId,article.Title);
+            dialog.ShowDialog();
+            if (dialog.DialogResult == true && dialog.FolderId.HasValue && !string.IsNullOrEmpty(dialog.ArticleName))
+            {
+                article.FolderId = dialog.FolderId.Value;
+                article.Title = dialog.ArticleName;
+                await VM.ArticleMove(article);
+            }
+        }
+
+        private async void ArticleUploadCoverDialog(int type, string filter, Article article)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = filter;
+            dialog.Multiselect = false;
+            if (dialog.ShowDialog() != true)
+                return;
+            var imgId = await VM.AddFile(dialog.FileNames, type, article.Id);
+            if (imgId == Guid.Empty)
+                return;
+            article.CoverPictureId = imgId;
+            await VM.ArticleUploadCover(article);
         }
     }
 }
