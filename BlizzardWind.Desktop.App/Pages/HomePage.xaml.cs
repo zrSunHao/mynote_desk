@@ -47,14 +47,7 @@ namespace BlizzardWind.Desktop.App.Pages
 
         private void LaunchEditorWindow()
         {
-            foreach (Window item in Application.Current.Windows)
-            {
-                if (item.GetType() == typeof(EditorWindow))
-                    //return;
-                    item.Close();
-            }
-            EditorWindow editerWindow = new EditorWindow();
-            editerWindow.Show();
+
         }
     }
 }

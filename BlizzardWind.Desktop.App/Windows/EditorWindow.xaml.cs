@@ -1,4 +1,5 @@
-﻿using BlizzardWind.Desktop.Business.Models;
+﻿using BlizzardWind.Desktop.Business.Entities;
+using BlizzardWind.Desktop.Business.Models;
 using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
 using System;
@@ -27,16 +28,19 @@ namespace BlizzardWind.Desktop.App.Windows
         static Subject<string> MySubject = new Subject<string>();
 
         private readonly EditorWindowViewModel VM;
+        private readonly Article _Article;
 
-        public EditorWindow()
+        public EditorWindow(Article article)
         {
             InitializeComponent();
+            _Article = article;
             VM = (EditorWindowViewModel)DataContext;
             VM.OnUploadFileClickAction += SelectFileButton_Click;
             MySubject.Throttle(TimeSpan.FromSeconds(1))
                 .Subscribe((s) =>
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                    System.Windows.Application.Current.Dispatcher
+                    .Invoke((Action)(() =>
                     {
                         VM.OnTextChange(s);
                     }));
@@ -56,7 +60,7 @@ namespace BlizzardWind.Desktop.App.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (VM != null)
-                VM.OnWindowLoaded();
+                VM.WindowLoaded(_Article);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

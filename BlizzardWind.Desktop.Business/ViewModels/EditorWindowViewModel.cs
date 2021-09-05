@@ -19,8 +19,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IFileResourceService _fileService;
         private readonly IArticleService _articleService;
         private List<MarkTextFileModel> _fileList = new List<MarkTextFileModel>();
-        private Guid? _articleID;
-        private Article _article;
+        private Article _Article;
 
         public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
         public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
@@ -88,18 +87,18 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FileCollection = new ObservableCollection<MarkTextFileModel>();
             MainOperateCollection = new ObservableCollection<EditorOperateModel>()
             {
-                new EditorOperateModel(){Name = "保存", Icon="\xe161", Type=EditorOperateType.Save},
-                new EditorOperateModel(){Name = "云同步", Icon="\xe2c3", Type=EditorOperateType.CloudSync},
+                new EditorOperateModel(){Name = "保存",  Type=EditorOperateType.Save},
+                new EditorOperateModel(){Name = "云同步",  Type=EditorOperateType.CloudSync},
             };
             UploadOperateCollection = new ObservableCollection<EditorOperateModel>()
             {
-                new EditorOperateModel(){Name = "封面", Icon="\xe3f4", Type=EditorOperateType.UploadCoverPicture},
-                new EditorOperateModel(){Name = "图片", Icon="\xe161", Type=EditorOperateType.UploadImage},
-                new EditorOperateModel(){Name = "office文件", Icon="\xe161", Type=EditorOperateType.UploadOfficeFile},
-                new EditorOperateModel(){Name = "文本文档", Icon="\xe161", Type=EditorOperateType.UploadTxt},
-                new EditorOperateModel(){Name = "PDF", Icon="\xe161", Type=EditorOperateType.UploadPDF},
-                new EditorOperateModel(){Name = "音频", Icon="\xe161", Type=EditorOperateType.UploadAudio},
-                new EditorOperateModel(){Name = "视频", Icon="\xe161", Type=EditorOperateType.UploadVideo},
+                new EditorOperateModel(){Name = "封面",  Type=EditorOperateType.UploadCoverPicture},
+                new EditorOperateModel(){Name = "图片",  Type=EditorOperateType.UploadImage},
+                new EditorOperateModel(){Name = "office文件",  Type=EditorOperateType.UploadOfficeFile},
+                new EditorOperateModel(){Name = "文本文档",  Type=EditorOperateType.UploadTxt},
+                new EditorOperateModel(){Name = "PDF",  Type=EditorOperateType.UploadPDF},
+                new EditorOperateModel(){Name = "音频",  Type=EditorOperateType.UploadAudio},
+                new EditorOperateModel(){Name = "视频",  Type=EditorOperateType.UploadVideo},
             };
             EditorFileTypeCollection = new ObservableCollection<OptionTypeItem>()
             {
@@ -117,13 +116,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FileFilterType = -1;
         }
 
-        public void OnWindowLoaded()
+        public void WindowLoaded(Article article)
         {
-            _articleID = Guid.Parse("26a53d07-5afb-4bd3-a578-2f315d3b1e79");
-            if (_articleID.HasValue)
-                LoadArticleAsync(_articleID.Value);
-            else
-                InitArticleAsync();
+            _Article = article;
+            LoadArticleAsync(_Article.Id);
         }
 
         public async void OnAddFileClick(string[]? fileNames, int type)
@@ -131,7 +127,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (fileNames == null || fileNames.Length < 1)
                 return;
             List<MarkTextFileModel> models = await _fileService
-                .AddArticleFileAsync(type, fileNames.ToList(),_article.Id);
+                .AddArticleFileAsync(type, fileNames.ToList(), _Article.Id);
             _fileList.InsertRange(0, models);
             foreach (MarkTextFileModel model in models)
             {
@@ -141,8 +137,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (type == EditorOperateType.UploadCoverPicture)
             {
                 CoverPicture = models[0].FilePath;
-                _article.CoverPictureId = models[0].ID;
-                await _articleService.UpdateAsync(_article);
+                _Article.CoverPictureId = models[0].ID;
+                await _articleService.UpdateAsync(_Article);
             }
         }
 
@@ -150,7 +146,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             FileCollection.Clear();
             List<MarkTextFileModel> list = _fileList;
-            if(!string.IsNullOrEmpty(FileFilterName))
+            if (!string.IsNullOrEmpty(FileFilterName))
                 list = list.Where(x => x.FileName.Contains(FileFilterName)).ToList();
             if (FileFilterType != -1)
                 list = list.Where(x => x.Type == FileFilterType).ToList();
@@ -162,10 +158,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             var parser = new MarkTextParser();
             var elements = parser.GetMarkElements(Document);
-            _article.Content = Document;
-            _article.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
-            _article.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
-            await _articleService.UpdateAsync(_article);
+            _Article.Content = Document;
+            _Article.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
+            _Article.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
+            await _articleService.UpdateAsync(_Article);
             ArticleStructureCollection.Clear();
             ArticleStructureModel? topComponent = null;
             bool hasTitle_2 = false;
@@ -183,9 +179,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     TypeName = el.TypeName,
                     Level = el.Level,
                 };
-                if(component.Level == MarkTypeLevel.Title_1)
+                if (component.Level == MarkTypeLevel.Title_1)
                 {
-                    if(topComponent != null)
+                    if (topComponent != null)
                         ArticleStructureCollection.Add(topComponent);
                     topComponent = component;
                     hasTitle_2 = false;
@@ -279,10 +275,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private async void LoadArticleAsync(Guid articleID)
         {
-            _article = await _articleService.GetAsync(articleID);
-            if (_article == null)
+            _Article = await _articleService.GetAsync(articleID);
+            if (_Article == null)
                 throw new Exception("文章数据为空！");
-            Document = _article.Content;
+            Document = _Article.Content;
             List<MarkTextFileModel> models = await _fileService.GetArticleFilesAsync(articleID);
             _fileList.AddRange(models);
             foreach (MarkTextFileModel model in models)
@@ -290,22 +286,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FileCollection.Add(model);
             }
             FileCount = _fileList.Count;
-            if(_article.CoverPictureId.HasValue)
-                CoverPicture = _fileList.FirstOrDefault(x => x.ID == _article.CoverPictureId.Value)?.FilePath;
-        }
-
-        private async void InitArticleAsync()
-        {
-            _article = new Article()
-            {
-                Id = Guid.NewGuid(),
-                Title = "新建文档",
-                State = -1,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                Deleted = false,
-            };
-            await _articleService.AddAsync(_article);
+            if (_Article.CoverPictureId.HasValue)
+                CoverPicture = _fileList.FirstOrDefault(x => x.ID == _Article.CoverPictureId.Value)?.FilePath;
         }
     }
 }

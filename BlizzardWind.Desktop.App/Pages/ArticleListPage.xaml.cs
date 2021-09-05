@@ -1,6 +1,9 @@
-﻿using BlizzardWind.Desktop.App.Dialogs;
+﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.App.Windows;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.ViewModels;
+using BlizzardWind.Desktop.Controls.RouteEvent;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -70,12 +73,26 @@ namespace BlizzardWind.Desktop.App.Pages
 
         private void ArticleSeeDialog(Article article)
         {
-            // TODO
+            var route = new MyPageRoute()
+            {
+                Route = nameof(MarkTextPage),
+            };
+            RoutedEventArgs args = new RoutedEventArgs(MyPageRoute.MyPageRouteChangedEvent, route);
+            this.RaiseEvent(args);
         }
 
         private void ArticleEditDialog(Article article)
         {
-            // TODO
+            foreach (Window item in Application.Current.Windows)
+            {
+                if (item.GetType() == typeof(EditorWindow))
+                {
+                    PromptInformation(MesssageType.Error, "存在正在编辑的文章");
+                    return;
+                }
+            }
+            EditorWindow editerWindow = new EditorWindow(article);
+            editerWindow.Show();
         }
 
         private async void ArticleMoveDialog(Article article)
