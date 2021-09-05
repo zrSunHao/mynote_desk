@@ -5,11 +5,13 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>D:\app\BlizzardWind\BlizzardWind.Desktop.App\blizzard.ico</ApplicationIcon>
+    <ApplicationIcon>D:\app\BlizzardWind\BlizzardWind.Desktop.App\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\Fonts\materialIcons.ttf" />
+    <None Remove="Assets\Images\Big\wind-512.png" />
+    <None Remove="Assets\Images\Big\wind_1024.png" />
     <None Remove="Assets\Images\Icons\audio.png" />
     <None Remove="Assets\Images\Icons\cover.png" />
     <None Remove="Assets\Images\Icons\error.png" />
@@ -24,10 +26,14 @@
     <None Remove="Assets\Images\Icons\txt.png" />
     <None Remove="Assets\Images\Icons\video.png" />
     <None Remove="Assets\Images\Icons\warn.png" />
+    <None Remove="Assets\Images\Icons\wind.png" />
     <None Remove="Assets\Images\User.jpeg" />
+    <None Remove="favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Images\Big\wind-512.png" />
+    <Resource Include="Assets\Images\Big\wind_1024.png" />
     <Resource Include="Assets\Images\Icons\error.png" />
     <Resource Include="Assets\Images\Icons\folder.png" />
     <Resource Include="Assets\Images\Icons\info.png" />
@@ -63,7 +69,9 @@
     <Resource Include="Assets\Images\Icons\txt.png" />
     <Resource Include="Assets\Images\Icons\video.png" />
     <Resource Include="Assets\Images\Icons\warn.png" />
+    <Resource Include="Assets\Images\Icons\wind.png" />
     <Resource Include="Assets\Images\User.jpeg" />
+    <Resource Include="favicon.ico" />
   </ItemGroup>
 
 </Project>

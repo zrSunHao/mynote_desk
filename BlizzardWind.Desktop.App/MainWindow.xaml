@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource WindowStyle}"
+        Title="BlizzardWind"
+        Style="{DynamicResource MyWindowStyle}"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
     <Window.Resources>
         <ResourceDictionary>
@@ -14,33 +15,12 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Style="{StaticResource WindowGridStyle}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="1"
-              MouseDown="TopBar_MouseDown" 
-              Style="{StaticResource WindowTopBarGridStyle}">
-            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                <TextBlock Style="{StaticResource WindowTitleIconStyle}" Text="&#xe65f;"/>
-                <TextBlock Style="{StaticResource WindowTitleTextStyle}" Text="暴风雪"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="minimizeButton" Click="MinimizeButton_Click"
-                        Content="&#xf108;" Style="{StaticResource WindowButtonStyle}"/>
-                <Button x:Name="maximizeButton" Click="MaximizeButton_Click"
-                        Style="{StaticResource WindowRestoreButtonStyle}"/>
-                <Button x:Name="closeButton" Click="CloseButton_Click"
-                        Content="&#xe14c;" Style="{StaticResource WindowCloseButtonStyle}"/>
-            </StackPanel>
-        </Grid>
-        <Grid Grid.RowSpan="2" Grid.Column="0" 
-              Background="{StaticResource Color.Canvas.Background}">
+        <Grid Grid.Column="0" Background="{StaticResource Color.Canvas.Background}">
             <ItemsControl Grid.Row="1" Grid.Column="0" VerticalAlignment="Top"
                           ItemsSource="{Binding NavMenus}"
                           Style="{StaticResource MenuItemsStyle}"/>
@@ -48,9 +28,8 @@
                           ItemsSource="{Binding  SettingMenus}"
                           Style="{StaticResource MenuItemsStyle}"/>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Frame x:Name="frmMain" 
-                   Source="{Binding Route}"
+        <Grid Grid.Column="1">
+            <Frame x:Name="frmMain" Source="{Binding Route}"
                    Style="{StaticResource MainFrameStyle}"/>
         </Grid>
     </Grid>

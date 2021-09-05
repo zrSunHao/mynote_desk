@@ -8,6 +8,8 @@
 
         public int Total { get; set; }
 
+        public int FilterTotal { get; set; }
+
         public List<T> Items { get; set; }
     }
 }

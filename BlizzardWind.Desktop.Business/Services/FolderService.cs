@@ -36,6 +36,15 @@ namespace BlizzardWind.Desktop.Business.Services
             return await query.ToListAsync(); ;
         }
 
+        public async Task<List<ArticleFolder>> GetAllListAsync()
+        {
+            var db = await _dbService.GetConnectionAsync();
+            var query = db.Table<ArticleFolder>()
+                .Where(x =>!x.Deleted)
+                .OrderBy(x => x.Name);
+            return await query.ToListAsync(); ;
+        }
+
         public async Task<bool> DeleteAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();

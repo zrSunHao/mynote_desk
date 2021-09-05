@@ -3,14 +3,13 @@
                     xmlns:lcc="clr-namespace:BlizzardWind.Desktop.Controls.Converters;assembly=BlizzardWind.Desktop.Controls">
 
     <lcc:FamilyPageWidthToColumsConverter x:Key="WidthToColumsConverter"/>
-    <lcc:IDToRadioCheckedConverter x:Key="IDToRadioCheckedConverter"/>
 
     <Style x:Key="FamilyOperateButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource CommonOperateButtonStyle}">
         <Setter Property="Width" Value="70"/>
     </Style>
 
     <DataTemplate x:Key="FamilyDataTemplate">
-        <RadioButton Style="{DynamicResource FamilyBarRadioStyle}" Width="200"
+        <RadioButton Style="{DynamicResource FamilyBarRadioStyle}" Width="240" Height="40"
                      Content="{Binding Name}"
                      Background="{StaticResource Color.Primary}"
                      ToolTipService.InitialShowDelay="1000"

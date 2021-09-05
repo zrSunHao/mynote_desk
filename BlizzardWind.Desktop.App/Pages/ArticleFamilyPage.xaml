@@ -18,8 +18,7 @@
     </Page.Resources>
     <Grid x:Name="page_Grid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
-            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="270"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -27,21 +26,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"  
-                      VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+        <ScrollViewer Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"  Padding="0,20,0,5"
+                      VerticalScrollBarVisibility="Visible">
             <ItemsControl ItemsSource="{Binding FamilyCollection}" 
                           ItemTemplate="{StaticResource FamilyDataTemplate}"
                           Style="{StaticResource FamilyBarItemsStyle}"/>
         </ScrollViewer>
-        <Line Grid.RowSpan="2" Grid.Column="1" Y1="0" 
-              Y2="{Binding ActualHeight,ElementName=page_Grid}"  
-              Style="{StaticResource VerticalSeparatorLineStyle}"/>
-        <Grid Grid.Row="0" Grid.Column="2">
+        <Grid Grid.Row="0" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="280"/>
             </Grid.ColumnDefinitions>
+            <Border Grid.ColumnSpan="3" Background="{StaticResource Color.ToolBar.Background}"/>
             <TextBlock Grid.Column="0" Text="标题 :" Style="{StaticResource FilterLableTextStyle}"/>
             <TextBox Grid.Column="1" Text="{Binding FolderName}"
                      Style="{StaticResource FilterTextBoxStyle}"/>
@@ -54,13 +51,13 @@
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
             </WrapPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="2"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+        <ScrollViewer Grid.Row="1" Grid.Column="1"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
             <ItemsControl ItemsSource="{Binding FolderCollection}" 
                           ItemTemplate="{StaticResource FolderCardDataTemplate}"
                           Style="{StaticResource FolderItemsStyle}"/>
         </ScrollViewer>
-        <Grid Grid.Row="2" Grid.Column="2">
-            <Border Background="{StaticResource Color.Primary}" Opacity="0.1"/>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Border Background="{StaticResource Color.ToolBar.Background}"/>
             <TextBlock  HorizontalAlignment="Right" Margin="0,0,20,0"
                    Style="{StaticResource FilterLableTextStyle}">
             <Run Text="{Binding FolderCollection.Count,Mode=OneWay}"/>

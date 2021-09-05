@@ -12,7 +12,7 @@ namespace BlizzardWind.Desktop.Business.Entities
         [PrimaryKey]
         public Guid Id { get; set; }
 
-        public Guid? FolderId { get; set; }
+        public Guid FolderId { get; set; }
 
         public int State { get; set; }
 
@@ -33,5 +33,10 @@ namespace BlizzardWind.Desktop.Business.Entities
         public bool Deleted { get; set; }
 
         public DateTime? DeletedAt { get; set; }
+
+
+        public string DisplayTime => CreatedAt.ToString("D");
+
+        public string ContentLength => string.IsNullOrEmpty(Content)? "0": Content.Length.ToString();
     }
 }

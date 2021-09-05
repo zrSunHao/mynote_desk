@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.Business.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,37 @@ namespace BlizzardWind.Desktop.App.Pages
     /// </summary>
     public partial class ArticleListPage : Page
     {
+        private readonly ArticleListPageViewModel VM;
+
         public ArticleListPage()
         {
             InitializeComponent();
+            VM = (ArticleListPageViewModel)DataContext;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void CreateArticle_Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (VM == null)
+                return;
+            var model = VM.GetFamilyOptions();
+            var dialog = new ArticleCreateDialog(model);
+            dialog.ShowDialog();
+            if(dialog.DialogResult == true && dialog.FolderId.HasValue && !string.IsNullOrEmpty(dialog.ArticleName))
+            {
+                await VM.CreateArticle(dialog.FolderId.Value, dialog.ArticleName);
+            }
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(VM != null)
+                await VM.PageLoad();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && VM != null)
+                VM.SerachFolder();
         }
     }
 }

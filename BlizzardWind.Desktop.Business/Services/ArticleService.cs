@@ -1,5 +1,6 @@
 ﻿using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
+using BlizzardWind.Desktop.Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,29 @@ namespace BlizzardWind.Desktop.Business.Services
         {
             var db = await _dbService.GetConnectionAsync();
             return await db.Table<Article>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<PagingResult<Article>> GetListAsync(Guid? folderId,string sortColumn,string title,string key)
+        {
+            var result = new PagingResult<Article>();
+            var db = await _dbService.GetConnectionAsync();
+            var query = db.Table<Article>().Where(x=>!x.Deleted);
+            result.Total = await query.CountAsync();
+
+            if(folderId.HasValue && folderId != Guid.Empty)
+                query = query.Where(x=>x.FolderId ==  folderId.Value);
+            if (!string.IsNullOrEmpty(title))
+                query = query.Where(x => x.Title.Contains(title));
+            if (!string.IsNullOrEmpty(key))
+                query = query.Where(x => x.Title.Contains(key));
+            result.FilterTotal = await query.CountAsync();
+
+            if (sortColumn == ArticleColumnConsts.Title)
+                query = query.OrderBy(x=>x.Title);
+            else
+                query = query.OrderByDescending(x => x.UpdatedAt);
+            result.Items = await query.Take(30).ToListAsync();
+            return result;
         }
 
         public async Task<bool> UpdateAsync(Article entity)
