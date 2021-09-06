@@ -18,6 +18,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IFamilyService _FamilyService;
         private readonly IFolderService _FolderService;
         private readonly IFileResourceService _FileService;
+        private readonly ViewModelMediator _Mediator;
 
         private List<ArticleFamily> _Familys = new();
         private List<ArticleFolder> _Folders = new();
@@ -42,7 +43,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public ObservableCollection<ArticleFamilyModel> FamilyCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
-        public Action<Article> ArticleSeeDialogAction { get; set; }
+        //public Action<Article> ArticleSeeDialogAction { get; set; }
         public Action<Article> ArticleEditDialogAction { get; set; }
         public Action<Article> ArticleMoveDialogAction { get; set; }
         public Action<int,string,Article> ArticleUploadCoverDialogAction { get; set; }
@@ -108,12 +109,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         public ArticleListPageViewModel(IArticleService articleService,
             IFamilyService familyService, IFolderService folderService,
-            IFileResourceService fileService)
+            IFileResourceService fileService, ViewModelMediator mediator)
         {
             _ArticleService = articleService;
             _FamilyService = familyService;
             _FolderService = folderService;
             _FileService = fileService;
+            _Mediator = mediator;
 
             ArticleCollection = new ObservableCollection<Article>();
             FamilyCollection = new ObservableCollection<ArticleFamilyModel>();
@@ -269,9 +271,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnArticleSeeClick(Article article)
         {
-            if (ArticleSeeDialogAction == null)
-                return;
-            ArticleSeeDialogAction.Invoke(article);
+            _Mediator.SetShowArticle(article);
+            _Mediator.RouteRedirect(PageNameConsts.MarkTextPage);
         }
 
         private void OnArticleMoveClick(Article article)

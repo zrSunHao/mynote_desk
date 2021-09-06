@@ -1,4 +1,6 @@
 ﻿using BlizzardWind.App.Common.MarkText;
+using BlizzardWind.Desktop.Business.Entities;
+using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using Microsoft.VisualBasic;
 using MvvmCross.ViewModels;
@@ -13,27 +15,59 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class MarkTextPageViewModel : MvxViewModel
     {
+        private readonly ViewModelMediator _Mediator;
+        private readonly IFileResourceService _FileResourceService;
+        private Article _Article;
+
         public ObservableCollection<ArticleStructureModel> HeadlineCollection { get; set; }
         public ObservableCollection<MarkElement> ElementCollection { get; set; }
     }
 
     public partial class MarkTextPageViewModel
     {
-        public MarkTextPageViewModel()
+        public MarkTextPageViewModel(ViewModelMediator mediator, IFileResourceService fileResourceService)
         {
+            _Mediator = mediator;
+            _FileResourceService = fileResourceService;
             ElementCollection = new ObservableCollection<MarkElement>();
+
+            _Article = _Mediator.GetShowArticle();
+            _Mediator.ArticleChangedAction += ArticleChanged;
         }
 
         public void OnPageLoaded()
         {
-            string text = "#h1] 文章总标题\r\n#h2] 二级标题\r\n#h3] 三级总标题\r\n\r\n#key] 关键词,说明\r\n#profile] 测试文件\r\n#p] 段落发射点发射点士大夫士大夫士大夫大师傅士大夫士大夫撒旦\r\nfsdfsdfsdfsdfdsf\r\n#img] <图片名>(images/avatar_cat.jpeg)\r\n#link] <链接名>(images/avatar_cat.jpeg)\r\n\r\n#list]\r\n1、大师傅士大夫士大夫的是\r\n2、的撒范德萨范德萨范德萨\r\n--\r\n#table] <名字|特点|称呼>\r\n刘备|哭|大哥\r\n关羽|打|二哥\r\n张飞|骂|三弟\r\n--\r\n#summary] 总结\r\n#quote]引用\r\n<引用1>(url)\r\n<引用2>(url)\r\n--\r\n";
+            ArticleChanged(_Article);
+        }
+
+        public async void ArticleChanged(Article article)
+        {
+            if (article == null)
+                return;
+            _Article = article;
             var parser = new MarkTextParser();
-            var list = parser.GetMarkElements(text);
+            var list = parser.GetMarkElements(_Article.Content);
+            ElementCollection.Clear();
             foreach (var item in list)
             {
+                if(item.Type == MarkType.txt || item.Type == MarkType.img)
+                {
+                    item.Content = item.KeyValue?.Name;
+                    Guid fileId = Guid.Empty;
+                    try
+                    {
+                        string idStr = item.KeyValue?.Value == null ? "" : item.KeyValue.Value;
+                        fileId = Guid.Parse(idStr);
+                    }
+                    catch (Exception){}
+                    if (fileId != Guid.Empty)
+                    {
+                        var filePath = await _FileResourceService.GetPathByIdAsync(fileId);
+                        item.SetIFilePath(filePath);
+                    }
+                }
                 ElementCollection.Add(item);
             }
-            var z = ElementCollection.Count;
         }
     }
 }

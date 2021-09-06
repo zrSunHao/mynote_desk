@@ -9,7 +9,7 @@
     <SolidColorBrush x:Key="Color.Second" Color="#f14479"/>
     <SolidColorBrush x:Key="Color.Tertiary" Color="White"/>
     
-    <SolidColorBrush x:Key="Color.Font.Primary" Color="Gray"/>
+    <SolidColorBrush x:Key="Color.Font.Primary" Color="Silver"/>
     <SolidColorBrush x:Key="Color.Font.Second" Color="#f14479"/>
     <SolidColorBrush x:Key="Color.Font.Tertiary" Color="White"/>
     <SolidColorBrush x:Key="Color.Font.Active" Color="Orange"/>
@@ -76,10 +76,16 @@
         <Setter Property="Background" Value="{StaticResource Color.Windows.Background}"/>
     </Style>
 
+    <BooleanToVisibilityConverter x:Key="BoolToVis" />
     <lcc:TextToUriConverter x:Key="TextToUriConverter"/>
     <lcc:CoverPathToUriConverter x:Key="CoverPathToUriConverter"/>
+    <lcc:TxtPathToContentConverter x:Key="TxtPathToContentConverter"/>
     <lcc:EmptyStrValidConverter x:Key="EmptyStrValidConverter"/>
     <lcc:IDToRadioCheckedConverter x:Key="IDToRadioCheckedConverter"/>
+
+    <Style TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
 
     <Style x:Key="VerticalSeparatorLineStyle" TargetType="Line">
         <Setter Property="VerticalAlignment" Value="Center"/>

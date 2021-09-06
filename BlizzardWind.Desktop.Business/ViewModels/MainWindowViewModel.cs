@@ -12,6 +12,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class MainWindowViewModel : MvxViewModel
     {
+        private readonly ViewModelMediator _Mediator;
+
         public IMvxCommand MenuCommand => new MvxCommand<NavMenuModel>(OnMenuClick);
 
         public ObservableCollection<NavMenuModel> NavMenus { get; set; }
@@ -27,8 +29,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
     public partial class MainWindowViewModel
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel(ViewModelMediator mediator)
         {
+            _Mediator = mediator;
+            _Mediator.RouteRedirectAction += RouteRedirectAction;
             MenuInitial();        }
 
         private void MenuInitial()
@@ -37,17 +41,38 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
             NavMenus = new ObservableCollection<NavMenuModel>()
             {
-                //new NavMenuModel(){ Name = "起始页", Icon = "\xe88a" , Route = "HomePage",Checked = true },
-                new NavMenuModel(){ Name = "起始页", Icon = "\xe88a" , Route = "ArticleListPage",Checked = true},
-                new NavMenuModel(){ Name = "文章类别管理页", Icon = "\xe8a7" , Route = "ArticleFamilyPage"},
-                new NavMenuModel(){ Name = "阅读文章页", Icon = "\xf0c5" , Route = "MarkTextPage"},
+                new NavMenuModel(){ 
+                    Name = "起始页", Icon = "\xe88a" , Route = PageNameConsts.ArticleListPage,Checked = true,IsEnable = true
+                },
+                new NavMenuModel(){ 
+                    Name = "文章类别管理页", Icon = "\xe8a7" , Route = PageNameConsts.ArticleFamilyPage,Checked = false,IsEnable = true
+                },
+                new NavMenuModel(){ 
+                    Name = "阅读文章页", Icon = "\xf0c5" , Route = PageNameConsts.MarkTextPage,Checked = false,IsEnable = false
+                },
             };
 
             SettingMenus = new ObservableCollection<NavMenuModel>()
             {
-                new NavMenuModel(){ Name = "设置", Icon = "\xe8b9" , Route = ""},
+                new NavMenuModel(){ Name = "设置", Icon = "\xe8b9" , Route = "",Checked = false,IsEnable = false},
             };
 
+        }
+
+        private void RouteRedirectAction(string pageName)
+        {
+            var menu = NavMenus.FirstOrDefault(x=>x.Route == pageName);
+            if (menu != null)
+            {
+                foreach(var item in NavMenus)
+                {
+                    if (item.Route != menu.Route)
+                        item.Checked = false;
+                    else
+                        item.Checked = true;
+                }
+                OnMenuClick(menu);
+            }
         }
 
         private void OnMenuClick(NavMenuModel menu)

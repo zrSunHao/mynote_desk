@@ -19,7 +19,7 @@
         <ScrollViewer  HorizontalScrollBarVisibility="Disabled" 
                       VerticalScrollBarVisibility="Visible">
             <ItemsControl ItemsSource="{Binding ElementCollection}" 
-                      HorizontalAlignment="Center" VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
         </ScrollViewer>
     </Grid>

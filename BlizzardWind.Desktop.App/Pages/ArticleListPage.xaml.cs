@@ -34,7 +34,7 @@ namespace BlizzardWind.Desktop.App.Pages
             InitializeComponent();
             VM = (ArticleListPageViewModel)DataContext;
             VM.PromptInformationAction += PromptInformation;
-            VM.ArticleSeeDialogAction += ArticleSeeDialog;
+            //VM.ArticleSeeDialogAction += ArticleSeeDialog;
             VM.ArticleEditDialogAction += ArticleEditDialog;
             VM.ArticleMoveDialogAction += ArticleMoveDialog;
             VM.ArticleUploadCoverDialogAction += ArticleUploadCoverDialog;

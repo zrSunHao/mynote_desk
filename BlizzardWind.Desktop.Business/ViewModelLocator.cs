@@ -27,6 +27,8 @@ namespace BlizzardWind.Desktop.Business
             services.AddSingleton<IFolderService, FolderService>();
             services.AddSingleton<IFamilyService, FamilyService>();
 
+            services.AddSingleton<ViewModelMediator>();
+
             services.AddTransient<MarkTextPageViewModel>();
             services.AddTransient<HomePageViewModel>();
             services.AddTransient<ArticleListPageViewModel>();

@@ -31,5 +31,21 @@ namespace BlizzardWind.Desktop.Business.Models
             get => _Route;
             set => SetProperty(ref _Route, value);
         }
+
+        private bool _IsEnable;
+        public bool IsEnable
+        {
+            get => _IsEnable;
+            set => SetProperty(ref _IsEnable, value);
+        }
+    }
+
+    public class PageNameConsts
+    {
+        public const string ArticleListPage = "ArticleListPage";
+
+        public const string ArticleFamilyPage = "ArticleFamilyPage";
+
+        public const string MarkTextPage = "MarkTextPage";
     }
 }

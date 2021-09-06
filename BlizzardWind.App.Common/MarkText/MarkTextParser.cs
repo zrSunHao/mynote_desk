@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BlizzardWind.App.Common.MarkText
 {
@@ -85,9 +86,9 @@ namespace BlizzardWind.App.Common.MarkText
                 MarkTypeConsts.PROFILE => MarkType.profile,
                 MarkTypeConsts.P => MarkType.p,
                 MarkTypeConsts.IMG => MarkType.img,
+                MarkTypeConsts.TXT => MarkType.txt,
                 MarkTypeConsts.LINK => MarkType.link,
                 MarkTypeConsts.LIST => MarkType.list,
-                MarkTypeConsts.TABLE => MarkType.table,
                 MarkTypeConsts.SUMMARY => MarkType.summary,
                 MarkTypeConsts.QUOTE => MarkType.quote,
                 MarkTypeConsts.END => MarkType.end,
@@ -95,7 +96,9 @@ namespace BlizzardWind.App.Common.MarkText
             };
 
             // list【块起始行】只有标识，没有其他信息
-            if (type == MarkType.list) return new MarkRow() { Type = type };
+            if (type == MarkType.list || type == MarkType.profile 
+                || type == MarkType.summary || type == MarkType.quote) 
+                return new MarkRow() { Type = type };
             // 移除标识
             string value = text.Replace(@$"#{tag}]", "").Trim();
             if (string.IsNullOrEmpty(value)) return null;//没有其他信息的行不规范
@@ -127,14 +130,19 @@ namespace BlizzardWind.App.Common.MarkText
                     MarkElement? ele = null;
                     switch (blockElement.Type)
                     {
+                        case MarkType.profile:
+                        case MarkType.summary:
+                            var builder = new StringBuilder();
+                            foreach (var item in rowsBuffer)
+                                builder.Append($"\u3000\u3000{item}\u000A");
+                            blockElement.Content = builder.ToString();
+                            ele = blockElement;
+                            break;
                         case MarkType.list:
                             ele = GetListElement(blockElement, rowsBuffer);
                             break;
                         case MarkType.quote:
-                            ele = GetQuoteElement(blockElement, rowsBuffer);
-                            break;
-                        case MarkType.table:
-                            ele = GetTableElement(blockElement, rowsBuffer);
+                            ele = GetListElement(blockElement, rowsBuffer);
                             break;
                         default:
                             break;
@@ -150,7 +158,7 @@ namespace BlizzardWind.App.Common.MarkText
                 if (rowsBuffer.Any() && blockElement == null)
                 {
                     foreach (var li in rowsBuffer)
-                        elements.Add(new MarkElement { Type = MarkType.p, Content = li });
+                        elements.Add(new MarkElement { Type = MarkType.p, Content = $"\u3000\u3000{li}" });
                 }
                 rowsBuffer.Clear();
 
@@ -161,10 +169,10 @@ namespace BlizzardWind.App.Common.MarkText
                     case MarkType.h1:
                     case MarkType.h2:
                     case MarkType.h3:
-                    case MarkType.p:
-                    case MarkType.profile:
-                    case MarkType.summary:
                         element.Content = row.Value;
+                        break;
+                    case MarkType.p:
+                        element.Content = $"\u3000\u3000{row.Value}";
                         break;
                     case MarkType.key:
                         string value = row.Value.Replace("，", ",");
@@ -172,6 +180,7 @@ namespace BlizzardWind.App.Common.MarkText
                         element.Content = row.Value;
                         break;
                     case MarkType.img:
+                    case MarkType.txt:
                     case MarkType.link:
                         element.KeyValue = new MarkKeyValue
                         {
@@ -179,12 +188,10 @@ namespace BlizzardWind.App.Common.MarkText
                             Value = _valueRg.Match(row.Value).Value
                         };
                         break;
+                    case MarkType.profile:
+                    case MarkType.summary:
                     case MarkType.list:
                     case MarkType.quote:
-                        blockElement = element;
-                        continue;
-                    case MarkType.table:
-                        element.Table = GetMarkTable(row.Value);
                         blockElement = element;
                         continue;
                     default:
@@ -208,67 +215,8 @@ namespace BlizzardWind.App.Common.MarkText
         {
             if (rowsBuffer == null || !rowsBuffer.Any())
                 return null;
-            blockElement.List = rowsBuffer;
-            return blockElement;
-        }
-
-        /// <summary>
-        /// 获取引用元素
-        /// </summary>
-        /// <param name="blockElement"></param>
-        /// <param name="rowsBuffer"></param>
-        /// <returns></returns>
-        private MarkElement? GetQuoteElement(MarkElement blockElement, List<string> rowsBuffer)
-        {
-            if (rowsBuffer == null || !rowsBuffer.Any())
-                return null;
-            List<MarkKeyValue> pieces = new List<MarkKeyValue>();
-            foreach (string text in rowsBuffer)
-            {
-                var piece = new MarkKeyValue
-                {
-                    Name = _nameRg.Match(text).Value,
-                    Value = _valueRg.Match(text).Value
-                };
-                pieces.Add(piece);
-            }
-            blockElement.Pieces = pieces;
-            return blockElement;
-        }
-
-        /// <summary>
-        /// 获取表信息
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        private MarkTable GetMarkTable(string text)
-        {
-            string v = text.Replace("<", "");
-            v = v.Replace(">", "");
-            List<string> ts = v.Split("|").ToList();
-            return new MarkTable { Ts = ts };
-        }
-
-        /// <summary>
-        /// 获取表元素
-        /// </summary>
-        /// <param name="blockElement"></param>
-        /// <param name="rowsBuffer"></param>
-        /// <returns></returns>
-        private MarkElement? GetTableElement(MarkElement blockElement, List<string> rowsBuffer)
-        {
-            int? count = blockElement.Table?.Ts != null ? blockElement.Table?.Ts.Count : 0;
-            if (rowsBuffer == null || !rowsBuffer.Any() || blockElement.Table == null
-                || !count.HasValue || count < 1)
-                return null;
-
-            var vs = new List<List<string>>();
-            foreach (var text in rowsBuffer)
-            {
-                List<string> cs = text.Split("|").ToList();
-                vs.Add(cs);
-            }
-            blockElement.Table.Vs = vs;
+            blockElement.List =new List<string>();
+            blockElement.List.AddRange(rowsBuffer);
             return blockElement;
         }
     }

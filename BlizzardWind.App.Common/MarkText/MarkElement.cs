@@ -17,10 +17,6 @@
 
         public MarkKeyValue KeyValue { get; set; }
 
-        public List<MarkKeyValue> Pieces { get; set; }
-
-        public MarkTable Table { get; set; }
-
         public int RowType => (int)Type;
 
         public int Level => GetLevel();
@@ -28,6 +24,12 @@
         public string TypeName => GetTypeName();
 
         public string ShortContent => GetContent();
+
+        public string FilePath => _FilePath;
+
+        private string _FilePath = string.Empty;
+
+        public void SetIFilePath(string path) => _FilePath = path;
 
 
         private string GetTypeName()
@@ -46,12 +48,12 @@
                     return "Profile";
                 case MarkType.img:
                     return "Img";
+                case MarkType.txt:
+                    return "Txt";
                 case MarkType.link:
                     return "Link";
                 case MarkType.list:
                     return "List";
-                case MarkType.table:
-                    return "Table";
                 case MarkType.summary:
                     return "Summary";
                 case MarkType.quote:
@@ -93,11 +95,11 @@
                     return SubstringContent();
                 case MarkType.img:
                     return GetValue();
+                case MarkType.txt:
+                    return GetValue();
                 case MarkType.link:
                     return GetValue();
                 case MarkType.list:
-                    return "";
-                case MarkType.table:
                     return "";
                 case MarkType.summary:
                     return SubstringContent();
@@ -113,9 +115,10 @@
         {
             if (string.IsNullOrEmpty(Content))
                 return "";
-            if(Content.Length <= 12)
-                return Content;
-            return Content.Substring(0,12) + "...";
+            var msg = Content.Trim();
+            if (msg.Length <= 12)
+                return msg;
+            return msg.Substring(0,12) + "...";
         }
 
         private string GetValue()
@@ -147,12 +150,5 @@
         public string Name { get; set; }
 
         public string Value { get; set; }
-    }
-
-    public class MarkTable
-    {
-        public List<string> Ts { get; set; }
-
-        public List<List<string>> Vs { get; set; }
     }
 }

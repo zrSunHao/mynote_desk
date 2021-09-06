@@ -4,105 +4,338 @@
                     xmlns:lcc="clr-namespace:BlizzardWind.Desktop.Controls.Converters;assembly=BlizzardWind.Desktop.Controls"
                     xmlns:lcmk="clr-namespace:BlizzardWind.App.Common.MarkText;assembly=BlizzardWind.App.Common">
 
+    <Style x:Key="CommonElementTextBoxStyle" TargetType="TextBox">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="AcceptsTab" Value="True"/>
+        <Setter Property="CaretBrush" Value="{StaticResource Color.Second}"/>
+    </Style>
+
+    <Style x:Key="CommonElementTitleBoxStyle" TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+        <Setter Property="Margin" Value="0,0,10,15"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+    </Style>
+
     <DataTemplate x:Key="ParagraphTemplate">
-        <TextBlock Text="段落" FontSize="20" Margin="5" FontWeight="Bold"
-                               Foreground="{StaticResource Color.Primary}"/>
+        <Grid>
+            <TextBox Text="{Binding Content}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="40,5,10,15"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Medium"/>
+                        <Setter Property="TextBlock.LineHeight" Value="35"/>
+                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="H1Template">
-        <Button Content="标题1" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <TextBox Text="{Binding Content}">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                    <Setter Property="Margin" Value="10,10,10,20"/>
+                    <Setter Property="FontSize" Value="35"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="{StaticResource Color.Warn}"/>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
     </DataTemplate>
 
     <DataTemplate x:Key="H2Template">
-        <Button Content="标题2" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid>
+            <TextBox Text="{Binding Content}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                        <Setter Property="Margin" Value="10,10,10,20"/>
+                        <Setter Property="FontSize" Value="25"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="H3Template">
-        <Button Content="标题3" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid>
+            <TextBox Text="{Binding Content}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                        <Setter Property="Margin" Value="40,10,10,20"/>
+                        <Setter Property="FontSize" Value="20"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="KeysTemplate">
-        <Button Content="关键词" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid Margin="10,0,10,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Text="关键字：" Style="{StaticResource CommonElementTitleBoxStyle}"/>
+            <TextBox Grid.Row="1" Text="{Binding Content}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                        <Setter Property="Margin" Value="40,0,10,0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="TextBlock.LineHeight" Value="35"/>
+                        <Setter Property="FontWeight" Value="Medium"/>
+                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="ProfileTemplate">
-        <Button Content="简介" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid Margin="10,0,10,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Text="简介：" Style="{StaticResource CommonElementTitleBoxStyle}"/>
+            <TextBox Grid.Row="1" Text="{Binding Content}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                        <Setter Property="Margin" Value="40,0,10,0"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Medium"/>
+                        <Setter Property="TextBlock.LineHeight" Value="35"/>
+                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="ImgTemplate">
-        <Image HorizontalAlignment="Center" 
-                           VerticalAlignment="Center" 
-                           Stretch="Uniform"
-                           Height="300"
-                           Source="/Assets/Images/User.jpeg"/>
-
+        <Grid Margin="10,10,10,20" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" MaxHeight="300" MinHeight="100" Stretch="Uniform"
+                   Source="{Binding FilePath,Converter={StaticResource CoverPathToUriConverter},TargetNullValue={x:Null}}"/>
+            <Border Grid.RowSpan="2" Background="Black" Opacity="0.3">
+                <Border.ToolTip>
+                    <ToolTip Background="{StaticResource Color.Canvas.Background}">
+                        <TextBlock Text="{Binding Content}" Foreground="{StaticResource Color.Font.Primary}"/>
+                    </ToolTip>
+                </Border.ToolTip>
+            </Border>
+        </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="TxtTemplate">
+        <Grid Margin="40,10,40,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Height="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Content}" FontSize="18" Foreground="{StaticResource Color.Primary}"
+                            Style="{StaticResource CommonElementTextBoxStyle}" VerticalAlignment="Center" />
+                <CheckBox Grid.Column="1" x:Name="Txt_ExpandCheckBox" Tag="选中显示" Content="选中显示" Margin="10,0,0,0">
+                    <CheckBox.Style>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource Color.Primary}"/>
+                            <Setter Property="Background" Value="{StaticResource Color.Primary}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="CheckBox">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Height}">
+                                                <Rectangle x:Name="CheckBoxRectangle" Fill="{StaticResource Color.Primary}" Opacity="0.5" Height="20" Width="20"/>
+                                                <Rectangle x:Name="CheckBoxRectangleOut" Stroke="{StaticResource Color.Primary}" StrokeThickness="1" Height="20" Width="20"/>
+                                                <Grid x:Name="CheckedMark" Width="20" Height="20" Visibility="Collapsed">
+                                                    <Path SnapsToDevicePixels="False" StrokeThickness="3" Data="M1,9 L10,17" Stroke="{StaticResource Color.Warn}"/>
+                                                    <Path SnapsToDevicePixels="False" StrokeThickness="3" Data="M8,17 L20,4" Stroke="{StaticResource Color.Warn}"/>
+                                                </Grid>
+                                            </Grid>
+                                            <TextBlock Grid.Column="1" Text="{TemplateBinding Tag}" FontSize="18" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" Margin="14,0,0,0"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="CheckedMark" Property="Visibility" Value="Visible"></Setter>
+                                                <Setter TargetName="CheckBoxRectangle" Property="Fill" Value="{StaticResource Color.Primary}"></Setter>
+                                                <Setter TargetName="CheckBoxRectangle" Property="Opacity" Value="1"></Setter>
+                                                <Setter TargetName="CheckBoxRectangleOut" Property="Stroke" Value="Transparent"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Grid>
+            <Grid Grid.Row="1" Visibility="{Binding IsChecked,ElementName=Txt_ExpandCheckBox,Converter={StaticResource BoolToVis},Mode=OneWay}">
+                <Border Background="Gray" Opacity="0.1"/>
+                <TextBox Text="{Binding FilePath,Converter={StaticResource TxtPathToContentConverter},TargetNullValue={x:Null},Mode=OneWay}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="FontWeight" Value="Medium"/>
+                            <Setter Property="TextBlock.LineHeight" Value="35"/>
+                            <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+    
     <DataTemplate x:Key="LinkTemplate">
-        <Button Content="链接" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid Margin="40,10,10,15" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="外部链接：" FontSize="18" Foreground="{StaticResource Color.Primary}"
+                     Style="{StaticResource CommonElementTextBoxStyle}" 
+                     VerticalAlignment="Center"/>
+            <Button Grid.Column="1" VerticalAlignment="Center" MinWidth="70"
+                    Content="{Binding KeyValue.Name}" 
+                    Style="{StaticResource CommonOperateButtonStyle}" />
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="ListItemsStyle" TargetType="ItemsControl" >
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="40,10,40,5"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="ListItemTemplate">
+        <TextBox Text="{Binding Mode=OneWay}" >
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                    <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                    <Setter Property="TextBlock.LineHeight" Value="35"/>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
     </DataTemplate>
 
     <DataTemplate x:Key="ListTemplate">
-        <Button Content="列表" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="TableTemplate">
-        <Button Content="表格" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid Margin="40,5,40,10" >
+            <Border Background="Gray" Opacity="0.1"/>
+            <ItemsControl ItemsSource="{Binding List}" 
+                          ItemTemplate="{StaticResource ListItemTemplate}"
+                          Style="{StaticResource ListItemsStyle}"/>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="SummaryTemplate">
-        <Button Content="总结" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid Margin="10,0,10,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Text="总结：" Style="{StaticResource CommonElementTitleBoxStyle}"/>
+            <TextBox Grid.Row="1" Text="{Binding Content}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
+                        <Setter Property="Margin" Value="40,0,10,0"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Medium"/>
+                        <Setter Property="TextBlock.LineHeight" Value="35"/>
+                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="QuoteTemplate">
-        <Button Content="引用" Margin="5" FontSize="20"
-                            Height="50" Width="150" HorizontalAlignment="Left"/>
+        <Grid Margin="10,0,10,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Text="引用：" Style="{StaticResource CommonElementTitleBoxStyle}"/>
+            <Grid Grid.Row="1" Margin="40,5,30,0" >
+                <Border Background="Gray" Opacity="0.1"/>
+                <ItemsControl ItemsSource="{Binding List}" 
+                          ItemTemplate="{StaticResource ListItemTemplate}"
+                          Style="{StaticResource ListItemsStyle}"/>
+            </Grid>
+        </Grid>
     </DataTemplate>
 
     <Style x:Key="TextItemContainerStyle" TargetType="ContentPresenter" >
-        <!-- default for any index >= 2 -->
         <Setter Property="ContentTemplate" Value="{StaticResource ParagraphTemplate}"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding RowType}" Value="1">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.h1}">
                 <Setter Property="ContentTemplate" Value="{StaticResource H1Template}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="2">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.h2}">
                 <Setter Property="ContentTemplate" Value="{StaticResource H2Template}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="3">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.h3}">
                 <Setter Property="ContentTemplate" Value="{StaticResource H3Template}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="4">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.key}">
                 <Setter Property="ContentTemplate" Value="{StaticResource KeysTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="5">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.profile}">
                 <Setter Property="ContentTemplate" Value="{StaticResource ProfileTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="6">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.img}">
                 <Setter Property="ContentTemplate" Value="{StaticResource ImgTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="7">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.txt}">
+                <Setter Property="ContentTemplate" Value="{StaticResource TxtTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.link}">
                 <Setter Property="ContentTemplate" Value="{StaticResource LinkTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="8">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.list}">
                 <Setter Property="ContentTemplate" Value="{StaticResource ListTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="9">
-                <Setter Property="ContentTemplate" Value="{StaticResource TableTemplate}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="10">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.summary}">
                 <Setter Property="ContentTemplate" Value="{StaticResource SummaryTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding RowType}" Value="11">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.quote}">
                 <Setter Property="ContentTemplate" Value="{StaticResource QuoteTemplate}"/>
             </DataTrigger>
         </Style.Triggers>

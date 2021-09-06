@@ -38,6 +38,11 @@
         img,
 
         /// <summary>
+        /// 文本文件
+        /// </summary>
+        txt,
+
+        /// <summary>
         /// 链接
         /// </summary>
         link,
@@ -46,11 +51,6 @@
         /// 列表
         /// </summary>
         list,
-
-        /// <summary>
-        /// 表格
-        /// </summary>
-        table,
 
         /// <summary>
         /// 总结
@@ -83,9 +83,9 @@
         public const string PROFILE = "profile";
         public const string P = "p";
         public const string IMG = "img";
+        public const string TXT = "txt";
         public const string LINK = "link";
         public const string LIST = "list";
-        public const string TABLE = "table";
         public const string SUMMARY = "summary";
         public const string QUOTE = "quote";
         public const string END = "--";

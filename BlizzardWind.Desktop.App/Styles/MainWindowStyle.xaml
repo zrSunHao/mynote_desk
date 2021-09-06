@@ -41,6 +41,9 @@
                             <Setter Property="Foreground" Value="{StaticResource Color.Second}"/>
                             <Setter Property="FontWeight" Value="DemiBold"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="#424242"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -51,7 +54,8 @@
         <RadioButton Content="{Binding Icon}" 
                      GroupName="MenuGroup"
                      Style="{StaticResource MenuRadioButtonStyle}"
-                     IsChecked="{Binding Checked}"
+                     IsChecked="{Binding Checked,UpdateSourceTrigger=PropertyChanged}"
+                     IsEnabled="{Binding IsEnable}"
                      Command="{Binding DataContext.MenuCommand,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
                      CommandParameter="{Binding}">
             <RadioButton.ToolTip>

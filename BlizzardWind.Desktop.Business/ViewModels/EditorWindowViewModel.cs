@@ -18,6 +18,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         private readonly IFileResourceService _fileService;
         private readonly IArticleService _articleService;
+        private readonly ViewModelMediator _Mediator;
         private List<MarkTextFileModel> _fileList = new List<MarkTextFileModel>();
         private Article _Article;
 
@@ -74,11 +75,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
     public partial class EditorWindowViewModel
     {
-        public EditorWindowViewModel(IFileResourceService fileService, IArticleService articleService)
+        public EditorWindowViewModel(IFileResourceService fileService, 
+            IArticleService articleService, ViewModelMediator mediator)
         {
             _fileService = fileService;
             _articleService = articleService;
-
+            _Mediator = mediator;
             Initial();
         }
 
@@ -162,6 +164,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _Article.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
             _Article.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
             await _articleService.UpdateAsync(_Article);
+
+            _Mediator.ArticleChangedNotify(_Article);
             ArticleStructureCollection.Clear();
             ArticleStructureModel? topComponent = null;
             bool hasTitle_2 = false;
