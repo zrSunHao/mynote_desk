@@ -1,7 +1,10 @@
-﻿using BlizzardWind.Desktop.Business.Entities;
+﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Models;
 using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,29 +36,94 @@ namespace BlizzardWind.Desktop.App.Windows
         public EditorWindow(Article article)
         {
             InitializeComponent();
+
             _Article = article;
             VM = (EditorWindowViewModel)DataContext;
-            VM.OnUploadFileClickAction += SelectFileButton_Click;
+            VM.PromptInformationAction += PromptInformation;
+            VM.UploadFileAction += UploadFile;
+
+            VM.FileIdCopyAction += FileIdCopy;
+            VM.FileReplaceAction += FileReplace;
+            VM.FileExportAction += FileExport;
+            VM.FileRenameAction += FileRename;
+
             MySubject.Throttle(TimeSpan.FromSeconds(1))
                 .Subscribe((s) =>
                 {
                     System.Windows.Application.Current.Dispatcher
                     .Invoke((Action)(() =>
                     {
-                        VM.OnTextChange(s);
+                        VM.TextChange(s);
                     }));
                 });
         }
 
-        private void SelectFileButton_Click(string filter, int type,bool multiselect = true)
+        private void PromptInformation(int type, string msg)
+        {
+            var dialog = new ConfirmDialog(type, msg);
+            dialog.ShowDialog();
+        }
+
+        private void FileIdCopy(string msg)
+        {
+            Clipboard.SetText(msg);
+        }
+
+        private void FileReplace(string filter, MarkTextFileModel model)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = filter;
+            dialog.Multiselect = false;
+            if (dialog.ShowDialog() != true)
+                return;
+            if (dialog.FileNames.Any())
+                VM.FileReplace(model, dialog.FileNames[0]);
+        }
+
+        private void FileExport(MarkTextFileModel model)
+        {
+            if (!System.IO.File.Exists(model.FilePath))
+            {
+                PromptInformation(MesssageType.Error, $"本地未存储[{model.FileName}{model.Extension}]文件！");
+                return;
+            }
+            VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+            if (dialog.ShowDialog() != true)
+                return;
+
+            if (System.IO.Directory.Exists(dialog.SelectedPath))
+            {
+                string savePath = System.IO.Path.Combine(dialog.SelectedPath, $"{model.FileName}{model.Extension}");
+                if (System.IO.File.Exists(savePath))
+                    PromptInformation(MesssageType.Error, $"文件[{model.FileName}{model.Extension}]已存在！");
+                else
+                    System.IO.File.Copy(model.FilePath, savePath);
+            }
+
+        }
+
+        private void FileRename(MarkTextFileModel model)
+        {
+            FileEditDialog dialog = new FileEditDialog(model.FileName);
+            dialog.ShowDialog();
+            if (dialog.DialogResult == true && VM != null)
+            {
+                model.FileName = dialog.FileName;
+                VM.FileRename(model);
+            }
+        }
+
+        private void UploadFile(string filter, int type, bool multiselect = true)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = filter;
             dialog.Multiselect = multiselect;
             if (dialog.ShowDialog() != true)
                 return;
-            VM.OnAddFileClick(dialog.FileNames, type);
+            VM.AddFileClick(dialog.FileNames, type);
         }
+
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -66,13 +134,13 @@ namespace BlizzardWind.Desktop.App.Windows
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (VM != null)
-                VM.OnFileFilter();
+                VM.FileFilter();
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter && VM != null)
-                VM.OnFileFilter();
+                VM.FileFilter();
         }
 
         private void EditerBox_TextChanged(object sender, TextChangedEventArgs e)

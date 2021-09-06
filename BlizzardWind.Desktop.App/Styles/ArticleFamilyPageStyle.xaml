@@ -48,7 +48,7 @@
         <Setter Property="Margin" Value="5"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -100,6 +100,7 @@
                             <Setter Property="Opacity" TargetName="border" Value="0.5"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" TargetName="folder_Name" Value="Black"/>
                             <Setter Property="Background" TargetName="border" Value="Gray"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="Gray"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="Gray"/>
@@ -135,7 +136,7 @@
 
     <Style x:Key="FolderItemsStyle" TargetType="ItemsControl">
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>

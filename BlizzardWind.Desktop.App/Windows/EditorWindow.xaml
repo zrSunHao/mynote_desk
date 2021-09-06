@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource MyWindowStyle}"
+        Style="{DynamicResource MyWindowStyle}" Height="750"
         DataContext="{Binding EditorWindowViewModel, Source={StaticResource ViewModelLocator}}"
         Loaded="Window_Loaded">
     <Window.Resources>
@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="220"/>
         </Grid.ColumnDefinitions>
@@ -31,7 +31,9 @@
                 <ItemsControl ItemsSource="{Binding MainOperateCollection}"
                               Style="{StaticResource OperateItemsStyle}"
                               ItemTemplate="{StaticResource MainOperateItemsTemplate}"/>
-                <Border Width="2" Margin="5,0,15,0" Background="Gray" BorderBrush="Gray"/>
+                <Border Width="2" Margin="5,0,15,0" 
+                        Background="{StaticResource Color.Font.Primary}" 
+                        BorderBrush="{StaticResource Color.Font.Primary}"/>
                 <ItemsControl ItemsSource="{Binding UploadOperateCollection}"
                               Style="{StaticResource OperateItemsStyle}"
                               ItemTemplate="{StaticResource UploadOperateItemsTemplate}"/>
@@ -45,7 +47,7 @@
             <Grid Grid.Row="0">
                 <Rectangle Style="{StaticResource RectBorderStyle}" Grid.RowSpan="2"/>
                 <TreeView Style="{StaticResource TreeViewStyle}"
-                              ItemsSource="{Binding ArticleStructureCollection}"/>
+                          ItemsSource="{Binding ArticleStructureCollection}"/>
             </Grid>
             <Grid Grid.Row="1" Margin="0,5,0,0">
                 <Rectangle Style="{StaticResource RectBorderStyle}"/>
@@ -94,7 +96,7 @@
                 <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>
                 <ScrollViewer Style="{StaticResource ScrollViewerStyle}" Margin="5">
                     <ItemsControl ItemsSource="{Binding FileCollection}" 
-                                  ItemTemplate="{StaticResource MarkImageInfoItemsTemplate}"/>
+                                  ItemTemplate="{StaticResource FileItemsTemplate}"/>
                 </ScrollViewer>
             </Grid>
         </Grid>

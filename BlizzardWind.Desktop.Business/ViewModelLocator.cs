@@ -30,7 +30,6 @@ namespace BlizzardWind.Desktop.Business
             services.AddSingleton<ViewModelMediator>();
 
             services.AddTransient<MarkTextPageViewModel>();
-            services.AddTransient<HomePageViewModel>();
             services.AddTransient<ArticleListPageViewModel>();
             services.AddTransient<ArticleFamilyPageViewModel>();
 
@@ -38,7 +37,6 @@ namespace BlizzardWind.Desktop.Business
             services.AddTransient<EditorWindowViewModel>();
         }
 
-        public HomePageViewModel? HomePageViewModel => _serviceProvider.GetService<HomePageViewModel>();
         public MarkTextPageViewModel? MarkTextPageViewModel => _serviceProvider.GetService<MarkTextPageViewModel>();
         public ArticleListPageViewModel? ArticleListPageViewModel => _serviceProvider.GetService<ArticleListPageViewModel>();
         public ArticleFamilyPageViewModel? ArticleFamilyPageViewModel => _serviceProvider.GetService<ArticleFamilyPageViewModel>();

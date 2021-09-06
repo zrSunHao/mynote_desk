@@ -34,6 +34,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public Action<int, string> PromptInformationAction { get; set; }
         public Action<string> ConfirmDialogAction { get; set; }
         public Action<ArticleFamily> FamilyEditDialogAction { get; set; }
+
         public Action<List<OptionIdItem>> FolderCreateDialogAction { get; set; }
         public Action<int, string, ArticleFamily> FamilyDeleteDialogAction { get; set; }
         public Action<int, string, ArticleFolder> FolderDeleteDialogAction { get; set; }

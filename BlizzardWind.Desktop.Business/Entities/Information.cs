@@ -5,7 +5,7 @@ namespace BlizzardWind.Desktop.Business.Entities
     public class Information
     {
         [PrimaryKey, AutoIncrement]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Indexed, MaxLength(128)]
         public string Key { get; set; }

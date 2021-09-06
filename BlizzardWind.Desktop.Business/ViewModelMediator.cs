@@ -7,7 +7,7 @@ namespace BlizzardWind.Desktop.Business
     {
         private Article _Article;
 
-        public Action<Article> ArticleChangedAction { get; set; }
+        public Action<Article, List<MarkElement>> ArticleChangedAction { get; set; }
         public Action<string> RouteRedirectAction { get; set; }
 
         public void RouteRedirect(string pageName)
@@ -18,11 +18,11 @@ namespace BlizzardWind.Desktop.Business
                 RouteRedirectAction(pageName);
         }
 
-        public void ArticleChangedNotify(Article article)
+        public void ArticleChangedNotify(Article article, List<MarkElement> elements)
         {
             if(ArticleChangedAction!= null)
             {
-                ArticleChangedAction(article);
+                ArticleChangedAction(article, elements);
             }
         }
 

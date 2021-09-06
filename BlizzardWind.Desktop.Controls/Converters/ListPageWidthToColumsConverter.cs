@@ -9,10 +9,10 @@ namespace BlizzardWind.Desktop.Controls.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             double width = (double)value;
-            double count = width / 400;
+            double count = (width - 300) / 400;
             if (count < 1)
                 return 1;
-            else 
+            else
                 return System.Convert.ToInt32(count); ;
         }
 

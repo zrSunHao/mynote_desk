@@ -37,20 +37,26 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public void OnPageLoaded()
         {
-            ArticleChanged(_Article);
+            var parser = new MarkTextParser();
+            List<MarkElement> elements = parser.GetMarkElements(_Article.Content);
+            ArticleUpdate(_Article, elements);
         }
 
-        public async void ArticleChanged(Article article)
+        private void ArticleChanged(Article article, List<MarkElement> elements)
         {
-            if (article == null)
+            if (_Article != null && _Article.Id != article.Id)
                 return;
-            _Article = article;
-            var parser = new MarkTextParser();
-            var list = parser.GetMarkElements(_Article.Content);
+            ArticleUpdate(article, elements);
+        }
+
+        private async void ArticleUpdate(Article article, List<MarkElement> elements)
+        {
+            if (article == null || elements == null)
+                return;
             ElementCollection.Clear();
-            foreach (var item in list)
+            foreach (var item in elements)
             {
-                if(item.Type == MarkType.txt || item.Type == MarkType.img)
+                if (item.Type == MarkType.txt || item.Type == MarkType.img)
                 {
                     item.Content = item.KeyValue?.Name;
                     Guid fileId = Guid.Empty;
@@ -59,7 +65,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                         string idStr = item.KeyValue?.Value == null ? "" : item.KeyValue.Value;
                         fileId = Guid.Parse(idStr);
                     }
-                    catch (Exception){}
+                    catch (Exception) { }
                     if (fileId != Guid.Empty)
                     {
                         var filePath = await _FileResourceService.GetPathByIdAsync(fileId);

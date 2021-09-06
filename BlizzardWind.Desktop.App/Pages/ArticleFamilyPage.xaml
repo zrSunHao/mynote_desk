@@ -29,7 +29,7 @@
         <ScrollViewer Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"  Padding="0,20,0,5"
                       VerticalScrollBarVisibility="Visible">
             <ItemsControl ItemsSource="{Binding FamilyCollection}" 
-                          ItemTemplate="{StaticResource FamilyDataTemplate}"
+                          ItemTemplate="{StaticResource FamilyDataTemplate}" VerticalAlignment="Top"
                           Style="{StaticResource FamilyBarItemsStyle}"/>
         </ScrollViewer>
         <Grid Grid.Row="0" Grid.Column="1">

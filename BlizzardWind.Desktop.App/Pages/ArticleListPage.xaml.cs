@@ -3,7 +3,6 @@ using BlizzardWind.Desktop.App.Dialogs;
 using BlizzardWind.Desktop.App.Windows;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.ViewModels;
-using BlizzardWind.Desktop.Controls.RouteEvent;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -34,7 +33,6 @@ namespace BlizzardWind.Desktop.App.Pages
             InitializeComponent();
             VM = (ArticleListPageViewModel)DataContext;
             VM.PromptInformationAction += PromptInformation;
-            //VM.ArticleSeeDialogAction += ArticleSeeDialog;
             VM.ArticleEditDialogAction += ArticleEditDialog;
             VM.ArticleMoveDialogAction += ArticleMoveDialog;
             VM.ArticleUploadCoverDialogAction += ArticleUploadCoverDialog;
@@ -69,16 +67,6 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             if (e.Key == Key.Enter && VM != null)
                 VM.SerachFolder();
-        }
-
-        private void ArticleSeeDialog(Article article)
-        {
-            var route = new MyPageRoute()
-            {
-                Route = nameof(MarkTextPage),
-            };
-            RoutedEventArgs args = new RoutedEventArgs(MyPageRoute.MyPageRouteChangedEvent, route);
-            this.RaiseEvent(args);
         }
 
         private void ArticleEditDialog(Article article)

@@ -1,4 +1,7 @@
 ﻿using BlizzardWind.Desktop.Business.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Interfaces
 {
@@ -24,5 +27,28 @@ namespace BlizzardWind.Desktop.Business.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         public Task<string> GetPathByIdAsync(Guid id);
+
+        /// <summary>
+        /// 替换文件
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="fileName">新文件路径</param>
+        /// <returns></returns>
+        public Task<bool> RelaceAsync(MarkTextFileModel model, string fileName);
+
+        /// <summary>
+        /// 改名
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Task<bool> RenameAsync(Guid id, string name);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<bool> DeleteAsync(Guid id);
     }
 }

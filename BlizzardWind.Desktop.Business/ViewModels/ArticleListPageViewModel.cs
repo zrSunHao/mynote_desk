@@ -226,7 +226,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             List<MarkTextFileModel> models = await _FileService
                 .AddArticleFileAsync(type, fileNames.ToList(), articleId);
             if (models.Any())
-                return models[0].ID;
+                return models[0].Id;
             return Guid.Empty;
         }
 

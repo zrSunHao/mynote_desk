@@ -44,20 +44,6 @@ namespace BlizzardWind.Desktop.App.Pages
             dialog.ShowDialog();
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (VM != null)
-                await VM.PageLoad();
-        }
-
-        private async void CraeteFamilyButton_Click(object sender, RoutedEventArgs e)
-        {
-            FolderClassifyDialog dialog = new FolderClassifyDialog("");
-            dialog.ShowDialog();
-            if (dialog.DialogResult == true && VM != null)
-                await VM.CreateFamily(dialog.FamilyName);
-        }
-
         private async void EditFamilyDialog(ArticleFamily family)
         {
             FolderClassifyDialog dialog = new FolderClassifyDialog(family.Name);
@@ -111,5 +97,19 @@ namespace BlizzardWind.Desktop.App.Pages
             }
         }
 
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (VM != null)
+                await VM.PageLoad();
+        }
+
+        private async void CraeteFamilyButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderClassifyDialog dialog = new FolderClassifyDialog("");
+            dialog.ShowDialog();
+            if (dialog.DialogResult == true && VM != null)
+                await VM.CreateFamily(dialog.FamilyName);
+        }
     }
 }

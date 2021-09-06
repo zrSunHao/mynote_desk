@@ -1,11 +1,6 @@
 ﻿using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Services
 {
@@ -35,9 +30,10 @@ namespace BlizzardWind.Desktop.Business.Services
                 Guid id = Guid.NewGuid();
                 MarkTextFileModel model = new()
                 {
-                    ID = id,
-                    FileName = file.Name,
+                    Id = id,
+                    FileName = file.Name.Replace(file.Extension, ""),
                     Type = type,
+                    SecretKey = Guid.NewGuid(),
                     Extension = file.Extension,
                     FilePath = Path.Combine(TEXT_DIRECTORY, $"{id.ToString()}{file.Extension}")
                 };
@@ -45,13 +41,14 @@ namespace BlizzardWind.Desktop.Business.Services
 
                 var entity = new MarkResource()
                 {
-                    ID = id,
+                    Id = id,
                     Name = model.FileName,
                     Extension = model.Extension,
-                    FileName = model.FilePath,
+                    FileName = $"{id.ToString()}{file.Extension}",
                     Length = file.Length,
                     Type = type,
-                    ArticleID = articleId,
+                    SecretKey = model.SecretKey,
+                    ArticleId = articleId,
                     CreatedAt = DateTime.Now
                 };
 
@@ -67,7 +64,7 @@ namespace BlizzardWind.Desktop.Business.Services
         {
             var db = await _dbService.GetConnectionAsync();
             var query = db.Table<MarkResource>()
-                .Where(x => x.ArticleID == articleId)
+                .Where(x => x.ArticleId == articleId && !x.Deleted)
                 .OrderByDescending(s => s.CreatedAt);
             if (type != -1)
                 query.Where(x => x.Type == type);
@@ -77,7 +74,7 @@ namespace BlizzardWind.Desktop.Business.Services
             {
                 MarkTextFileModel model = new()
                 {
-                    ID = entity.ID,
+                    Id = entity.Id,
                     Type = entity.Type,
                     FileName = entity.Name,
                     Extension = entity.Extension,
@@ -91,10 +88,61 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<string> GetPathByIdAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
-            var entity = await db.Table<MarkResource>().FirstOrDefaultAsync(x => x.ID == id);
+            var entity = await db.Table<MarkResource>().FirstOrDefaultAsync(x => x.Id == id && !x.Deleted);
             if (entity == null)
                 return string.Empty;
             return Path.Combine(TEXT_DIRECTORY, entity.FileName);
+        }
+
+        public async Task<bool> RelaceAsync(MarkTextFileModel model, string fileName)
+        {
+            var db = await _dbService.GetConnectionAsync();
+            var entity = await db.Table<MarkResource>()
+                .FirstOrDefaultAsync(x => x.Id == model.Id);
+            FileInfo file = new FileInfo(fileName);
+            if (entity == null)
+                return false;
+            File.Delete(Path.Combine(TEXT_DIRECTORY, entity.FileName));
+
+            entity.UpdatedAt = DateTime.Now;
+            entity.Extension = file.Extension;
+            entity.FileName = $"{entity.Id.ToString()}{file.Extension}";
+            model.FilePath = Path.Combine(TEXT_DIRECTORY, entity.FileName);
+            model.Extension = file.Extension;
+            if (!file.Exists)
+                return false;
+            file.CopyTo(model.FilePath);
+
+            await db.UpdateAsync(entity);
+            return true;
+        }
+
+        public async Task<bool> RenameAsync(Guid id, string name)
+        {
+            var db = await _dbService.GetConnectionAsync();
+            var entity = await db.Table<MarkResource>()
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (entity != null)
+            {
+                entity.Name = name;
+                entity.UpdatedAt = DateTime.Now;
+                await db.UpdateAsync(entity);
+            }
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var db = await _dbService.GetConnectionAsync();
+            var entity = await db.Table<MarkResource>()
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (entity != null)
+            {
+                entity.DeletedAt = DateTime.Now;
+                entity.Deleted = true;
+                await db.UpdateAsync(entity);
+            }
+            return true;
         }
     }
 }

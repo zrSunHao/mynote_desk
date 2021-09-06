@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace BlizzardWind.Desktop.Controls.Converters
 {
@@ -13,7 +14,7 @@ namespace BlizzardWind.Desktop.Controls.Converters
             var pack = "pack://application:,,,/Assets/Images/Icons/";
             var defaultUrl = new Uri($"{pack}file.png");
             if (values.Length!=2)
-                return defaultUrl;
+                return new BitmapImage(defaultUrl);
             int type = (int)values[0];
             string path = (string)values[1];
 
@@ -42,7 +43,7 @@ namespace BlizzardWind.Desktop.Controls.Converters
                     defaultUrl = new Uri($"{pack}video.png");
                     break;
             }
-            return defaultUrl;
+            return new BitmapImage(defaultUrl);
 
         }
 

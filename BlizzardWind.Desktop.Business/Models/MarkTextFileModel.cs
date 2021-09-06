@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlizzardWind.Desktop.Business.Models
+﻿namespace BlizzardWind.Desktop.Business.Models
 {
     public class MarkTextFileModel
     {
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
 
         public string FileName { get; set; }
 
@@ -17,5 +11,7 @@ namespace BlizzardWind.Desktop.Business.Models
         public string Extension { get; set; }
 
         public int Type { get; set; }
+
+        public Guid SecretKey { get; set; }
     }
 }

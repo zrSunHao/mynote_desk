@@ -4,82 +4,85 @@ using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class EditorWindowViewModel : MvxViewModel
     {
-        private readonly IFileResourceService _fileService;
-        private readonly IArticleService _articleService;
+        private readonly IFileResourceService _FileService;
+        private readonly IArticleService _ArticleService;
         private readonly ViewModelMediator _Mediator;
-        private List<MarkTextFileModel> _fileList = new List<MarkTextFileModel>();
+        private List<MarkTextFileModel> _FileList = new List<MarkTextFileModel>();
         private Article _Article;
 
         public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
         public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
-        public IMvxCommand FileOperateCommand => new MvxCommand<object[]>(OnFileOperateClick);
+        public IMvxCommand FileIdCopyCommand => new MvxCommand<MarkTextFileModel>(OnFileIdCopyClick);
+        public IMvxCommand FileRenameCommand => new MvxCommand<MarkTextFileModel>(OnFileRenameClick);
+        public IMvxCommand FileReplaceCommand => new MvxCommand<MarkTextFileModel>(OnFileReplaceClick);
+        public IMvxCommand FileExportCommand => new MvxCommand<MarkTextFileModel>(OnFileExportClick);
+        public IMvxCommand FileDeleteCommand => new MvxCommand<MarkTextFileModel>(OnFileDeleteClick);
 
         public ObservableCollection<MarkTextFileModel> FileCollection { get; set; }
         public ObservableCollection<ArticleStructureModel> ArticleStructureCollection { get; set; }
         public ObservableCollection<OptionTypeItem> EditorFileTypeCollection { get; set; }
-
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
 
+        public Action<int, string> PromptInformationAction { get; set; }
+        public Action<string, int, bool> UploadFileAction { get; set; }
+        public Action<string> FileIdCopyAction { get; set; }
+        public Action<string, MarkTextFileModel> FileReplaceAction { get; set; }
+        public Action<MarkTextFileModel> FileExportAction { get; set; }
+        public Action<MarkTextFileModel> FileRenameAction { get; set; }
 
-        public Action<string, int, bool> OnUploadFileClickAction { get; set; }
-
-        private string coverPicture;
+        private string _coverPicture;
         public string CoverPicture
         {
-            get => coverPicture;
-            set => SetProperty(ref coverPicture, value);
+            get => _coverPicture;
+            set => SetProperty(ref _coverPicture, value);
         }
 
-        private int fileFilterType;
+        private int _fileFilterType;
         public int FileFilterType
         {
-            get => fileFilterType;
-            set => SetProperty(ref fileFilterType, value);
+            get => _fileFilterType;
+            set => SetProperty(ref _fileFilterType, value);
         }
 
-        private string fileFilterName;
+        private string _fileFilterName;
         public string FileFilterName
         {
-            get => fileFilterName;
-            set => SetProperty(ref fileFilterName, value);
+            get => _fileFilterName;
+            set => SetProperty(ref _fileFilterName, value);
         }
 
-        private int fileCount;
+        private int _fileCount;
         public int FileCount
         {
-            get => fileCount;
-            set => SetProperty(ref fileCount, value);
+            get => _fileCount;
+            set => SetProperty(ref _fileCount, value);
         }
 
-        private string document;
+        private string _document;
         public string Document
         {
-            get => document;
-            set => SetProperty(ref document, value);
+            get => _document;
+            set => SetProperty(ref _document, value);
         }
 
     }
 
     public partial class EditorWindowViewModel
     {
-        public EditorWindowViewModel(IFileResourceService fileService, 
+        public EditorWindowViewModel(IFileResourceService fileService,
             IArticleService articleService, ViewModelMediator mediator)
         {
-            _fileService = fileService;
-            _articleService = articleService;
+            _FileService = fileService;
+            _ArticleService = articleService;
             _Mediator = mediator;
             Initial();
         }
@@ -124,30 +127,30 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             LoadArticleAsync(_Article.Id);
         }
 
-        public async void OnAddFileClick(string[]? fileNames, int type)
+        public async void AddFileClick(string[]? fileNames, int type)
         {
             if (fileNames == null || fileNames.Length < 1)
                 return;
-            List<MarkTextFileModel> models = await _fileService
+            List<MarkTextFileModel> models = await _FileService
                 .AddArticleFileAsync(type, fileNames.ToList(), _Article.Id);
-            _fileList.InsertRange(0, models);
+            _FileList.InsertRange(0, models);
             foreach (MarkTextFileModel model in models)
             {
                 FileCollection.Insert(0, model);
             }
-            FileCount = _fileList.Count;
+            FileCount = _FileList.Count;
             if (type == EditorOperateType.UploadCoverPicture)
             {
                 CoverPicture = models[0].FilePath;
-                _Article.CoverPictureId = models[0].ID;
-                await _articleService.UpdateAsync(_Article);
+                _Article.CoverPictureId = models[0].Id;
+                await _ArticleService.UpdateAsync(_Article);
             }
         }
 
-        public void OnFileFilter()
+        public void FileFilter()
         {
             FileCollection.Clear();
-            List<MarkTextFileModel> list = _fileList;
+            List<MarkTextFileModel> list = _FileList;
             if (!string.IsNullOrEmpty(FileFilterName))
                 list = list.Where(x => x.FileName.Contains(FileFilterName)).ToList();
             if (FileFilterType != -1)
@@ -156,16 +159,16 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FileCollection.Add(model);
         }
 
-        public async void OnTextChange(string value)
+        public async void TextChange(string value)
         {
             var parser = new MarkTextParser();
-            var elements = parser.GetMarkElements(Document);
+            List<MarkElement> elements = parser.GetMarkElements(Document);
             _Article.Content = Document;
             _Article.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
             _Article.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
-            await _articleService.UpdateAsync(_Article);
+            await _ArticleService.UpdateAsync(_Article);
+            _Mediator.ArticleChangedNotify(_Article, elements);
 
-            _Mediator.ArticleChangedNotify(_Article);
             ArticleStructureCollection.Clear();
             ArticleStructureModel? topComponent = null;
             bool hasTitle_2 = false;
@@ -230,6 +233,28 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
         }
 
+        public async void FileReplace(MarkTextFileModel model, string fileName)
+        {
+            await _FileService.RelaceAsync(model, fileName);
+            var index = FileCollection.IndexOf(model);
+            if (index >= 0)
+            {
+                FileCollection.Remove(model);
+                FileCollection.Insert(index, model);
+            }
+        }
+
+        public async void FileRename(MarkTextFileModel model)
+        {
+            await _FileService.RenameAsync(model.Id, model.FileName);
+            var index = FileCollection.IndexOf(model);
+            if (index >= 0)
+            {
+                FileCollection.Remove(model);
+                FileCollection.Insert(index, model);
+            }
+        }
+
         private void OnMainOperateClick(int type)
         {
             Console.WriteLine(type);
@@ -237,13 +262,85 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnUploadOperateClick(int type)
         {
-            string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
+            string filter = GetFileFilter(type);
             bool multiselect = true;
+            if (type == EditorOperateType.UploadCoverPicture)
+                multiselect = false;
+            if (UploadFileAction != null)
+            {
+                UploadFileAction.Invoke(filter, type, multiselect);
+            }
+        }
+
+        private void OnFileIdCopyClick(MarkTextFileModel model)
+        {
+            string msg = "暂不支持该文件类型的显示";
+            switch (model.Type)
+            {
+                case EditorOperateType.UploadCoverPicture:
+                case EditorOperateType.UploadImage:
+                    msg = $"#img] <{model.FileName}>({model.Id.ToString()})\u000A";
+                    break;
+                case EditorOperateType.UploadTxt:
+                    msg = $"#txt] <{model.FileName}>({model.Id.ToString()})\u000A";
+                    break;
+                default:
+                    break;
+            }
+            if (FileIdCopyAction != null)
+                FileIdCopyAction.Invoke(msg);
+        }
+
+        private void OnFileReplaceClick(MarkTextFileModel model)
+        {
+            string filter = GetFileFilter(model.Type);
+            if (FileReplaceAction != null)
+                FileReplaceAction.Invoke(filter, model);
+        }
+
+        private void OnFileExportClick(MarkTextFileModel model)
+        {
+            if (FileExportAction != null)
+                FileExportAction.Invoke(model);
+        }
+
+        private void OnFileRenameClick(MarkTextFileModel model)
+        {
+            if (FileRenameAction != null)
+                FileRenameAction.Invoke(model);
+        }
+
+        private async void OnFileDeleteClick(MarkTextFileModel model)
+        {
+            await _FileService.DeleteAsync(model.Id);
+            _FileList.Remove(model);
+            FileCollection.Remove(model);
+        }
+
+        private async void LoadArticleAsync(Guid articleId)
+        {
+            _Article = await _ArticleService.GetAsync(articleId);
+            if (_Article == null)
+                throw new Exception("文章数据为空！");
+            Document = _Article.Content;
+            List<MarkTextFileModel> models = await _FileService.GetArticleFilesAsync(articleId);
+            _FileList.AddRange(models);
+            foreach (MarkTextFileModel model in models)
+            {
+                FileCollection.Add(model);
+            }
+            FileCount = _FileList.Count;
+            if (_Article.CoverPictureId.HasValue)
+                CoverPicture = _FileList.FirstOrDefault(x => x.Id == _Article.CoverPictureId.Value)?.FilePath;
+        }
+
+        private string GetFileFilter(int type)
+        {
+            string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
             switch (type)
             {
                 case EditorOperateType.UploadCoverPicture:
                     filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
-                    multiselect = false;
                     break;
                 case EditorOperateType.UploadImage:
                     filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
@@ -264,34 +361,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     filter = "图像文件(*.mp4;*.flv;)|*.mp4;*.flv;";
                     break;
             }
-            if (OnUploadFileClickAction != null)
-            {
-                OnUploadFileClickAction.Invoke(filter, type, multiselect);
-            }
-        }
-
-        private void OnFileOperateClick(object[] args)
-        {
-            int type = int.Parse((string)args[0]);
-            Guid id = (Guid)args[1];
-            Console.WriteLine($"{type} ==> {id}");
-        }
-
-        private async void LoadArticleAsync(Guid articleID)
-        {
-            _Article = await _articleService.GetAsync(articleID);
-            if (_Article == null)
-                throw new Exception("文章数据为空！");
-            Document = _Article.Content;
-            List<MarkTextFileModel> models = await _fileService.GetArticleFilesAsync(articleID);
-            _fileList.AddRange(models);
-            foreach (MarkTextFileModel model in models)
-            {
-                FileCollection.Add(model);
-            }
-            FileCount = _fileList.Count;
-            if (_Article.CoverPictureId.HasValue)
-                CoverPicture = _fileList.FirstOrDefault(x => x.ID == _Article.CoverPictureId.Value)?.FilePath;
+            return filter;
         }
     }
 }
