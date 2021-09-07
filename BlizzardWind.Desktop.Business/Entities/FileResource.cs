@@ -2,7 +2,7 @@
 
 namespace BlizzardWind.Desktop.Business.Entities
 {
-    public class MarkResource
+    public class FileResource
     {
         [PrimaryKey]
         public Guid Id { get; set; }

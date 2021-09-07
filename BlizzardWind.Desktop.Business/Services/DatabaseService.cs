@@ -27,7 +27,7 @@ namespace BlizzardWind.Desktop.Business.Services
         private async Task TablesInitialAsync()
         {
             await _encryptedDb.CreateTableAsync<Information>();
-            await _encryptedDb.CreateTableAsync<MarkResource>();
+            await _encryptedDb.CreateTableAsync<FileResource>();
             await _encryptedDb.CreateTableAsync<Article>();
             await _encryptedDb.CreateTableAsync<ArticleFamily>();
             await _encryptedDb.CreateTableAsync<ArticleFolder>();

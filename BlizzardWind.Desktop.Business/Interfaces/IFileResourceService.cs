@@ -1,7 +1,4 @@
 ﻿using BlizzardWind.Desktop.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Interfaces
 {
@@ -26,7 +23,7 @@ namespace BlizzardWind.Desktop.Business.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<string> GetPathByIdAsync(Guid id);
+        public Task<MarkTextFileModel?> GetByIdAsync(Guid id);
 
         /// <summary>
         /// 替换文件

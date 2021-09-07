@@ -1,4 +1,5 @@
-﻿using BlizzardWind.Desktop.Business.Entities;
+﻿using BlizzardWind.App.Common.Tools;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 
@@ -17,7 +18,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<List<MarkTextFileModel>> AddArticleFileAsync(int type, List<string> fileNames, Guid? articleId = null)
         {
             List<MarkTextFileModel> models = new();
-            List<MarkResource> entities = new();
+            List<FileResource> entities = new();
             if (fileNames == null || !fileNames.Any())
                 return models;
             if (!Directory.Exists(TEXT_DIRECTORY))
@@ -37,9 +38,10 @@ namespace BlizzardWind.Desktop.Business.Services
                     Extension = file.Extension,
                     FilePath = Path.Combine(TEXT_DIRECTORY, $"{id.ToString()}{file.Extension}")
                 };
-                file.CopyTo(model.FilePath);
+                string key = FileEncryptTool.GuidToKey(model.SecretKey);
+                FileEncryptTool.EncryptFile(fileName, model.FilePath, key);
 
-                var entity = new MarkResource()
+                var entity = new FileResource()
                 {
                     Id = id,
                     Name = model.FileName,
@@ -63,7 +65,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleId, int type = -1)
         {
             var db = await _dbService.GetConnectionAsync();
-            var query = db.Table<MarkResource>()
+            var query = db.Table<FileResource>()
                 .Where(x => x.ArticleId == articleId && !x.Deleted)
                 .OrderByDescending(s => s.CreatedAt);
             if (type != -1)
@@ -78,6 +80,7 @@ namespace BlizzardWind.Desktop.Business.Services
                     Type = entity.Type,
                     FileName = entity.Name,
                     Extension = entity.Extension,
+                    SecretKey = entity.SecretKey,
                     FilePath = Path.Combine(TEXT_DIRECTORY, entity.FileName)
                 };
                 models.Add(model);
@@ -85,19 +88,27 @@ namespace BlizzardWind.Desktop.Business.Services
             return models;
         }
 
-        public async Task<string> GetPathByIdAsync(Guid id)
+        public async Task<MarkTextFileModel?> GetByIdAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
-            var entity = await db.Table<MarkResource>().FirstOrDefaultAsync(x => x.Id == id && !x.Deleted);
+            var entity = await db.Table<FileResource>().FirstOrDefaultAsync(x => x.Id == id && !x.Deleted);
             if (entity == null)
-                return string.Empty;
-            return Path.Combine(TEXT_DIRECTORY, entity.FileName);
+                return null;
+            return new MarkTextFileModel
+            {
+                Id = entity.Id,
+                Type = entity.Type,
+                FileName = entity.Name,
+                Extension = entity.Extension,
+                SecretKey = entity.SecretKey,
+                FilePath = Path.Combine(TEXT_DIRECTORY, entity.FileName)
+            };
         }
 
         public async Task<bool> RelaceAsync(MarkTextFileModel model, string fileName)
         {
             var db = await _dbService.GetConnectionAsync();
-            var entity = await db.Table<MarkResource>()
+            var entity = await db.Table<FileResource>()
                 .FirstOrDefaultAsync(x => x.Id == model.Id);
             FileInfo file = new FileInfo(fileName);
             if (entity == null)
@@ -111,7 +122,8 @@ namespace BlizzardWind.Desktop.Business.Services
             model.Extension = file.Extension;
             if (!file.Exists)
                 return false;
-            file.CopyTo(model.FilePath);
+            string key = FileEncryptTool.GuidToKey(model.SecretKey);
+            FileEncryptTool.EncryptFile(fileName, model.FilePath, key);
 
             await db.UpdateAsync(entity);
             return true;
@@ -120,7 +132,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<bool> RenameAsync(Guid id, string name)
         {
             var db = await _dbService.GetConnectionAsync();
-            var entity = await db.Table<MarkResource>()
+            var entity = await db.Table<FileResource>()
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (entity != null)
             {
@@ -134,7 +146,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<bool> DeleteAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
-            var entity = await db.Table<MarkResource>()
+            var entity = await db.Table<FileResource>()
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (entity != null)
             {

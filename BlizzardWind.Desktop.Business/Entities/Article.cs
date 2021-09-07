@@ -39,5 +39,11 @@ namespace BlizzardWind.Desktop.Business.Entities
         private string _CoverPicturePath = string.Empty;
 
         public void SetCoverPicturePath(string path) => _CoverPicturePath = path;
+
+        public Guid CoverPictureKey => _CoverPictureKey;
+
+        private Guid _CoverPictureKey = Guid.Empty;
+
+        public void SetCoverPictureKey(Guid key) => _CoverPictureKey = key;
     }
 }

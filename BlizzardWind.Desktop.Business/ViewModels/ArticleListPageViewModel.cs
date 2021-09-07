@@ -211,8 +211,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
             if (!article.CoverPictureId.HasValue)
                 return false;
-            var coverPath = await _FileService.GetPathByIdAsync(article.CoverPictureId.Value);
-            article.SetCoverPicturePath(coverPath);
+            var file = await _FileService.GetByIdAsync(article.CoverPictureId.Value);
+            if(file != null)
+            {
+                article.SetCoverPicturePath(file.FilePath);
+                article.SetCoverPictureKey(file.SecretKey);
+            }
             var index = ArticleCollection.IndexOf(article);
             ArticleCollection.Remove(article);
             ArticleCollection.Insert(index, article);
@@ -383,8 +387,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 if(item.CoverPictureId.HasValue)
                 {
-                    var coverPath = await _FileService.GetPathByIdAsync(item.CoverPictureId.Value);
-                    item.SetCoverPicturePath(coverPath);
+                    var file = await _FileService.GetByIdAsync(item.CoverPictureId.Value);
+                    if (file != null)
+                    {
+                        item.SetCoverPicturePath(file.FilePath);
+                        item.SetCoverPictureKey(file.SecretKey);
+                    }
                 }
                 ArticleCollection.Add(item);
             }

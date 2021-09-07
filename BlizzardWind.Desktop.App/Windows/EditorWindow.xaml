@@ -51,8 +51,14 @@
             </Grid>
             <Grid Grid.Row="1" Margin="0,5,0,0">
                 <Rectangle Style="{StaticResource RectBorderStyle}"/>
-                <Image Style="{StaticResource CoverImageStyle}" 
-                       Source="{Binding CoverPicture,Converter={StaticResource CoverPathToUriConverter},TargetNullValue={x:Null}}"/>
+                <Image Style="{StaticResource CoverImageStyle}">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource CoverPathToUriConverter}" Mode="OneWay">
+                            <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
+                            <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
+                        </MultiBinding>
+                     </Image.Source>
+                </Image>
                 <Border Background="Black" Opacity="0.2"/>
                 <TextBlock Text="封面" Style="{StaticResource CoverTextStyle}"/>
             </Grid>

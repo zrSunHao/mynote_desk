@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.App.Common.MarkText;
+using BlizzardWind.App.Common.Tools;
 using System;
 using System.Globalization;
 using System.IO;
@@ -13,7 +14,7 @@ namespace BlizzardWind.Desktop.Controls.Converters
         {
             var pack = "pack://application:,,,/Assets/Images/Icons/";
             var defaultUrl = new Uri($"{pack}file.png");
-            if (values.Length!=2)
+            if (values.Length < 3)
                 return new BitmapImage(defaultUrl);
             int type = (int)values[0];
             string path = (string)values[1];
@@ -22,10 +23,7 @@ namespace BlizzardWind.Desktop.Controls.Converters
             {
                 case MarkResourceType.Cover:
                 case MarkResourceType.Image:
-                    if (string.IsNullOrEmpty(path) || !File.Exists(path))
-                        defaultUrl = new Uri($"{pack}image.png");
-                    else
-                        defaultUrl = new Uri(path);
+                    defaultUrl = new Uri($"{pack}image.png");
                     break;
                 case MarkResourceType.OfficeFile:
                     defaultUrl = new Uri($"{pack}office.png");
@@ -43,25 +41,40 @@ namespace BlizzardWind.Desktop.Controls.Converters
                     defaultUrl = new Uri($"{pack}video.png");
                     break;
             }
-            return new BitmapImage(defaultUrl);
+
+            try
+            {
+                Guid key = (Guid)values[2];
+                if (type != MarkResourceType.Cover && type != MarkResourceType.Image)
+                    return new BitmapImage(defaultUrl);
+                else if (!File.Exists(path) || key == Guid.Empty)
+                    return new BitmapImage(defaultUrl);
+                else
+                {
+                    string keyStr = FileEncryptTool.GuidToKey(key);
+                    byte[] buffer = FileEncryptTool.GetDecryptFileBytes(path, keyStr);
+                    if (buffer == null || buffer.Length < 1)
+                        return new BitmapImage(defaultUrl);
+
+                    using (MemoryStream ms = new MemoryStream(buffer))
+                    {
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.StreamSource = ms;
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.EndInit();
+                        bitmap.Freeze();
+                        return bitmap;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new BitmapImage(defaultUrl);
+            }
 
         }
-
-        public object Convert(object[] values, Type[] targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        //{
-        //    var defaultText = "";
-        //    if (value == null)
-        //        return defaultText;
-        //    var uri = value as Uri;
-        //    if (uri == null)
-        //        return defaultText;
-        //    return uri.ToString();
-        //}
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {

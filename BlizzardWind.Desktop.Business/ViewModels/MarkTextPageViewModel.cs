@@ -2,14 +2,8 @@
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
-using Microsoft.VisualBasic;
 using MvvmCross.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
@@ -68,8 +62,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     catch (Exception) { }
                     if (fileId != Guid.Empty)
                     {
-                        var filePath = await _FileResourceService.GetPathByIdAsync(fileId);
-                        item.SetIFilePath(filePath);
+                        var file = await _FileResourceService.GetByIdAsync(fileId);
+                        if (file != null)
+                        {
+                            item.SetFilePath(file.FilePath);
+                            item.SetFileKey(file.SecretKey);
+                        }
                     }
                 }
                 ElementCollection.Add(item);

@@ -200,8 +200,14 @@
                                 <ColumnDefinition  Width="120"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Stretch="UniformToFill"  Width="120"
-                                   Source="{Binding CoverPicturePath,Converter={StaticResource CoverPathToUriConverter},TargetNullValue={x:Null}}" />
+                            <Image Grid.Column="0" Stretch="UniformToFill"  Width="120">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource CoverPathToUriConverter}" Mode="OneWay">
+                                        <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                        <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
                             <Border Grid.Column="0" Background="Black" Opacity="0.2"/>
                             <Grid Grid.Column="1" Margin="5">
                                 <Grid.RowDefinitions>

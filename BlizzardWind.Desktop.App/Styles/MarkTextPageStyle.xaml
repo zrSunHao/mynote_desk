@@ -133,8 +133,14 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" MaxHeight="300" MinHeight="100" Stretch="Uniform"
-                   Source="{Binding FilePath,Converter={StaticResource CoverPathToUriConverter},TargetNullValue={x:Null}}"/>
+            <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" MaxHeight="300" MinHeight="100" Stretch="Uniform">
+                <Image.Source>
+                    <MultiBinding Converter="{StaticResource CoverPathToUriConverter}" Mode="OneWay">
+                        <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
+                        <Binding  Path="FileKey" UpdateSourceTrigger="PropertyChanged"></Binding>
+                    </MultiBinding>
+                </Image.Source>
+            </Image>
             <Border Grid.RowSpan="2" Background="Black" Opacity="0.3">
                 <Border.ToolTip>
                     <ToolTip Background="{StaticResource Color.Canvas.Background}">
@@ -181,7 +187,7 @@
                                                     <Path SnapsToDevicePixels="False" StrokeThickness="3" Data="M8,17 L20,4" Stroke="{StaticResource Color.Warn}"/>
                                                 </Grid>
                                             </Grid>
-                                            <TextBlock Grid.Column="1" Text="{TemplateBinding Tag}" FontSize="18" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" Margin="14,0,0,0"/>
+                                            <TextBlock Grid.Column="1" Text="{TemplateBinding Tag}" FontSize="18" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" Margin="14,0,0,0"></TextBlock>
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsChecked" Value="True">
@@ -200,7 +206,13 @@
             </Grid>
             <Grid Grid.Row="1" Visibility="{Binding IsChecked,ElementName=Txt_ExpandCheckBox,Converter={StaticResource BoolToVis},Mode=OneWay}">
                 <Border Background="Gray" Opacity="0.1"/>
-                <TextBox Text="{Binding FilePath,Converter={StaticResource TxtPathToContentConverter},TargetNullValue={x:Null},Mode=OneWay}">
+                <TextBox>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource TxtPathToContentConverter}" Mode="OneWay">
+                            <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
+                            <Binding  Path="FileKey" UpdateSourceTrigger="PropertyChanged"></Binding>
+                        </MultiBinding>
+                    </TextBox.Text>
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                             <Setter Property="Margin" Value="10"/>

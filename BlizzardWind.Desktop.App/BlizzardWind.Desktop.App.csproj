@@ -27,7 +27,6 @@
     <None Remove="Assets\Images\Icons\video.png" />
     <None Remove="Assets\Images\Icons\warn.png" />
     <None Remove="Assets\Images\Icons\wind.png" />
-    <None Remove="Assets\Images\User.jpeg" />
     <None Remove="favicon.ico" />
   </ItemGroup>
 
@@ -71,7 +70,6 @@
     <Resource Include="Assets\Images\Icons\video.png" />
     <Resource Include="Assets\Images\Icons\warn.png" />
     <Resource Include="Assets\Images\Icons\wind.png" />
-    <Resource Include="Assets\Images\User.jpeg" />
     <Resource Include="favicon.ico" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.App.Common.Tools;
 using BlizzardWind.Desktop.App.Dialogs;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Models;
@@ -6,7 +7,6 @@ using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -97,7 +97,15 @@ namespace BlizzardWind.Desktop.App.Windows
                 if (System.IO.File.Exists(savePath))
                     PromptInformation(MesssageType.Error, $"文件[{model.FileName}{model.Extension}]已存在！");
                 else
-                    System.IO.File.Copy(model.FilePath, savePath);
+                {
+                    string keyStr = FileEncryptTool.GuidToKey(model.SecretKey);
+                    byte[] buffer = FileEncryptTool.GetDecryptFileBytes(model.FilePath, keyStr);
+                    if (buffer == null || buffer.Length < 1)
+                        PromptInformation(MesssageType.Error, $"文件[{model.FileName}{model.Extension}]解密失败！");
+                    else
+                        System.IO.File.WriteAllBytes(savePath, buffer);
+                }
+                    
             }
 
         }

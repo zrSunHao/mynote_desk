@@ -279,11 +279,6 @@
     <Style x:Key="CoverImageStyle" TargetType="Image">
         <Setter Property="Stretch" Value="UniformToFill"/>
         <Setter Property="Margin" Value="5"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding CoverPicture}" Value="{x:Null}">
-                <Setter Property="Source" Value="/Assets/Images/User.jpeg"/>
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="FileNameTextStyle" TargetType="TextBlock">
@@ -318,10 +313,11 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Stretch="UniformToFill" Height="60" VerticalAlignment="Center">
                                 <Image.Source>
-                                    <MultiBinding Converter="{StaticResource TextToUriConverter}">
-                                        <Binding  Path="Type" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"></Binding>
-                                        <Binding  Path="FilePath" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"></Binding>
-                                        </MultiBinding>
+                                    <MultiBinding Converter="{StaticResource TextToUriConverter}" Mode="OneWay">
+                                        <Binding  Path="Type" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                        <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                        <Binding  Path="SecretKey" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                    </MultiBinding>
                                 </Image.Source>
                             </Image>
                             <Border Grid.Column="0" Background="Black" Opacity="0.2"/>

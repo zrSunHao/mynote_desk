@@ -17,6 +17,8 @@
 
         public MarkKeyValue KeyValue { get; set; }
 
+
+
         public int RowType => (int)Type;
 
         public int Level => GetLevel();
@@ -29,7 +31,13 @@
 
         private string _FilePath = string.Empty;
 
-        public void SetIFilePath(string path) => _FilePath = path;
+        public void SetFilePath(string path) => _FilePath = path;
+
+        public Guid FileKey => _FileKey;
+
+        private Guid _FileKey = Guid.Empty;
+
+        public void SetFileKey(Guid key) => _FileKey = key;
 
 
         private string GetTypeName()

@@ -39,11 +39,18 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public Action<MarkTextFileModel> FileExportAction { get; set; }
         public Action<MarkTextFileModel> FileRenameAction { get; set; }
 
-        private string _coverPicture;
-        public string CoverPicture
+        private string _coverPicturePath;
+        public string CoverPicturePath
         {
-            get => _coverPicture;
-            set => SetProperty(ref _coverPicture, value);
+            get => _coverPicturePath;
+            set => SetProperty(ref _coverPicturePath, value);
+        }
+
+        private Guid _coverPictureKey;
+        public Guid CoverPictureKey
+        {
+            get => _coverPictureKey;
+            set => SetProperty(ref _coverPictureKey, value);
         }
 
         private int _fileFilterType;
@@ -141,7 +148,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FileCount = _FileList.Count;
             if (type == EditorOperateType.UploadCoverPicture)
             {
-                CoverPicture = models[0].FilePath;
+                CoverPicturePath = models[0].FilePath;
+                CoverPictureKey = models[0].SecretKey;
                 _Article.CoverPictureId = models[0].Id;
                 await _ArticleService.UpdateAsync(_Article);
             }
@@ -331,7 +339,15 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
             FileCount = _FileList.Count;
             if (_Article.CoverPictureId.HasValue)
-                CoverPicture = _FileList.FirstOrDefault(x => x.Id == _Article.CoverPictureId.Value)?.FilePath;
+            {
+                var model = _FileList.FirstOrDefault(x => x.Id == _Article.CoverPictureId.Value);
+                if(model!=null)
+                {
+                    CoverPicturePath = model.FilePath;
+                    CoverPictureKey = model.SecretKey;
+                }
+            }
+                
         }
 
         private string GetFileFilter(int type)
