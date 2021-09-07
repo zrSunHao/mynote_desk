@@ -26,7 +26,10 @@
                     <ContextMenu>
                         <MenuItem Style="{StaticResource ContextMenuItemStyle}" 
                                   Header="打印"
-                                  Click="MenuItem_Click"/>
+                                  Click="Pint_Click"/>
+                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" 
+                                  Header="PDF分割"
+                                  Click="SplitPdf_Click"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
             </Grid>

@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.App.Common.Tools;
 using BlizzardWind.Desktop.App.Dialogs;
 using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
@@ -62,7 +63,7 @@ namespace BlizzardWind.Desktop.App.Pages
             }
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void Pint_Click(object sender, RoutedEventArgs e)
         {
             var dictionaries = this.Resources.MergedDictionaries;
             for (int i = 0; i < dictionaries.Count; i++)
@@ -102,6 +103,29 @@ namespace BlizzardWind.Desktop.App.Pages
                         break;
                     }
                 }
+            }
+        }
+
+        private void SplitPdf_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "PDF(*.pdf;)|*.pdf;";
+            dialog.Multiselect = false;
+            if (dialog.ShowDialog() != true)
+                return;
+            var fileName = dialog.FileName;
+            FileInfo file = new FileInfo(fileName);
+            if (!file.Exists)
+                PromptInformation(MesssageType.Error, "文件不存在");
+            var name = file.Name.Replace(file.Extension,"");
+            var outPath = System.IO.Path.Combine(file.DirectoryName, $"{name}_split{file.Extension}");
+            try
+            {
+                PdfTool.Paginate(file.FullName, outPath);
+            }
+            catch(Exception ex)
+            {
+                PromptInformation(MesssageType.Error, ex.Message);
             }
         }
     }
