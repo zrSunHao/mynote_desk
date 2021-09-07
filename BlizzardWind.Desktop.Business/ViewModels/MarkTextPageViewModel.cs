@@ -2,6 +2,7 @@
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
+using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 using System.Collections.ObjectModel;
 
@@ -13,8 +14,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IFileResourceService _FileResourceService;
         private Article _Article;
 
+        public IMvxCommand LinkClickCommand => new MvxCommand<MarkElement>(OnLinkClick);
+
         public ObservableCollection<ArticleStructureModel> HeadlineCollection { get; set; }
         public ObservableCollection<MarkElement> ElementCollection { get; set; }
+
+        public Action<int, string> PromptInformationAction { get; set; }
+        public Action<string> LinkClickAction { get; set; }
     }
 
     public partial class MarkTextPageViewModel
@@ -34,6 +40,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             var parser = new MarkTextParser();
             List<MarkElement> elements = parser.GetMarkElements(_Article.Content);
             ArticleUpdate(_Article, elements);
+        }
+
+        private void OnLinkClick(MarkElement element)
+        {
+            if (LinkClickAction != null && element.KeyValue?.Value != null)
+                LinkClickAction.Invoke(element.KeyValue.Value);
         }
 
         private void ArticleChanged(Article article, List<MarkElement> elements)

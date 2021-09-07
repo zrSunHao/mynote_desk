@@ -238,6 +238,8 @@
                      Style="{StaticResource CommonElementTextBoxStyle}" 
                      VerticalAlignment="Center"/>
             <Button Grid.Column="1" VerticalAlignment="Center" MinWidth="70"
+                    Command="{Binding DataContext.LinkClickCommand,RelativeSource={RelativeSource AncestorType=Page}}" 
+                    CommandParameter="{Binding}"
                     Content="{Binding KeyValue.Name}" 
                     Style="{StaticResource CommonOperateButtonStyle}" />
         </Grid>

@@ -1,7 +1,10 @@
-﻿using BlizzardWind.Desktop.Business.ViewModels;
+﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,11 +32,34 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             InitializeComponent();
             VM = (MarkTextPageViewModel)DataContext;
+            VM.LinkClickAction += LinkClick;
+        }
+
+        private void PromptInformation(int type, string msg)
+        {
+            var dialog = new ConfirmDialog(type, msg);
+            dialog.ShowDialog();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             VM.OnPageLoaded();
+        }
+
+        private void LinkClick(string link)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(new ProcessStartInfo
+                {
+                    FileName = link,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                PromptInformation(MesssageType.Error, $"链接打开失败：{ex.Message}");
+            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -57,7 +83,7 @@ namespace BlizzardWind.Desktop.App.Pages
                 PrintDialog printDialog = new PrintDialog();
                 if (printDialog.ShowDialog() == true)
                 {
-                    
+
                     printDialog.PrintVisual(article_grid, "My Print Job");
                 }
             }
