@@ -1,7 +1,9 @@
-﻿using BlizzardWind.Desktop.App.Dialogs;
+﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.Desktop.App.Dialogs;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Models;
 using BlizzardWind.Desktop.Business.ViewModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,7 @@ namespace BlizzardWind.Desktop.App.Pages
             VM.FolderCreateDialogAction += CraeteFolderDialog;
             VM.FolderEditDialogAction += EditFolderDialog;
             VM.FolderDeleteDialogAction += DeleteFolderDialog;
+            VM.FolderUploadCoverDialogAction += FolderUploadCoverDialog;
         }
 
         private void PromptInformation(int type, string msg)
@@ -94,6 +97,29 @@ namespace BlizzardWind.Desktop.App.Pages
             if (dialog.DialogResult == true && VM != null)
             {
                 await VM.DeleteFolder(folder);
+            }
+        }
+
+        private async void FolderUploadCoverDialog(int type, string filter, ArticleFolder folder)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = filter;
+            dialog.Multiselect = false;
+            if (dialog.ShowDialog() != true)
+                return;
+            try
+            {
+                var file = await VM.AddFile(dialog.FileNames, type, folder.Id);
+                if (file != null)
+                {
+                    folder.SetCoverPicturePath(file.FilePath);
+                    folder.SetCoverPictureKey(file.SecretKey);
+                    folder.CoverPictureId = file.Id;
+                }
+                await VM.FolderUploadCover(folder);
+            }catch(Exception ex)
+            {
+                PromptInformation(MesssageType.Error, ex.Message);
             }
         }
 

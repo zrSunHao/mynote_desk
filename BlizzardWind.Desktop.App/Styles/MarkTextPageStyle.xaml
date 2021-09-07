@@ -136,7 +136,7 @@
             </Grid.RowDefinitions>
             <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" MaxHeight="300" MinHeight="100" Stretch="Uniform">
                 <Image.Source>
-                    <MultiBinding Converter="{StaticResource CoverPathToUriConverter}" Mode="OneWay">
+                    <MultiBinding Converter="{StaticResource ArticleCoverPathToUriConverter}" Mode="OneWay">
                         <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
                         <Binding  Path="FileKey" UpdateSourceTrigger="PropertyChanged"></Binding>
                     </MultiBinding>

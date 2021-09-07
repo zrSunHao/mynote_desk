@@ -3,12 +3,7 @@ using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
@@ -43,10 +38,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public ObservableCollection<ArticleFamilyModel> FamilyCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
-        //public Action<Article> ArticleSeeDialogAction { get; set; }
         public Action<Article> ArticleEditDialogAction { get; set; }
         public Action<Article> ArticleMoveDialogAction { get; set; }
-        public Action<int,string,Article> ArticleUploadCoverDialogAction { get; set; }
+        public Action<int, string, Article> ArticleUploadCoverDialogAction { get; set; }
 
         private Guid _familyId;
         public Guid FamilyId
@@ -201,7 +195,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             //    else
             //        ArticleCollection.Insert(index, article);
             //}
-            
+
             return true;
         }
 
@@ -212,7 +206,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (!article.CoverPictureId.HasValue)
                 return false;
             var file = await _FileService.GetByIdAsync(article.CoverPictureId.Value);
-            if(file != null)
+            if (file != null)
             {
                 article.SetCoverPicturePath(file.FilePath);
                 article.SetCoverPictureKey(file.SecretKey);
@@ -223,7 +217,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
-        public async Task<Guid> AddFile(string[]? fileNames, int type,Guid articleId)
+        public async Task<Guid> AddFile(string[]? fileNames, int type, Guid articleId)
         {
             if (fileNames == null || fileNames.Length < 1)
                 return Guid.Empty;
@@ -385,7 +379,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             var result = await _ArticleService.GetListAsync(FolderId, SearchSortColumn, SearchArticleTitle, SearchArticleKey);
             foreach (var item in result.Items)
             {
-                if(item.CoverPictureId.HasValue)
+                if (item.CoverPictureId.HasValue)
                 {
                     var file = await _FileService.GetByIdAsync(item.CoverPictureId.Value);
                     if (file != null)

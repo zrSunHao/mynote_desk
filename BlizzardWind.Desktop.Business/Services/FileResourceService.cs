@@ -1,4 +1,5 @@
-﻿using BlizzardWind.App.Common.Tools;
+﻿using BlizzardWind.App.Common.MarkText;
+using BlizzardWind.App.Common.Tools;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
@@ -38,8 +39,12 @@ namespace BlizzardWind.Desktop.Business.Services
                     Extension = file.Extension,
                     FilePath = Path.Combine(TEXT_DIRECTORY, $"{id.ToString()}{file.Extension}")
                 };
+
                 string key = FileEncryptTool.GuidToKey(model.SecretKey);
-                FileEncryptTool.EncryptFile(fileName, model.FilePath, key);
+                if(type == MarkResourceType.Cover)//封面图片需裁剪
+                    FileEncryptTool.EncryptCoverFile(fileName, model.FilePath, key);
+                else
+                    FileEncryptTool.EncryptFile(fileName, model.FilePath, key);
 
                 var entity = new FileResource()
                 {

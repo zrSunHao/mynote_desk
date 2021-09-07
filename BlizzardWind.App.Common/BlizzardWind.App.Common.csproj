@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.3.0" />
     <PackageReference Include="Spire.PDF" Version="7.9.2" />
   </ItemGroup>
 

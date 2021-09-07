@@ -202,7 +202,7 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Stretch="UniformToFill"  Width="120">
                                 <Image.Source>
-                                    <MultiBinding Converter="{StaticResource CoverPathToUriConverter}" Mode="OneWay">
+                                    <MultiBinding Converter="{StaticResource ArticleCoverPathToUriConverter}" Mode="OneWay">
                                         <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
                                         <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
                                     </MultiBinding>

@@ -66,7 +66,16 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="40"/>
                             </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="/Assets/Images/Icons/folder.png" Height="60" Width="60"  Stretch="UniformToFill"/>
+                            <Image Grid.Row="0" Height="65" Width="70"
+                               Stretch="UniformToFill" Source="/Assets/Images/Icons/folder.png"/>
+                            <Image Stretch="UniformToFill" Grid.Row="0" Margin="0,24,0,0" Height="36" Width="55">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource FolderCoverPathToUriConverter}" Mode="OneWay">
+                                        <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                        <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
                             <Border Grid.Row="0" Background="Black" Opacity="0.3"/>
                             <TextBlock x:Name="folder_Name" Grid.Row="1" Margin="10,5,10,0" Text="{Binding Content,ElementName=contentPresenter}" 
                                        Foreground="{TemplateBinding Foreground}"
@@ -81,7 +90,6 @@
                                               Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            
                         </Grid>
                         
                     </Grid>
@@ -119,6 +127,9 @@
                 <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
                              Style="{StaticResource ContextMenuStyle}">
                     <MenuItem Header="编辑" Command="{Binding EdiFolderCommand}" 
+                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                              Style="{StaticResource ContextMenuItemStyle}"/>
+                    <MenuItem Header="更改封面" Command="{Binding FolderUploadCoverCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
                     <MenuItem Header="删除" Command="{Binding DeleteFolderCommand}" 

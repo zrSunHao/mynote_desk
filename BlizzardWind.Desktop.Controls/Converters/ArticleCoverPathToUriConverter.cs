@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace BlizzardWind.Desktop.Controls.Converters
 {
-    public class CoverPathToUriConverter : IMultiValueConverter
+    public class ArticleCoverPathToUriConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -28,6 +28,8 @@ namespace BlizzardWind.Desktop.Controls.Converters
                 using (MemoryStream ms = new MemoryStream(buffer))
                 {
                     var bitmap = new BitmapImage();
+                    bitmap.DecodePixelHeight = 128;
+                    bitmap.DecodePixelWidth = 128;
                     bitmap.BeginInit();
                     bitmap.StreamSource = ms;
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;

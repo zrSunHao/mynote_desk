@@ -2,15 +2,9 @@
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
-using BlizzardWind.Desktop.Business.Services;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
@@ -19,6 +13,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IFolderService _FolderService;
         private readonly IFamilyService _FamilyService;
         private readonly IArticleService _ArticleService;
+        private readonly IFileResourceService _FileService;
 
         public IMvxCommand SelectedFamilyCommand => new MvxCommand<ArticleFamily>(OnSelectedClick);
         public IMvxCommand SearchCommand => new MvxCommand(OnSearchClick);
@@ -27,6 +22,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public IMvxCommand CreateFolderCommand => new MvxCommand(OnCreateFolderClick);
         public IMvxCommand EdiFolderCommand => new MvxCommand<ArticleFolder>(OnEditFolderClick);
         public IMvxCommand DeleteFolderCommand => new MvxCommand<ArticleFolder>(OnDeleteFolderClick);
+        public IMvxCommand FolderUploadCoverCommand => new MvxCommand<ArticleFolder>(OnFolderUploadCoverClick);
 
         public ObservableCollection<ArticleFamily> FamilyCollection { get; set; }
         public ObservableCollection<ArticleFolder> FolderCollection { get; set; }
@@ -34,6 +30,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public Action<int, string> PromptInformationAction { get; set; }
         public Action<string> ConfirmDialogAction { get; set; }
         public Action<ArticleFamily> FamilyEditDialogAction { get; set; }
+        public Action<int, string, ArticleFolder> FolderUploadCoverDialogAction { get; set; }
 
         public Action<List<OptionIdItem>> FolderCreateDialogAction { get; set; }
         public Action<int, string, ArticleFamily> FamilyDeleteDialogAction { get; set; }
@@ -59,11 +56,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         public ArticleFamilyPageViewModel(IFolderService folderService,
             IFamilyService familyService,
-            IArticleService articleService)
+            IArticleService articleService,
+            IFileResourceService fileService)
         {
             _FolderService = folderService;
             _FamilyService = familyService;
             _ArticleService = articleService;
+            _FileService = fileService;
 
             FamilyCollection = new ObservableCollection<ArticleFamily>();
             FolderCollection = new ObservableCollection<ArticleFolder>();
@@ -198,6 +197,29 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
+        public async Task<bool> FolderUploadCover(ArticleFolder folder)
+        {
+            await _FolderService.UpdateAsync(folder);
+
+            if (!folder.CoverPictureId.HasValue)
+                return false;
+            var index = FolderCollection.IndexOf(folder);
+            FolderCollection.Remove(folder);
+            FolderCollection.Insert(index, folder);
+            return true;
+        }
+
+        public async Task<MarkTextFileModel?> AddFile(string[]? fileNames, int type, Guid articleId)
+        {
+            if (fileNames == null || fileNames.Length < 1)
+                return null;
+            List<MarkTextFileModel> models = await _FileService
+                .AddArticleFileAsync(type, fileNames.ToList(), articleId);
+            if (models.Any())
+                return models[0];
+            return null;
+        }
+
 
         private void OnEditFamilyClick(ArticleFamily family)
         {
@@ -215,7 +237,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
             var msg = $"【{family.Name}】大类下共有【{count}】篇文章，确定要删除吗？";
             if (FamilyDeleteDialogAction != null)
-                FamilyDeleteDialogAction.Invoke(MesssageType.Warn, msg, family);  
+                FamilyDeleteDialogAction.Invoke(MesssageType.Warn, msg, family);
         }
 
         private void OnCreateFolderClick()
@@ -257,6 +279,15 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             await LoadFolderAsync(FamilyId);
         }
 
+        private void OnFolderUploadCoverClick(ArticleFolder folder)
+        {
+            if (FolderUploadCoverDialogAction == null)
+                return;
+            string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
+            FolderUploadCoverDialogAction.Invoke(EditorOperateType.UploadCoverPicture, filter, folder);
+        }
+
+
         private List<OptionIdItem> GetFamilyOptions()
         {
             return FamilyCollection.
@@ -273,7 +304,18 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FolderCollection.Clear();
             var list = await _FolderService.GetListAsync(familyId, FolderName);
             foreach (var folder in list)
+            {
+                if (folder.CoverPictureId.HasValue)
+                {
+                    var file = await _FileService.GetByIdAsync(folder.CoverPictureId.Value);
+                    if (file != null)
+                    {
+                        folder.SetCoverPicturePath(file.FilePath);
+                        folder.SetCoverPictureKey(file.SecretKey);
+                    }
+                }
                 FolderCollection.Add(folder);
+            }
             return true;
         }
     }

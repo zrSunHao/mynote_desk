@@ -53,7 +53,7 @@
                 <Rectangle Style="{StaticResource RectBorderStyle}"/>
                 <Image Style="{StaticResource CoverImageStyle}">
                     <Image.Source>
-                        <MultiBinding Converter="{StaticResource CoverPathToUriConverter}" Mode="OneWay">
+                        <MultiBinding Converter="{StaticResource ArticleCoverPathToUriConverter}" Mode="OneWay">
                             <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
                             <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
                         </MultiBinding>
