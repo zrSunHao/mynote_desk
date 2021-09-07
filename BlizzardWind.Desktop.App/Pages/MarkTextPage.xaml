@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="560" d:DesignWidth="960"
+      d:DesignHeight="560" d:DesignWidth="768"
       DataContext="{Binding MarkTextPageViewModel, Source={StaticResource ViewModelLocator}}"
       Loaded="Page_Loaded">
     <Page.Resources>
@@ -18,9 +18,18 @@
     <Grid>
         <ScrollViewer  HorizontalScrollBarVisibility="Disabled" 
                       VerticalScrollBarVisibility="Visible">
-            <ItemsControl ItemsSource="{Binding ElementCollection}" 
+            <Grid >
+                <ItemsControl x:Name="article_grid" ItemsSource="{Binding ElementCollection}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" 
+                                  Header="打印"
+                                  Click="MenuItem_Click"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource MyWindowStyle}" Height="750"
+        Style="{DynamicResource MyWindowStyle}" Height="750" Width="1024"
         DataContext="{Binding EditorWindowViewModel, Source={StaticResource ViewModelLocator}}"
         Loaded="Window_Loaded">
     <Window.Resources>

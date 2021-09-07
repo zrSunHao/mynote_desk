@@ -1,9 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:lci="clr-namespace:BlizzardWind.Desktop.Controls.Images;assembly=BlizzardWind.Desktop.Controls"
                     xmlns:lcc="clr-namespace:BlizzardWind.Desktop.Controls.Converters;assembly=BlizzardWind.Desktop.Controls"
                     xmlns:lcmk="clr-namespace:BlizzardWind.App.Common.MarkText;assembly=BlizzardWind.App.Common">
 
+    <SolidColorBrush x:Key="Text.Font.Primary" Color="Silver"/>
+    
     <Style x:Key="CommonElementTextBoxStyle" TargetType="TextBox">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -33,7 +34,7 @@
                         <Setter Property="FontSize" Value="18"/>
                         <Setter Property="FontWeight" Value="Medium"/>
                         <Setter Property="TextBlock.LineHeight" Value="35"/>
-                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                     </Style>
                 </TextBox.Style>
             </TextBox>
@@ -99,7 +100,7 @@
                         <Setter Property="FontSize" Value="18"/>
                         <Setter Property="TextBlock.LineHeight" Value="35"/>
                         <Setter Property="FontWeight" Value="Medium"/>
-                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                     </Style>
                 </TextBox.Style>
             </TextBox>
@@ -120,7 +121,7 @@
                         <Setter Property="FontSize" Value="18"/>
                         <Setter Property="FontWeight" Value="Medium"/>
                         <Setter Property="TextBlock.LineHeight" Value="35"/>
-                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                     </Style>
                 </TextBox.Style>
             </TextBox>
@@ -144,7 +145,7 @@
             <Border Grid.RowSpan="2" Background="Black" Opacity="0.3">
                 <Border.ToolTip>
                     <ToolTip Background="{StaticResource Color.Canvas.Background}">
-                        <TextBlock Text="{Binding Content}" Foreground="{StaticResource Color.Font.Primary}"/>
+                        <TextBlock Text="{Binding Content}" Foreground="{DynamicResource Text.Font.Primary}"/>
                     </ToolTip>
                 </Border.ToolTip>
             </Border>
@@ -219,7 +220,7 @@
                             <Setter Property="FontSize" Value="13"/>
                             <Setter Property="FontWeight" Value="Medium"/>
                             <Setter Property="TextBlock.LineHeight" Value="35"/>
-                            <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                         </Style>
                     </TextBox.Style>
                 </TextBox>
@@ -259,7 +260,7 @@
         <TextBox Text="{Binding Mode=OneWay}" >
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
-                    <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                     <Setter Property="FontSize" Value="13"/>
                     <Setter Property="FontWeight" Value="Medium"/>
                     <Setter Property="TextBlock.LineHeight" Value="35"/>
@@ -291,7 +292,7 @@
                         <Setter Property="FontSize" Value="18"/>
                         <Setter Property="FontWeight" Value="Medium"/>
                         <Setter Property="TextBlock.LineHeight" Value="35"/>
-                        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                     </Style>
                 </TextBox.Style>
             </TextBox>
