@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
         mc:Ignorable="d" Title="BlizzardWind" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource LaunchWindowStyle}"
-        DataContext="{Binding LaunchWindowViewModel, Source={StaticResource ViewModelLocator}}">
+        DataContext="{Binding LaunchWindowViewModel, Source={StaticResource ViewModelLocator}}"
+        Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -48,21 +49,25 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Style="{StaticResource FilterTextBoxStyle}"/>
+                <TextBox Grid.Column="0" x:Name="address_box"
+                         Style="{StaticResource FilterTextBoxStyle}"/>
                 <Button Grid.Column="1" Content="存储地址"  
-                        Style="{StaticResource CommonOperateButtonStyle}"/>
+                        Style="{StaticResource CommonOperateButtonStyle}"
+                        Click="SelectAddress_Click"/>
             </Grid>
             <Grid  Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
-                <PasswordBox Grid.Column="0" Style="{StaticResource PasswordBoxStyle}"/>
+                <PasswordBox Grid.Column="0" x:Name="password_box"
+                             Style="{StaticResource PasswordBoxStyle}"/>
                 <Button Grid.Column="1" Content="输入密码" IsEnabled="False"
                         Style="{StaticResource CommonOperateButtonStyle}"/>
             </Grid>
             <Button Grid.Row="4" Content="登录" Width="100"
-                    Style="{StaticResource CommonOperateButtonStyle}" />
+                    Style="{StaticResource CommonOperateButtonStyle}" 
+                    Click="Login_Click"/>
         </Grid>
     </Grid>
 </Window>

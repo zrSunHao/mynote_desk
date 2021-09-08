@@ -9,7 +9,7 @@ namespace BlizzardWind.Desktop.Business.Services
     public class FileResourceService : IFileResourceService
     {
         private readonly IDatabaseService _dbService;
-        private readonly string TEXT_DIRECTORY = @"E:\Blizzard\MarkTxt\Resources";
+        private readonly string TEXT_DIRECTORY = "Resources";
 
         public FileResourceService(IDatabaseService service)
         {
@@ -22,8 +22,8 @@ namespace BlizzardWind.Desktop.Business.Services
             List<FileResource> entities = new();
             if (fileNames == null || !fileNames.Any())
                 return models;
-            if (!Directory.Exists(TEXT_DIRECTORY))
-                Directory.CreateDirectory(TEXT_DIRECTORY);
+            string baseAddress = await GetBaseAddress();
+
             foreach (string fileName in fileNames)
             {
                 FileInfo file = new FileInfo(fileName);
@@ -37,11 +37,11 @@ namespace BlizzardWind.Desktop.Business.Services
                     Type = type,
                     SecretKey = Guid.NewGuid(),
                     Extension = file.Extension,
-                    FilePath = Path.Combine(TEXT_DIRECTORY, $"{id.ToString()}{file.Extension}")
+                    FilePath = Path.Combine(baseAddress, $"{id.ToString()}{file.Extension}")
                 };
 
                 string key = FileEncryptTool.GuidToKey(model.SecretKey);
-                if(type == MarkResourceType.Cover)//封面图片需裁剪
+                if (type == MarkResourceType.Cover)//封面图片需裁剪
                     FileEncryptTool.EncryptCoverFile(fileName, model.FilePath, key);
                 else
                     FileEncryptTool.EncryptFile(fileName, model.FilePath, key);
@@ -69,6 +69,7 @@ namespace BlizzardWind.Desktop.Business.Services
 
         public async Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleId, int type = -1)
         {
+            string baseAddress = await GetBaseAddress();
             var db = await _dbService.GetConnectionAsync();
             var query = db.Table<FileResource>()
                 .Where(x => x.ArticleId == articleId && !x.Deleted)
@@ -86,7 +87,7 @@ namespace BlizzardWind.Desktop.Business.Services
                     FileName = entity.Name,
                     Extension = entity.Extension,
                     SecretKey = entity.SecretKey,
-                    FilePath = Path.Combine(TEXT_DIRECTORY, entity.FileName)
+                    FilePath = Path.Combine(baseAddress, entity.FileName)
                 };
                 models.Add(model);
             }
@@ -95,6 +96,7 @@ namespace BlizzardWind.Desktop.Business.Services
 
         public async Task<MarkTextFileModel?> GetByIdAsync(Guid id)
         {
+            string baseAddress = await GetBaseAddress();
             var db = await _dbService.GetConnectionAsync();
             var entity = await db.Table<FileResource>().FirstOrDefaultAsync(x => x.Id == id && !x.Deleted);
             if (entity == null)
@@ -106,24 +108,25 @@ namespace BlizzardWind.Desktop.Business.Services
                 FileName = entity.Name,
                 Extension = entity.Extension,
                 SecretKey = entity.SecretKey,
-                FilePath = Path.Combine(TEXT_DIRECTORY, entity.FileName)
+                FilePath = Path.Combine(baseAddress, entity.FileName)
             };
         }
 
         public async Task<bool> RelaceAsync(MarkTextFileModel model, string fileName)
         {
+            string baseAddress = await GetBaseAddress();
             var db = await _dbService.GetConnectionAsync();
             var entity = await db.Table<FileResource>()
                 .FirstOrDefaultAsync(x => x.Id == model.Id);
             FileInfo file = new FileInfo(fileName);
             if (entity == null)
                 return false;
-            File.Delete(Path.Combine(TEXT_DIRECTORY, entity.FileName));
+            File.Delete(Path.Combine(baseAddress, entity.FileName));
 
             entity.UpdatedAt = DateTime.Now;
             entity.Extension = file.Extension;
             entity.FileName = $"{entity.Id.ToString()}{file.Extension}";
-            model.FilePath = Path.Combine(TEXT_DIRECTORY, entity.FileName);
+            model.FilePath = Path.Combine(baseAddress, entity.FileName);
             model.Extension = file.Extension;
             if (!file.Exists)
                 return false;
@@ -160,6 +163,18 @@ namespace BlizzardWind.Desktop.Business.Services
                 await db.UpdateAsync(entity);
             }
             return true;
+        }
+
+
+        private async Task<string> GetBaseAddress()
+        {
+            string baseAddress = await _dbService.GetBaseAddress();
+            if (!Directory.Exists(baseAddress))
+                throw new Exception("基础存储目录不存在");
+            string address = Path.Combine(baseAddress, TEXT_DIRECTORY);
+            if (!Directory.Exists(address))
+                Directory.CreateDirectory(address);
+            return address;
         }
     }
 }

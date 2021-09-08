@@ -25,5 +25,6 @@ namespace BlizzardWind.Desktop.App.Windows
         public MainWindow()
         {
             InitializeComponent();
-        }    }
+        }
+    }
 }

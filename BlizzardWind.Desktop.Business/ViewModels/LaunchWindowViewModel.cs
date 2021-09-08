@@ -10,7 +10,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class LaunchWindowViewModel : MvxViewModel
     {
-        private readonly IDatabaseService _DatabaseService1;
+        private readonly IDatabaseService _DatabaseService;
         private readonly ViewModelMediator _Mediator;
     }
 
@@ -18,8 +18,18 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         public LaunchWindowViewModel(IDatabaseService databaseService, ViewModelMediator mediator)
         {
-            _DatabaseService1 = databaseService;
+            _DatabaseService = databaseService;
             _Mediator = mediator;
+        }
+
+        public async Task<string> GetBaseAddress()
+        {
+            return await _DatabaseService.GetBaseAddress();
+        }
+
+        public async Task<bool> LoginAsync(string password, string address)
+        {
+            return await _DatabaseService.LoginAsync(password, address);
         }
     }
 }

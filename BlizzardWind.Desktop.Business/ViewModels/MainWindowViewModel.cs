@@ -43,13 +43,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             NavMenus = new ObservableCollection<NavMenuModel>()
             {
                 new NavMenuModel(){
-                    Name = "起始页", Icon = "\xe88a" , Route = PageNameConsts.ArticleListPage,Checked = true,IsEnable = true
+                    Name = "起始页", Icon = "\xe871" , Route = PageNameConsts.ArticleListPage,Checked = true,IsEnable = true
                 },
                 new NavMenuModel(){
-                    Name = "文章类别管理页", Icon = "\xe8a7" , Route = PageNameConsts.ArticleFamilyPage,Checked = false,IsEnable = true
+                    Name = "文章类别管理页", Icon = "\xf1c8" , Route = PageNameConsts.ArticleFamilyPage,Checked = false,IsEnable = true
                 },
                 new NavMenuModel(){
-                    Name = "阅读文章页", Icon = "\xf0c5" , Route = PageNameConsts.MarkTextPage,Checked = false,IsEnable = false
+                    Name = "阅读文章页", Icon = "\xe236" , Route = PageNameConsts.MarkTextPage,Checked = false,IsEnable = false
                 },
             };
 
