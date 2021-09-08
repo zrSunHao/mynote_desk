@@ -33,6 +33,7 @@ namespace BlizzardWind.Desktop.Business
             services.AddTransient<ArticleListPageViewModel>();
             services.AddTransient<ArticleFamilyPageViewModel>();
 
+            services.AddTransient<LaunchWindowViewModel>();
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<EditorWindowViewModel>();
         }
@@ -41,6 +42,7 @@ namespace BlizzardWind.Desktop.Business
         public ArticleListPageViewModel? ArticleListPageViewModel => _serviceProvider.GetService<ArticleListPageViewModel>();
         public ArticleFamilyPageViewModel? ArticleFamilyPageViewModel => _serviceProvider.GetService<ArticleFamilyPageViewModel>();
 
+        public LaunchWindowViewModel? LaunchWindowViewModel => _serviceProvider.GetService<LaunchWindowViewModel>();
         public EditorWindowViewModel? EditorWindowViewModel => _serviceProvider.GetService<EditorWindowViewModel>();
         public MainWindowViewModel? MainWindowViewModel => _serviceProvider.GetService<MainWindowViewModel>();
     }

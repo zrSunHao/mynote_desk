@@ -1,0 +1,68 @@
+﻿<Window x:Class="BlizzardWind.Desktop.App.Windows.LaunchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
+        mc:Ignorable="d" Title="BlizzardWind" WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource LaunchWindowStyle}"
+        DataContext="{Binding LaunchWindowViewModel, Source={StaticResource ViewModelLocator}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/LaunchWindowStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.RowSpan="4"  Style="{StaticResource ProfileImageStyle}"/>
+            <TextBlock Grid.Row="1" Style="{StaticResource MottoTextStyle}"
+                       Text="人、代码、生活。你所向往的，就是你为之努力的！"/>
+            <Border Grid.RowSpan="4" Background="Black" Opacity="0.3"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="5" Background="Gray" Opacity="0.2"/>
+            <Image Style="{StaticResource InconImageStyle}"/>
+            <TextBlock Grid.Row="1" Text="Blizzard Wind Note"
+                       Style="{StaticResource AppNameTextStyle}"/>
+            <Grid  Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Style="{StaticResource FilterTextBoxStyle}"/>
+                <Button Grid.Column="1" Content="存储地址"  
+                        Style="{StaticResource CommonOperateButtonStyle}"/>
+            </Grid>
+            <Grid  Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                </Grid.ColumnDefinitions>
+                <PasswordBox Grid.Column="0" Style="{StaticResource PasswordBoxStyle}"/>
+                <Button Grid.Column="1" Content="输入密码" IsEnabled="False"
+                        Style="{StaticResource CommonOperateButtonStyle}"/>
+            </Grid>
+            <Button Grid.Row="4" Content="登录" Width="100"
+                    Style="{StaticResource CommonOperateButtonStyle}" />
+        </Grid>
+    </Grid>
+</Window>

@@ -2,8 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:BlizzardWind.Desktop.App"
+             xmlns:lw="clr-namespace:BlizzardWind.Desktop.App.Windows"
              xmlns:lb="clr-namespace:BlizzardWind.Desktop.Business;assembly=BlizzardWind.Desktop.Business"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Windows/LaunchWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

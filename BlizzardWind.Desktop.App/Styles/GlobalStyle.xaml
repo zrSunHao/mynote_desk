@@ -71,7 +71,7 @@
 
     <Style x:Key="MyWindowStyle" TargetType="Window">
         <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
-        <Setter Property="MinHeight" Value="632"/>
+        <Setter Property="MinHeight" Value="588"/>
         <Setter Property="MinWidth" Value="768"/>
         <Setter Property="Background" Value="{StaticResource Color.Windows.Background}"/>
     </Style>

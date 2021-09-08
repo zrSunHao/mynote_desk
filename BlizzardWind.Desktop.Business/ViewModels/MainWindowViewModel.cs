@@ -33,7 +33,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             _Mediator = mediator;
             _Mediator.RouteRedirectAction += RouteRedirectAction;
-            MenuInitial();        }
+            MenuInitial();
+        }
 
         private void MenuInitial()
         {
@@ -41,13 +42,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
             NavMenus = new ObservableCollection<NavMenuModel>()
             {
-                new NavMenuModel(){ 
+                new NavMenuModel(){
                     Name = "起始页", Icon = "\xe88a" , Route = PageNameConsts.ArticleListPage,Checked = true,IsEnable = true
                 },
-                new NavMenuModel(){ 
+                new NavMenuModel(){
                     Name = "文章类别管理页", Icon = "\xe8a7" , Route = PageNameConsts.ArticleFamilyPage,Checked = false,IsEnable = true
                 },
-                new NavMenuModel(){ 
+                new NavMenuModel(){
                     Name = "阅读文章页", Icon = "\xf0c5" , Route = PageNameConsts.MarkTextPage,Checked = false,IsEnable = false
                 },
             };
@@ -61,10 +62,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void RouteRedirectAction(string pageName)
         {
-            var menu = NavMenus.FirstOrDefault(x=>x.Route == pageName);
+            var menu = NavMenus.FirstOrDefault(x => x.Route == pageName);
             if (menu != null)
             {
-                foreach(var item in NavMenus)
+                foreach (var item in NavMenus)
                 {
                     if (item.Route != menu.Route)
                         item.Checked = false;
