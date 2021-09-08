@@ -287,10 +287,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 case EditorOperateType.UploadCoverPicture:
                 case EditorOperateType.UploadImage:
-                    msg = $"#img] <{model.FileName}>({model.Id.ToString()})\u000A";
+                    msg = $"#img] <{model.FileName}>({model.Id.ToString()})";
                     break;
                 case EditorOperateType.UploadTxt:
-                    msg = $"#txt] <{model.FileName}>({model.Id.ToString()})\u000A";
+                    msg = $"#txt] <{model.FileName}>({model.Id.ToString()})";
                     break;
                 default:
                     break;
