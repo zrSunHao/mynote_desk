@@ -341,13 +341,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (_Article.CoverPictureId.HasValue)
             {
                 var model = _FileList.FirstOrDefault(x => x.Id == _Article.CoverPictureId.Value);
-                if(model!=null)
+                if (model != null)
                 {
                     CoverPicturePath = model.FilePath;
                     CoverPictureKey = model.SecretKey;
                 }
             }
-                
+
         }
 
         private string GetFileFilter(int type)

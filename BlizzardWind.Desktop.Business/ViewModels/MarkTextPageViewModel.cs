@@ -42,6 +42,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             ArticleUpdate(_Article, elements);
         }
 
+        public Article GetCurrentArticle()
+        {
+            return _Article;
+        }
+
         private void OnLinkClick(MarkElement element)
         {
             if (LinkClickAction != null && element.KeyValue?.Value != null)

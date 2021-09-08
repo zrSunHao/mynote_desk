@@ -23,7 +23,10 @@
                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
                 <Grid.ContextMenu>
-                    <ContextMenu>
+                    <ContextMenu Style="{StaticResource ContextMenuStyle}">
+                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" 
+                                  Header="编辑"
+                                  Click="Edit_Click"/>
                         <MenuItem Style="{StaticResource ContextMenuItemStyle}" 
                                   Header="打印"
                                   Click="Pint_Click"/>

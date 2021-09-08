@@ -14,7 +14,7 @@ namespace BlizzardWind.Desktop.Controls.Converters
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var defaultContent = string.IsNullOrEmpty;
+            var defaultContent = string.Empty;
             if (values == null || values.Length < 2)
                 return defaultContent;
             try

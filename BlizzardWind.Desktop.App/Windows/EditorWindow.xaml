@@ -57,7 +57,7 @@
                             <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
                             <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
                         </MultiBinding>
-                     </Image.Source>
+                    </Image.Source>
                 </Image>
                 <Border Background="Black" Opacity="0.2"/>
                 <TextBlock Text="封面" Style="{StaticResource CoverTextStyle}"/>

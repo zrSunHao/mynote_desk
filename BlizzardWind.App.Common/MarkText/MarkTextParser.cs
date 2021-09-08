@@ -25,7 +25,7 @@ namespace BlizzardWind.App.Common.MarkText
         public List<MarkElement> GetMarkElements(string text)
         {
             // 1、通过换行符切割标记文本,获得行文本
-            List<string> contents = text.Split("\r\n").ToList();
+            List<string> contents = text.Split("\n").ToList();
             // 2、行文本解析、转换为行元素
             List<MarkRow> rows = ConvertRows(contents);
             // 3、将行元素解析、合并为显示元素

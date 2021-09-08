@@ -1,6 +1,7 @@
 ﻿using BlizzardWind.App.Common.Consts;
 using BlizzardWind.App.Common.Tools;
 using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.App.Windows;
 using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
 using System;
@@ -127,6 +128,21 @@ namespace BlizzardWind.Desktop.App.Pages
             {
                 PromptInformation(MesssageType.Error, ex.Message);
             }
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Window item in Application.Current.Windows)
+            {
+                if (item.GetType() == typeof(EditorWindow))
+                {
+                    PromptInformation(MesssageType.Error, "存在正在编辑的文章");
+                    return;
+                }
+            }
+            var article = VM.GetCurrentArticle();
+            EditorWindow editerWindow = new EditorWindow(article);
+            editerWindow.Show();
         }
     }
 }
