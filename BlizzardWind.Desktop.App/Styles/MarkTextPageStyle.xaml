@@ -219,7 +219,7 @@
                             <Setter Property="Margin" Value="10"/>
                             <Setter Property="FontSize" Value="13"/>
                             <Setter Property="FontWeight" Value="Medium"/>
-                            <Setter Property="TextBlock.LineHeight" Value="35"/>
+                            <Setter Property="TextBlock.LineHeight" Value="20"/>
                             <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                         </Style>
                     </TextBox.Style>

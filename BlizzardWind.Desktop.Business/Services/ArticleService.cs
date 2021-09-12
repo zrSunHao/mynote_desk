@@ -71,6 +71,8 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<bool> UpdateAsync(Article entity)
         {
             entity.UpdatedAt = DateTime.Now;
+            if (string.IsNullOrEmpty(entity.Content))
+                return false;
             var db = await _dbService.GetConnectionAsync();
             await db.UpdateAsync(entity);
             return true;

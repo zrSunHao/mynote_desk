@@ -102,7 +102,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="30"/>
         <Setter Property="BorderBrush" Value="{StaticResource Color.Info}"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Info}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>

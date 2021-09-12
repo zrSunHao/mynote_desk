@@ -47,7 +47,7 @@ namespace BlizzardWind.Desktop.App.Windows
             VM.FileExportAction += FileExport;
             VM.FileRenameAction += FileRename;
 
-            MySubject.Throttle(TimeSpan.FromSeconds(1))
+            MySubject.Throttle(TimeSpan.FromSeconds(3))
                 .Subscribe((s) =>
                 {
                     System.Windows.Application.Current.Dispatcher
