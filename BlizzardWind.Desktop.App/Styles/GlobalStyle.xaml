@@ -84,6 +84,16 @@
     <lcc:EmptyStrValidConverter x:Key="EmptyStrValidConverter"/>
     <lcc:IDToRadioCheckedConverter x:Key="IDToRadioCheckedConverter"/>
 
+    <Style x:Key="RectBorderStyle" TargetType="Rectangle">
+        <Setter Property="AllowDrop" Value="True"/>
+        <Setter Property="Stroke" Value="{DynamicResource Color.Primary}"/>
+        <Setter Property="StrokeDashArray" Value="2"/>
+        <Setter Property="Opacity" Value="0.5"/>
+        <Setter Property="StrokeThickness" Value="3"/>
+        <Setter Property="StrokeDashCap" Value="Round"/>
+        <Setter Property="Fill" Value="Transparent"/>
+    </Style>
+    
     <Style TargetType="TextBox">
         <Setter Property="Background" Value="Transparent"/>
     </Style>

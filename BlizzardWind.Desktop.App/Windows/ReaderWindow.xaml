@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
-        mc:Ignorable="d" Title="笔记阅读器" WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource MyWindowStyle}"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="笔记阅读器" Style="{DynamicResource MyWindowStyle}" 
+        Background="{DynamicResource Color.Canvas.Background}" Height="768"
         DataContext="{Binding ReaderWindowViewModel, Source={StaticResource ViewModelLocator}}"
         Loaded="Window_Loaded">
     <Window.Resources>
@@ -16,10 +17,30 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <ScrollViewer  HorizontalScrollBarVisibility="Disabled" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="2">
+            <Rectangle Style="{StaticResource RectBorderStyle}"/>
+            <WrapPanel Orientation="Horizontal" Margin="15">
+                
+            </WrapPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" Width="300">
+            <Rectangle Style="{StaticResource RectBorderStyle}" Grid.RowSpan="2"/>
+            <TreeView Style="{StaticResource TreeViewStyle}"
+                          ItemsSource="{Binding NoteStructureCollection}"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Disabled" 
                       VerticalScrollBarVisibility="Visible">
-            <Grid >
-                <ItemsControl x:Name="article_grid" ItemsSource="{Binding ElementCollection}" 
+            <Grid Width="800">
+                <Border Background="{DynamicResource Color.Windows.Background}"/>
+                <ItemsControl x:Name="article_grid" ItemsSource="{Binding ElementCollection}" Margin="10"
                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
                 <Grid.ContextMenu>

@@ -28,7 +28,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public IMvxCommand FileDeleteCommand => new MvxCommand<MarkNoteFileModel>(OnFileDeleteClick);
 
         public ObservableCollection<MarkNoteFileModel> FileCollection { get; set; }
-        public ObservableCollection<NoteStructureModel> NoteStructureCollection { get; set; }
         public ObservableCollection<OptionTypeItem> EditorFileTypeCollection { get; set; }
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
@@ -39,20 +38,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public Action<string, MarkNoteFileModel> FileReplaceAction { get; set; }
         public Action<MarkNoteFileModel> FileExportAction { get; set; }
         public Action<MarkNoteFileModel> FileRenameAction { get; set; }
-
-        private string _coverPicturePath;
-        public string CoverPicturePath
-        {
-            get => _coverPicturePath;
-            set => SetProperty(ref _coverPicturePath, value);
-        }
-
-        private Guid _coverPictureKey;
-        public Guid CoverPictureKey
-        {
-            get => _coverPictureKey;
-            set => SetProperty(ref _coverPictureKey, value);
-        }
 
         private int _fileFilterType;
         public int FileFilterType
@@ -105,7 +90,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             };
             UploadOperateCollection = new ObservableCollection<EditorOperateModel>()
             {
-                new EditorOperateModel(){Name = "封面",  Type=EditorOperateType.UploadCoverPicture},
                 new EditorOperateModel(){Name = "图片",  Type=EditorOperateType.UploadImage},
                 new EditorOperateModel(){Name = "office文件",  Type=EditorOperateType.UploadOfficeFile},
                 new EditorOperateModel(){Name = "文本文档",  Type=EditorOperateType.UploadTxt},
@@ -124,7 +108,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 new OptionTypeItem(){Name = "音频",Type = EditorOperateType.UploadAudio },
                 new OptionTypeItem(){Name = "视频",Type = EditorOperateType.UploadVideo },
             };
-            NoteStructureCollection = new ObservableCollection<NoteStructureModel>();
 
             FileFilterType = -1;
         }
@@ -149,8 +132,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FileCount = _FileList.Count;
             if (type == EditorOperateType.UploadCoverPicture)
             {
-                CoverPicturePath = models[0].FilePath;
-                CoverPictureKey = models[0].SecretKey;
                 _Note.CoverPictureId = models[0].Id;
                 await _NoteService.UpdateAsync(_Note);
             }
@@ -177,69 +158,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _Note.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
             await _NoteService.UpdateAsync(_Note);
             _Mediator.NoteChangedNotify(_Note, elements);
-
-            NoteStructureCollection.Clear();
-            NoteStructureModel? topComponent = null;
-            bool hasTitle_2 = false;
-            foreach (var el in elements)
-            {
-                if (el.Level == MarkTypeLevel.Skip)
-                {
-                    hasTitle_2 = false;
-                    continue;
-                }
-                NoteStructureModel component = new()
-                {
-                    Name = el.ShortContent,
-                    Type = el.RowType,
-                    TypeName = el.TypeName,
-                    Level = el.Level,
-                };
-                if (component.Level == MarkTypeLevel.Title_1)
-                {
-                    if (topComponent != null)
-                        NoteStructureCollection.Add(topComponent);
-                    topComponent = component;
-                    hasTitle_2 = false;
-                    continue;
-                }
-                if (component.Level == MarkTypeLevel.Single)
-                {
-                    if (topComponent != null)
-                        NoteStructureCollection.Add(topComponent);
-                    topComponent = null;
-                    NoteStructureCollection.Add(component);
-                    hasTitle_2 = false;
-                    continue;
-                }
-                if (component.Level == MarkTypeLevel.Title_2)
-                {
-                    if (topComponent == null)
-                        topComponent = component;
-                    else
-                        topComponent.AddChildren(component);
-                    hasTitle_2 = true;
-                    continue;
-                }
-                if (component.Level == MarkTypeLevel.Leaf)
-                {
-                    if (topComponent == null)
-                        NoteStructureCollection.Add(component);
-                    else if (!hasTitle_2)
-                        topComponent.AddChildren(component);
-                    else if (!topComponent.Children.Any())
-                        topComponent.AddChildren(component);
-                    else
-                    {
-                        int index = topComponent.Children.Count - 1;
-                        topComponent.Children[index].AddChildren(component);
-                    }
-                }
-            }
-            if (topComponent != null)
-            {
-                NoteStructureCollection.Add(topComponent);
-            }
         }
 
         public async void FileReplace(MarkNoteFileModel model, string fileName)
@@ -342,13 +260,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (_Note.CoverPictureId.HasValue)
             {
                 var model = _FileList.FirstOrDefault(x => x.Id == _Note.CoverPictureId.Value);
-                if (model != null)
-                {
-                    CoverPicturePath = model.FilePath;
-                    CoverPictureKey = model.SecretKey;
-                }
             }
-
         }
 
         private string GetFileFilter(int type)
