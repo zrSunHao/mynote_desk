@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -31,7 +32,7 @@ namespace BlizzardWind.Desktop.App.Pages
     /// </summary>
     public partial class EditorPage : Page
     {
-        static Subject<string> MySubject = new Subject<string>();
+        private DateTime timeStamp = DateTime.Now;
 
         private readonly EditorPageViewModel VM;
 
@@ -47,16 +48,6 @@ namespace BlizzardWind.Desktop.App.Pages
             VM.FileReplaceAction += FileReplace;
             VM.FileExportAction += FileExport;
             VM.FileRenameAction += FileRename;
-
-            MySubject.Throttle(TimeSpan.FromSeconds(3))
-                .Subscribe((s) =>
-                {
-                    System.Windows.Application.Current.Dispatcher
-                    .Invoke((Action)(() =>
-                    {
-                        VM.TextChange(s);
-                    }));
-                });
         }
 
         private void PromptInformation(int type, string msg)
@@ -168,9 +159,14 @@ namespace BlizzardWind.Desktop.App.Pages
                 VM.FileFilter();
         }
 
-        private void EditerBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void editer_box_KeyDown(object sender, KeyEventArgs e)
         {
-            MySubject.OnNext("");
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && Keyboard.IsKeyDown(Key.S))
+            {
+                VM.TextChange();
+                var z = this.editer_box.SelectionStart;
+                var y = this.editer_box.SelectionLength;
+            }
         }
 
         //private void Rectangle_Drop(object sender, DragEventArgs e)

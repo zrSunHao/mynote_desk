@@ -41,7 +41,7 @@
             <TextBox x:Name="editer_box" 
                      Text="{Binding Document,UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource EditorTextBoxStyle}" 
-                     TextChanged="EditerBox_TextChanged"/>
+                     KeyDown="editer_box_KeyDown"/>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1" Width="220">
             <Grid.RowDefinitions>

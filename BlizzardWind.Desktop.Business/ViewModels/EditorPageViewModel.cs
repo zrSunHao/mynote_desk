@@ -125,7 +125,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         /// 文本改变
         /// </summary>
         /// <param name="value"></param>
-        public async void TextChange(string value)
+        public async void TextChange()
         {
             var parser = new MarkTextParser();
             List<MarkElement> elements = parser.GetMarkElements(Document);
@@ -162,6 +162,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             switch (type)
             {
+                case EditorOperateType.Save:
+                    TextChange();
+                    break;
                 case EditorOperateType.See:
                     if (NoteReaderWindowAction != null)
                         NoteReaderWindowAction.Invoke(_Note);

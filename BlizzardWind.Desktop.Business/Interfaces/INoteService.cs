@@ -11,7 +11,7 @@ namespace BlizzardWind.Desktop.Business.Interfaces
 
         public Task<Note> GetAsync(Guid id);
 
-        public Task<PagingResult<Note>> GetListAsync(Guid? folderId, string sortColumn, string title, string key);
+        public Task<PagingResult<Note>> GetListAsync(Guid? folderId, string sortColumn, string key, string content);
 
         public Task<bool> UpdateAsync(Note entity);
 

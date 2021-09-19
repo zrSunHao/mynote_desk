@@ -4,6 +4,7 @@
                     xmlns:lcmk="clr-namespace:BlizzardWind.App.Common.MarkText;assembly=BlizzardWind.App.Common">
 
     <SolidColorBrush x:Key="Text.Font.Primary" Color="Silver"/>
+    <SolidColorBrush x:Key="Text.Font.Second" Color="#0fa3e3"/>
 
     <DataTemplate x:Key="OperateItemsTemplate">
         <Button Style="{StaticResource CommonOperateButtonStyle}"
@@ -122,7 +123,7 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="FontSize" Value="20"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Text.Font.Second}"/>
     </Style>
 
     <DataTemplate x:Key="ParagraphTemplate">
@@ -150,7 +151,7 @@
                     <Setter Property="FontSize" Value="30"/>
                     <Setter Property="FontWeight" Value="SemiBold"/>
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource Text.Font.Second}"/>
                 </Style>
             </TextBox.Style>
         </TextBox>
@@ -164,7 +165,7 @@
                         <Setter Property="Margin" Value="10,10,10,10"/>
                         <Setter Property="FontSize" Value="20"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Text.Font.Second}"/>
                     </Style>
                 </TextBox.Style>
             </TextBox>
@@ -179,7 +180,7 @@
                         <Setter Property="Margin" Value="40,10,10,10"/>
                         <Setter Property="FontSize" Value="18"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Text.Font.Second}"/>
                     </Style>
                 </TextBox.Style>
             </TextBox>

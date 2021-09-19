@@ -45,7 +45,7 @@ namespace BlizzardWind.Desktop.Business.Services
             return await db.Table<Note>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<PagingResult<Note>> GetListAsync(Guid? folderId,string sortColumn,string title,string key)
+        public async Task<PagingResult<Note>> GetListAsync(Guid? folderId,string sortColumn,string key, string content)
         {
             var result = new PagingResult<Note>();
             var db = await _dbService.GetConnectionAsync();
@@ -54,10 +54,10 @@ namespace BlizzardWind.Desktop.Business.Services
 
             if(folderId.HasValue && folderId != Guid.Empty)
                 query = query.Where(x=>x.FolderId ==  folderId.Value);
-            if (!string.IsNullOrEmpty(title))
-                query = query.Where(x => x.Title.Contains(title));
+            if (!string.IsNullOrEmpty(content))
+                query = query.Where(x => x.Content.Contains(content));
             if (!string.IsNullOrEmpty(key))
-                query = query.Where(x => x.Title.Contains(key));
+                query = query.Where(x => x.Title.Contains(key) || x.Keys.Contains(key));
             result.FilterTotal = await query.CountAsync();
 
             if (sortColumn == NoteColumnConsts.Title)

@@ -68,11 +68,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             set => SetProperty(ref _searchFolderName, value);
         }
 
-        private string _searchNoteTitle;
-        public string SearchNoteTitle
+        private string _searchNoteContent;
+        public string SearchNoteContent
         {
-            get => _searchNoteTitle;
-            set => SetProperty(ref _searchNoteTitle, value);
+            get => _searchNoteContent;
+            set => SetProperty(ref _searchNoteContent, value);
         }
 
         private string _searchNoteKey;
@@ -303,7 +303,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FolderId = Guid.Empty;
             SearchSortColumn = NoteColumnConsts.UpdatedAt;
             SearchFolderName = string.Empty;
-            SearchNoteTitle = string.Empty;
+            SearchNoteContent = string.Empty;
             SearchNoteKey = string.Empty;
 
             _NoteTotal = 0;
@@ -365,7 +365,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _NoteTotal = 0;
             NoteCollection.Clear();
 
-            var result = await _NoteService.GetListAsync(FolderId, SearchSortColumn, SearchNoteTitle, SearchNoteKey);
+            var result = await _NoteService.GetListAsync(FolderId, SearchSortColumn, SearchNoteKey, SearchNoteContent);
             foreach (var item in result.Items)
             {
                 if (item.CoverPictureId.HasValue)
