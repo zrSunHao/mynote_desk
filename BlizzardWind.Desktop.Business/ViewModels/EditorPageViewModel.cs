@@ -14,10 +14,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class EditorPageViewModel : MvxViewModel
     {
         private readonly IFileResourceService _FileService;
-        private readonly IArticleService _ArticleService;
+        private readonly IArticleService _NoteService;
         private readonly ViewModelMediator _Mediator;
         private List<MarkTextFileModel> _FileList = new List<MarkTextFileModel>();
-        private Article _Article;
+        private Article _Note;
 
         public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
         public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
@@ -28,7 +28,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public IMvxCommand FileDeleteCommand => new MvxCommand<MarkTextFileModel>(OnFileDeleteClick);
 
         public ObservableCollection<MarkTextFileModel> FileCollection { get; set; }
-        public ObservableCollection<ArticleStructureModel> ArticleStructureCollection { get; set; }
+        public ObservableCollection<NoteStructureModel> NoteStructureCollection { get; set; }
         public ObservableCollection<OptionTypeItem> EditorFileTypeCollection { get; set; }
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
         public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
@@ -87,10 +87,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class EditorPageViewModel
     {
         public EditorPageViewModel(IFileResourceService fileService,
-            IArticleService articleService, ViewModelMediator mediator)
+            IArticleService noteService, ViewModelMediator mediator)
         {
             _FileService = fileService;
-            _ArticleService = articleService;
+            _NoteService = noteService;
             _Mediator = mediator;
             Initial();
         }
@@ -124,15 +124,15 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 new OptionTypeItem(){Name = "音频",Type = EditorOperateType.UploadAudio },
                 new OptionTypeItem(){Name = "视频",Type = EditorOperateType.UploadVideo },
             };
-            ArticleStructureCollection = new ObservableCollection<ArticleStructureModel>();
+            NoteStructureCollection = new ObservableCollection<NoteStructureModel>();
 
             FileFilterType = -1;
         }
 
         public void WindowLoaded()
         {
-            _Article = _Mediator.GetShowArticle();
-            LoadArticleAsync(_Article.Id);
+            _Note = _Mediator.GetNote();
+            LoadNoteAsync(_Note.Id);
         }
 
         public async void AddFileClick(string[]? fileNames, int type)
@@ -140,7 +140,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (fileNames == null || fileNames.Length < 1)
                 return;
             List<MarkTextFileModel> models = await _FileService
-                .AddArticleFileAsync(type, fileNames.ToList(), _Article.Id);
+                .AddArticleFileAsync(type, fileNames.ToList(), _Note.Id);
             _FileList.InsertRange(0, models);
             foreach (MarkTextFileModel model in models)
             {
@@ -151,8 +151,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 CoverPicturePath = models[0].FilePath;
                 CoverPictureKey = models[0].SecretKey;
-                _Article.CoverPictureId = models[0].Id;
-                await _ArticleService.UpdateAsync(_Article);
+                _Note.CoverPictureId = models[0].Id;
+                await _NoteService.UpdateAsync(_Note);
             }
         }
 
@@ -172,14 +172,14 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             var parser = new MarkTextParser();
             List<MarkElement> elements = parser.GetMarkElements(Document);
-            _Article.Content = Document;
-            _Article.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
-            _Article.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
-            await _ArticleService.UpdateAsync(_Article);
-            _Mediator.ArticleChangedNotify(_Article, elements);
+            _Note.Content = Document;
+            _Note.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
+            _Note.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
+            await _NoteService.UpdateAsync(_Note);
+            _Mediator.NoteChangedNotify(_Note, elements);
 
-            ArticleStructureCollection.Clear();
-            ArticleStructureModel? topComponent = null;
+            NoteStructureCollection.Clear();
+            NoteStructureModel? topComponent = null;
             bool hasTitle_2 = false;
             foreach (var el in elements)
             {
@@ -188,7 +188,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     hasTitle_2 = false;
                     continue;
                 }
-                ArticleStructureModel component = new()
+                NoteStructureModel component = new()
                 {
                     Name = el.ShortContent,
                     Type = el.RowType,
@@ -198,7 +198,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 if (component.Level == MarkTypeLevel.Title_1)
                 {
                     if (topComponent != null)
-                        ArticleStructureCollection.Add(topComponent);
+                        NoteStructureCollection.Add(topComponent);
                     topComponent = component;
                     hasTitle_2 = false;
                     continue;
@@ -206,9 +206,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 if (component.Level == MarkTypeLevel.Single)
                 {
                     if (topComponent != null)
-                        ArticleStructureCollection.Add(topComponent);
+                        NoteStructureCollection.Add(topComponent);
                     topComponent = null;
-                    ArticleStructureCollection.Add(component);
+                    NoteStructureCollection.Add(component);
                     hasTitle_2 = false;
                     continue;
                 }
@@ -224,7 +224,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 if (component.Level == MarkTypeLevel.Leaf)
                 {
                     if (topComponent == null)
-                        ArticleStructureCollection.Add(component);
+                        NoteStructureCollection.Add(component);
                     else if (!hasTitle_2)
                         topComponent.AddChildren(component);
                     else if (!topComponent.Children.Any())
@@ -238,7 +238,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
             if (topComponent != null)
             {
-                ArticleStructureCollection.Add(topComponent);
+                NoteStructureCollection.Add(topComponent);
             }
         }
 
@@ -326,22 +326,22 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FileCollection.Remove(model);
         }
 
-        private async void LoadArticleAsync(Guid articleId)
+        private async void LoadNoteAsync(Guid noteId)
         {
-            _Article = await _ArticleService.GetAsync(articleId);
-            if (_Article == null)
+            _Note = await _NoteService.GetAsync(noteId);
+            if (_Note == null)
                 throw new Exception("文章数据为空！");
-            Document = _Article.Content;
-            List<MarkTextFileModel> models = await _FileService.GetArticleFilesAsync(articleId);
+            Document = _Note.Content;
+            List<MarkTextFileModel> models = await _FileService.GetArticleFilesAsync(noteId);
             _FileList.AddRange(models);
             foreach (MarkTextFileModel model in models)
             {
                 FileCollection.Add(model);
             }
             FileCount = _FileList.Count;
-            if (_Article.CoverPictureId.HasValue)
+            if (_Note.CoverPictureId.HasValue)
             {
-                var model = _FileList.FirstOrDefault(x => x.Id == _Article.CoverPictureId.Value);
+                var model = _FileList.FirstOrDefault(x => x.Id == _Note.CoverPictureId.Value);
                 if (model != null)
                 {
                     CoverPicturePath = model.FilePath;

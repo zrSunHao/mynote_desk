@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
-    public partial class ArticleFamilyPageViewModel : MvxViewModel
+    public partial class NoteFamilyPageViewModel : MvxViewModel
     {
         private readonly IFolderService _FolderService;
         private readonly IFamilyService _FamilyService;
@@ -56,9 +56,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         }
     }
 
-    public partial class ArticleFamilyPageViewModel
+    public partial class NoteFamilyPageViewModel
     {
-        public ArticleFamilyPageViewModel(IFolderService folderService,
+        public NoteFamilyPageViewModel(IFolderService folderService,
             IFamilyService familyService,
             IArticleService articleService,
             IFileResourceService fileService)

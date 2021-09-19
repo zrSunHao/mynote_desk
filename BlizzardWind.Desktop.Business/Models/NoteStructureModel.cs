@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BlizzardWind.Desktop.Business.Models
 {
-    public class ArticleStructureModel
+    public class NoteStructureModel
     {
         public string Name { get; set; }
 
@@ -13,12 +13,12 @@ namespace BlizzardWind.Desktop.Business.Models
 
         public string TypeName { get; set; }
 
-        public List<ArticleStructureModel> Children { get; set; }
+        public List<NoteStructureModel> Children { get; set; }
 
-        public void AddChildren(ArticleStructureModel model)
+        public void AddChildren(NoteStructureModel model)
         {
             if(Children == null)
-                Children = new List<ArticleStructureModel>();
+                Children = new List<NoteStructureModel>();
             Children.Add(model);
         }
     }

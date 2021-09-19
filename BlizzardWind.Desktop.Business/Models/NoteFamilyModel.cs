@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace BlizzardWind.Desktop.Business.Models
 {
-    public class ArticleFamilyModel : MvxViewModel
+    public class NoteFamilyModel : MvxViewModel
     {
         public Guid Id { get; set; }
 

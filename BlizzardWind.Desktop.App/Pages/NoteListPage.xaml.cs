@@ -24,14 +24,14 @@ namespace BlizzardWind.Desktop.App.Pages
     /// <summary>
     /// ArticleListPage.xaml 的交互逻辑
     /// </summary>
-    public partial class ArticleListPage : Page
+    public partial class NoteListPage : Page
     {
-        private readonly ArticleListPageViewModel VM;
+        private readonly NoteListPageViewModel VM;
 
-        public ArticleListPage()
+        public NoteListPage()
         {
             InitializeComponent();
-            VM = (ArticleListPageViewModel)DataContext;
+            VM = (NoteListPageViewModel)DataContext;
             VM.PromptInformationAction += PromptInformation;
             VM.ArticleReaderWindowAction += ArticleReaderWindow;
             VM.ArticleMoveDialogAction += ArticleMoveDialog;

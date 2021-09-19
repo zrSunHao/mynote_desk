@@ -7,9 +7,9 @@ namespace BlizzardWind.Desktop.Business
 {
     public class ViewModelMediator
     {
-        private Article _Article;
+        private Article _Note;
 
-        public Action<Article, List<MarkElement>> ArticleChangedAction { get; set; }
+        public Action<Article, List<MarkElement>> NoteChangedAction { get; set; }
         public Action<string> RouteRedirectAction { get; set; }
 
         public void RouteRedirect(string pageName)
@@ -20,22 +20,22 @@ namespace BlizzardWind.Desktop.Business
                 RouteRedirectAction(pageName);
         }
 
-        public void ArticleChangedNotify(Article article, List<MarkElement> elements)
+        public void NoteChangedNotify(Article note, List<MarkElement> elements)
         {
-            if(ArticleChangedAction!= null)
+            if(NoteChangedAction != null)
             {
-                ArticleChangedAction(article, elements);
+                NoteChangedAction(note, elements);
             }
         }
 
-        public void SetShowArticle(Article article)
+        public void SetShowArticle(Article note)
         {
-            _Article = article;
+            _Note = note;
         }
 
-        public Article GetShowArticle()
+        public Article GetNote()
         {
-            return _Article;
+            return _Note;
         }
     }
 }

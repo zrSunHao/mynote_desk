@@ -30,8 +30,8 @@ namespace BlizzardWind.Desktop.Business
             services.AddSingleton<ViewModelMediator>();
 
             services.AddTransient<ReaderWindowViewModel>();
-            services.AddTransient<ArticleListPageViewModel>();
-            services.AddTransient<ArticleFamilyPageViewModel>();
+            services.AddTransient<NoteListPageViewModel>();
+            services.AddTransient<NoteFamilyPageViewModel>();
 
             services.AddTransient<LaunchWindowViewModel>();
             services.AddTransient<MainWindowViewModel>();
@@ -39,8 +39,8 @@ namespace BlizzardWind.Desktop.Business
         }
 
         public ReaderWindowViewModel? ReaderWindowViewModel => _serviceProvider.GetService<ReaderWindowViewModel>();
-        public ArticleListPageViewModel? ArticleListPageViewModel => _serviceProvider.GetService<ArticleListPageViewModel>();
-        public ArticleFamilyPageViewModel? ArticleFamilyPageViewModel => _serviceProvider.GetService<ArticleFamilyPageViewModel>();
+        public NoteListPageViewModel? NoteListPageViewModel => _serviceProvider.GetService<NoteListPageViewModel>();
+        public NoteFamilyPageViewModel? NoteFamilyPageViewModel => _serviceProvider.GetService<NoteFamilyPageViewModel>();
 
         public LaunchWindowViewModel? LaunchWindowViewModel => _serviceProvider.GetService<LaunchWindowViewModel>();
         public EditorPageViewModel? EditorPageViewModel => _serviceProvider.GetService<EditorPageViewModel>();

@@ -42,9 +42,9 @@ namespace BlizzardWind.Desktop.Business.Models
 
     public class PageNameConsts
     {
-        public const string ArticleListPage = "ArticleListPage";
+        public const string NoteListPage = "NoteListPage";
 
-        public const string ArticleFamilyPage = "ArticleFamilyPage";
+        public const string NoteFamilyPage = "NoteFamilyPage";
 
         public const string EditorPage = "EditorPage";
     }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
-    public partial class ArticleListPageViewModel : MvxViewModel
+    public partial class NoteListPageViewModel : MvxViewModel
     {
         private readonly IArticleService _ArticleService;
         private readonly IFamilyService _FamilyService;
@@ -21,13 +21,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private List<ArticleFamily> _Familys = new();
         private List<ArticleFolder> _Folders = new();
-        private ArticleFamilyModel? _CurrentFamily = null;
+        private NoteFamilyModel? _CurrentFamily = null;
         private ArticleFolder? _CurrentFolder = null;
         private int _NewArticleCount = 0;
         private int _ArticleTotal = 0;
         private int _FilterTotal = 0;
 
-        public IMvxCommand FamilyClickCommand => new MvxCommand<ArticleFamilyModel>(OnFamilyClick);
+        public IMvxCommand FamilyClickCommand => new MvxCommand<NoteFamilyModel>(OnFamilyClick);
         public IMvxCommand FolderClickCommand => new MvxCommand<ArticleFolder>(OnFolderClick);
         public IMvxCommand SearchAticleClickCommand => new MvxCommand(OnSearchAticleClick);
         public IMvxCommand ResetSearchClickCommand => new MvxCommand(OnResetSearchClick);
@@ -39,7 +39,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public List<OptionValueItem> ArticleSortColumns { get; set; }
         public ObservableCollection<Article> ArticleCollection { get; set; }
-        public ObservableCollection<ArticleFamilyModel> FamilyCollection { get; set; }
+        public ObservableCollection<NoteFamilyModel> FamilyCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
         public Action<Article> ArticleReaderWindowAction { get; set; }
@@ -103,9 +103,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         }
     }
 
-    public partial class ArticleListPageViewModel
+    public partial class NoteListPageViewModel
     {
-        public ArticleListPageViewModel(IArticleService articleService,
+        public NoteListPageViewModel(IArticleService articleService,
             IFamilyService familyService, IFolderService folderService,
             IFileResourceService fileService, ViewModelMediator mediator)
         {
@@ -116,7 +116,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _Mediator = mediator;
 
             ArticleCollection = new ObservableCollection<Article>();
-            FamilyCollection = new ObservableCollection<ArticleFamilyModel>();
+            FamilyCollection = new ObservableCollection<NoteFamilyModel>();
             ArticleSortColumns = new List<OptionValueItem>()
             {
                 new OptionValueItem(){ Name = "时间倒序",Value = ArticleColumnConsts.UpdatedAt},
@@ -234,7 +234,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
 
 
-        private async void OnFamilyClick(ArticleFamilyModel family)
+        private async void OnFamilyClick(NoteFamilyModel family)
         {
             family.OnClick();
             _CurrentFamily = family;
@@ -357,7 +357,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
             foreach (var item in familys)
             {
-                var family = new ArticleFamilyModel
+                var family = new NoteFamilyModel
                 {
                     Id = item.Id,
                     Name = item.Name,

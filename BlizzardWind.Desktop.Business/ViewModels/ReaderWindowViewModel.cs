@@ -14,11 +14,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         private readonly ViewModelMediator _Mediator;
         private readonly IFileResourceService _FileResourceService;
-        private Article _Article;
+        private Article _Note;
 
         public IMvxCommand LinkClickCommand => new MvxCommand<MarkElement>(OnLinkClick);
 
-        public ObservableCollection<ArticleStructureModel> HeadlineCollection { get; set; }
+        public ObservableCollection<NoteStructureModel> HeadlineCollection { get; set; }
         public ObservableCollection<MarkElement> ElementCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
@@ -32,20 +32,20 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _Mediator = mediator;
             _FileResourceService = fileResourceService;
             ElementCollection = new ObservableCollection<MarkElement>();
-            _Mediator.ArticleChangedAction += ArticleChanged;
+            _Mediator.NoteChangedAction += NoteChanged;
         }
 
-        public void OnWindowLoaded(Article article)
+        public void OnWindowLoaded(Article note)
         {
-            _Article = article;
+            _Note = note;
             var parser = new MarkTextParser();
-            List<MarkElement> elements = parser.GetMarkElements(_Article.Content);
-            ArticleUpdate(_Article, elements);
+            List<MarkElement> elements = parser.GetMarkElements(_Note.Content);
+            NoteUpdate(_Note, elements);
         }
 
-        public Article GetCurrentArticle()
+        public Article GetCurrentNote()
         {
-            return _Article;
+            return _Note;
         }
 
         private void OnLinkClick(MarkElement element)
@@ -54,16 +54,16 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 LinkClickAction.Invoke(element.KeyValue.Value);
         }
 
-        private void ArticleChanged(Article article, List<MarkElement> elements)
+        private void NoteChanged(Article note, List<MarkElement> elements)
         {
-            if (_Article != null && _Article.Id != article.Id)
+            if (_Note != null && _Note.Id != note.Id)
                 return;
-            ArticleUpdate(article, elements);
+            NoteUpdate(note, elements);
         }
 
-        private async void ArticleUpdate(Article article, List<MarkElement> elements)
+        private async void NoteUpdate(Article note, List<MarkElement> elements)
         {
-            if (article == null || elements == null)
+            if (note == null || elements == null)
                 return;
             ElementCollection.Clear();
             foreach (var item in elements)

@@ -24,14 +24,14 @@ namespace BlizzardWind.Desktop.App.Pages
     /// <summary>
     /// ArticleFamilyPage.xaml 的交互逻辑
     /// </summary>
-    public partial class ArticleFamilyPage : Page
+    public partial class NoteFamilyPage : Page
     {
-        private readonly ArticleFamilyPageViewModel VM;
+        private readonly NoteFamilyPageViewModel VM;
 
-        public ArticleFamilyPage()
+        public NoteFamilyPage()
         {
             InitializeComponent();
-            VM = (ArticleFamilyPageViewModel)DataContext;
+            VM = (NoteFamilyPageViewModel)DataContext;
             VM.PromptInformationAction += PromptInformation;
             VM.FamilyEditDialogAction += EditFamilyDialog;
             VM.FamilyDeleteDialogAction += DeleteFamilyDialog;

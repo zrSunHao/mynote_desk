@@ -1,18 +1,17 @@
-﻿<Page x:Class="BlizzardWind.Desktop.App.Pages.ArticleFamilyPage"
+﻿<Page x:Class="BlizzardWind.Desktop.App.Pages.NoteFamilyPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
-      xmlns:lce="clr-namespace:BlizzardWind.Desktop.Controls.Element;assembly=BlizzardWind.Desktop.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="560" d:DesignWidth="960"
-      DataContext="{Binding ArticleFamilyPageViewModel, Source={StaticResource ViewModelLocator}}"
+      DataContext="{Binding NoteFamilyPageViewModel, Source={StaticResource ViewModelLocator}}"
       Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/ArticleFamilyPageStyle.xaml"/>
+                <ResourceDictionary Source="/Styles/NoteFamilyPageStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
