@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.App.Common.Consts;
+using BlizzardWind.App.Common.MarkText;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
@@ -288,7 +289,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (FolderUploadCoverDialogAction == null)
                 return;
             string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
-            FolderUploadCoverDialogAction.Invoke(EditorOperateType.UploadCoverPicture, filter, folder);
+            FolderUploadCoverDialogAction.Invoke(MarkResourceType.Cover, filter, folder);
         }
 
 

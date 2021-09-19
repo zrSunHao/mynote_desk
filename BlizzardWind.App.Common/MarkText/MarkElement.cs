@@ -7,12 +7,12 @@ namespace BlizzardWind.App.Common.MarkText
     {
         public string Value { get; set; }
 
-        public MarkType Type { get; set; }
+        public MarkNoteElementType Type { get; set; }
     }
 
     public class MarkElement
     {
-        public MarkType Type { get; set; }
+        public MarkNoteElementType Type { get; set; }
 
         public string Content { get; set; }
 
@@ -47,29 +47,29 @@ namespace BlizzardWind.App.Common.MarkText
         {
             switch (Type)
             {
-                case MarkType.h1:
+                case MarkNoteElementType.h1:
                     return "H1";
-                case MarkType.h2:
+                case MarkNoteElementType.h2:
                     return "H2";
-                case MarkType.h3:
+                case MarkNoteElementType.h3:
                     return "H3";
-                case MarkType.key:
+                case MarkNoteElementType.key:
                     return "Keys";
-                case MarkType.profile:
+                case MarkNoteElementType.profile:
                     return "Profile";
-                case MarkType.img:
+                case MarkNoteElementType.img:
                     return "Img";
-                case MarkType.txt:
+                case MarkNoteElementType.txt:
                     return "Txt";
-                case MarkType.link:
+                case MarkNoteElementType.link:
                     return "Link";
-                case MarkType.list:
+                case MarkNoteElementType.list:
                     return "List";
-                case MarkType.summary:
+                case MarkNoteElementType.summary:
                     return "Summary";
-                case MarkType.quote:
+                case MarkNoteElementType.quote:
                     return "Quote";
-                case MarkType.p:
+                case MarkNoteElementType.p:
                     return "P";
             }
             return "";
@@ -79,13 +79,13 @@ namespace BlizzardWind.App.Common.MarkText
         {
             return Type switch
             {
-                MarkType.h1 => MarkTypeLevel.Skip,
-                MarkType.h2 => MarkTypeLevel.Title_1,
-                MarkType.key => MarkTypeLevel.Single,
-                MarkType.profile => MarkTypeLevel.Single,
-                MarkType.summary => MarkTypeLevel.Single,
-                MarkType.quote => MarkTypeLevel.Single,
-                MarkType.h3 => MarkTypeLevel.Title_2,
+                MarkNoteElementType.h1 => MarkTypeLevel.Skip,
+                MarkNoteElementType.h2 => MarkTypeLevel.Title_1,
+                MarkNoteElementType.key => MarkTypeLevel.Single,
+                MarkNoteElementType.profile => MarkTypeLevel.Single,
+                MarkNoteElementType.summary => MarkTypeLevel.Single,
+                MarkNoteElementType.quote => MarkTypeLevel.Single,
+                MarkNoteElementType.h3 => MarkTypeLevel.Title_2,
                 _ => MarkTypeLevel.Leaf,
             };
         }
@@ -94,29 +94,29 @@ namespace BlizzardWind.App.Common.MarkText
         {
             switch (Type)
             {
-                case MarkType.h1:
+                case MarkNoteElementType.h1:
                     return SubstringContent();
-                case MarkType.h2:
+                case MarkNoteElementType.h2:
                     return SubstringContent();
-                case MarkType.h3:
+                case MarkNoteElementType.h3:
                     return SubstringContent();
-                case MarkType.key:
+                case MarkNoteElementType.key:
                     return SubstringContent();
-                case MarkType.profile:
+                case MarkNoteElementType.profile:
                     return SubstringContent();
-                case MarkType.img:
+                case MarkNoteElementType.img:
                     return GetValue();
-                case MarkType.txt:
+                case MarkNoteElementType.txt:
                     return GetValue();
-                case MarkType.link:
+                case MarkNoteElementType.link:
                     return GetValue();
-                case MarkType.list:
+                case MarkNoteElementType.list:
                     return "";
-                case MarkType.summary:
+                case MarkNoteElementType.summary:
                     return SubstringContent();
-                case MarkType.quote:
+                case MarkNoteElementType.quote:
                     return "引用";
-                case MarkType.p:
+                case MarkNoteElementType.p:
                     return SubstringContent();
             }
             return "";

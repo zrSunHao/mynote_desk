@@ -1,4 +1,5 @@
-﻿using BlizzardWind.Desktop.Business.Entities;
+﻿using BlizzardWind.App.Common.MarkText;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
@@ -280,7 +281,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (NoteUploadCoverDialogAction == null)
                 return;
             string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
-            NoteUploadCoverDialogAction.Invoke(EditorOperateType.UploadCoverPicture, filter, note);
+            NoteUploadCoverDialogAction.Invoke(MarkResourceType.Cover, filter, note);
         }
 
         private async void OnNoteDeleteClick(Note note)

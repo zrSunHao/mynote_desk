@@ -52,7 +52,7 @@ namespace BlizzardWind.App.Common.MarkText
 
                 if (value == "--") // 判断是否为文本【块结束行】
                 {
-                    rows.Add(new MarkRow { Value = value, Type = MarkType.end });
+                    rows.Add(new MarkRow { Value = value, Type = MarkNoteElementType.end });
                     continue;
                 }
 
@@ -62,7 +62,7 @@ namespace BlizzardWind.App.Common.MarkText
                     if (row != null) rows.Add(row);
                 }
                 else
-                    rows.Add(new MarkRow { Value = value, Type = MarkType.other });
+                    rows.Add(new MarkRow { Value = value, Type = MarkNoteElementType.other });
             }
             return rows;
         }
@@ -76,30 +76,30 @@ namespace BlizzardWind.App.Common.MarkText
         {
             MatchCollection? rs = _tagRg.Matches(text);
             if (!rs.Any()) // 判断是否提取出【块起始行】标识
-                return new MarkRow { Value = text, Type = MarkType.other };
+                return new MarkRow { Value = text, Type = MarkNoteElementType.other };
             string tag = rs[0].ToString();
 
-            MarkType type = tag switch
+            MarkNoteElementType type = tag switch
             {
-                MarkTypeConsts.H1 => MarkType.h1,
-                MarkTypeConsts.H2 => MarkType.h2,
-                MarkTypeConsts.H3 => MarkType.h3,
-                MarkTypeConsts.KEY => MarkType.key,
-                MarkTypeConsts.PROFILE => MarkType.profile,
-                MarkTypeConsts.P => MarkType.p,
-                MarkTypeConsts.IMG => MarkType.img,
-                MarkTypeConsts.TXT => MarkType.txt,
-                MarkTypeConsts.LINK => MarkType.link,
-                MarkTypeConsts.LIST => MarkType.list,
-                MarkTypeConsts.SUMMARY => MarkType.summary,
-                MarkTypeConsts.QUOTE => MarkType.quote,
-                MarkTypeConsts.END => MarkType.end,
-                _ => MarkType.other,
+                MarkNoteElementTypeConsts.H1 => MarkNoteElementType.h1,
+                MarkNoteElementTypeConsts.H2 => MarkNoteElementType.h2,
+                MarkNoteElementTypeConsts.H3 => MarkNoteElementType.h3,
+                MarkNoteElementTypeConsts.KEY => MarkNoteElementType.key,
+                MarkNoteElementTypeConsts.PROFILE => MarkNoteElementType.profile,
+                MarkNoteElementTypeConsts.P => MarkNoteElementType.p,
+                MarkNoteElementTypeConsts.IMG => MarkNoteElementType.img,
+                MarkNoteElementTypeConsts.TXT => MarkNoteElementType.txt,
+                MarkNoteElementTypeConsts.LINK => MarkNoteElementType.link,
+                MarkNoteElementTypeConsts.LIST => MarkNoteElementType.list,
+                MarkNoteElementTypeConsts.SUMMARY => MarkNoteElementType.summary,
+                MarkNoteElementTypeConsts.QUOTE => MarkNoteElementType.quote,
+                MarkNoteElementTypeConsts.END => MarkNoteElementType.end,
+                _ => MarkNoteElementType.other,
             };
 
             // list【块起始行】只有标识，没有其他信息
-            if (type == MarkType.list || type == MarkType.profile 
-                || type == MarkType.summary || type == MarkType.quote) 
+            if (type == MarkNoteElementType.list || type == MarkNoteElementType.profile 
+                || type == MarkNoteElementType.summary || type == MarkNoteElementType.quote) 
                 return new MarkRow() { Type = type };
             // 移除标识
             string value = text.Replace(@$"#{tag}]", "").Trim();
@@ -120,30 +120,30 @@ namespace BlizzardWind.App.Common.MarkText
             foreach (MarkRow row in rows)
             {
                 // 不是【块起始行】，当作【多行块】的内容，缓存
-                if (row.Type == MarkType.other)
+                if (row.Type == MarkNoteElementType.other)
                 {
                     rowsBuffer.Add(row.Value);
                     continue;
                 }
 
                 // 是【多行块】的【块结束行】,根据块类型组装块元素
-                if (row.Type == MarkType.end && blockElement != null)
+                if (row.Type == MarkNoteElementType.end && blockElement != null)
                 {
                     MarkElement? ele = null;
                     switch (blockElement.Type)
                     {
-                        case MarkType.profile:
-                        case MarkType.summary:
+                        case MarkNoteElementType.profile:
+                        case MarkNoteElementType.summary:
                             var builder = new StringBuilder();
                             foreach (var item in rowsBuffer)
                                 builder.Append($"\u3000\u3000{item}\u000A");
                             blockElement.Content = builder.ToString();
                             ele = blockElement;
                             break;
-                        case MarkType.list:
+                        case MarkNoteElementType.list:
                             ele = GetListElement(blockElement, rowsBuffer);
                             break;
-                        case MarkType.quote:
+                        case MarkNoteElementType.quote:
                             ele = GetListElement(blockElement, rowsBuffer);
                             break;
                         default:
@@ -160,7 +160,7 @@ namespace BlizzardWind.App.Common.MarkText
                 if (rowsBuffer.Any() && blockElement == null)
                 {
                     foreach (var li in rowsBuffer)
-                        elements.Add(new MarkElement { Type = MarkType.p, Content = $"\u3000\u3000{li}" });
+                        elements.Add(new MarkElement { Type = MarkNoteElementType.p, Content = $"\u3000\u3000{li}" });
                 }
                 rowsBuffer.Clear();
 
@@ -168,32 +168,32 @@ namespace BlizzardWind.App.Common.MarkText
                 MarkElement element = new MarkElement { Type = row.Type };
                 switch (row.Type)
                 {
-                    case MarkType.h1:
-                    case MarkType.h2:
-                    case MarkType.h3:
+                    case MarkNoteElementType.h1:
+                    case MarkNoteElementType.h2:
+                    case MarkNoteElementType.h3:
                         element.Content = row.Value;
                         break;
-                    case MarkType.p:
+                    case MarkNoteElementType.p:
                         element.Content = $"\u3000\u3000{row.Value}";
                         break;
-                    case MarkType.key:
+                    case MarkNoteElementType.key:
                         string value = row.Value.Replace("，", ",");
                         element.List = value.Split(",").ToList();
                         element.Content = row.Value;
                         break;
-                    case MarkType.img:
-                    case MarkType.txt:
-                    case MarkType.link:
+                    case MarkNoteElementType.img:
+                    case MarkNoteElementType.txt:
+                    case MarkNoteElementType.link:
                         element.KeyValue = new MarkKeyValue
                         {
                             Name = _nameRg.Match(row.Value).Value,
                             Value = _valueRg.Match(row.Value).Value
                         };
                         break;
-                    case MarkType.profile:
-                    case MarkType.summary:
-                    case MarkType.list:
-                    case MarkType.quote:
+                    case MarkNoteElementType.profile:
+                    case MarkNoteElementType.summary:
+                    case MarkNoteElementType.list:
+                    case MarkNoteElementType.quote:
                         blockElement = element;
                         continue;
                     default:

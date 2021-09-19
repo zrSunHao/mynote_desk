@@ -56,11 +56,11 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>
                 <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}"
-                         KeyDown="TextBox_KeyDown" Text="{Binding FileFilterName,UpdateSourceTrigger=PropertyChanged}"/>
+                         KeyDown="TextBox_KeyDown" Text="{Binding FilesInfo.FilterName,UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Column="1" Style="{StaticResource FileCountTextStyle}">
                             <Run Text="{Binding FileCollection.Count,Mode=OneWay}"/>
                             <Run Text="/"/>
-                            <Run Text="{Binding FileCount,Mode=OneWay}"/>
+                            <Run Text="{Binding FilesInfo.Count,Mode=OneWay}"/>
                 </TextBlock>
             </Grid>
             <Grid Grid.Row="1" Margin="0,0,0,5">
@@ -69,7 +69,7 @@
                           ItemsSource="{Binding EditorFileTypeCollection,TargetNullValue={x:Null}}"
                           DisplayMemberPath="Name"
                           SelectedValuePath="Type"
-                          SelectedValue="{Binding FileFilterType}"
+                          SelectedValue="{Binding FilesInfo.FilterType}"
                           SelectionChanged="ComboBox_SelectionChanged"/>
             </Grid>
             <Grid Grid.Row="2">

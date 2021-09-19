@@ -1,6 +1,7 @@
 ﻿using BlizzardWind.App.Common.Consts;
 using BlizzardWind.App.Common.Tools;
 using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.App.Windows;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.Models;
 using BlizzardWind.Desktop.Business.ViewModels;
@@ -39,6 +40,7 @@ namespace BlizzardWind.Desktop.App.Pages
             InitializeComponent();
             VM = (EditorPageViewModel)DataContext;
             VM.PromptInformationAction += PromptInformation;
+            VM.NoteReaderWindowAction += NoteReaderWindow;
             VM.UploadFileAction += UploadFile;
 
             VM.FileIdCopyAction += FileIdCopy;
@@ -61,6 +63,22 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             var dialog = new ConfirmDialog(type, msg);
             dialog.ShowDialog();
+        }
+
+        private void NoteReaderWindow(Note article)
+        {
+            foreach (Window item in Application.Current.Windows)
+            {
+                if (item.GetType() == typeof(ReaderWindow))
+                {
+                    var window = item as ReaderWindow;
+                    if (window != null)
+                        window.SetNote(article);
+                    return;
+                }
+            }
+            ReaderWindow reader = new ReaderWindow(article);
+            reader.Show();
         }
 
         private void FileIdCopy(string msg)

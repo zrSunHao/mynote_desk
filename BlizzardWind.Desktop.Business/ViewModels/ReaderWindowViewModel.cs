@@ -71,7 +71,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             ElementCollection.Clear();
             foreach (var item in elements)
             {
-                if (item.Type == MarkType.txt || item.Type == MarkType.img)
+                if (item.Type == MarkNoteElementType.txt || item.Type == MarkNoteElementType.img)
                 {
                     item.Content = item.KeyValue?.Name;
                     Guid fileId = Guid.Empty;

@@ -230,7 +230,7 @@
             </Grid.RowDefinitions>
             <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" MaxHeight="300" MinHeight="100" Stretch="Uniform">
                 <Image.Source>
-                    <MultiBinding Converter="{StaticResource ArticleCoverPathToUriConverter}" Mode="OneWay">
+                    <MultiBinding Converter="{StaticResource NoteCoverPathToUriConverter}" Mode="OneWay">
                         <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
                         <Binding  Path="FileKey" UpdateSourceTrigger="PropertyChanged"></Binding>
                     </MultiBinding>
@@ -414,37 +414,37 @@
     <Style x:Key="TextItemContainerStyle" TargetType="ContentPresenter" >
         <Setter Property="ContentTemplate" Value="{StaticResource ParagraphTemplate}"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.h1}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.h1}">
                 <Setter Property="ContentTemplate" Value="{StaticResource H1Template}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.h2}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.h2}">
                 <Setter Property="ContentTemplate" Value="{StaticResource H2Template}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.h3}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.h3}">
                 <Setter Property="ContentTemplate" Value="{StaticResource H3Template}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.key}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.key}">
                 <Setter Property="ContentTemplate" Value="{StaticResource KeysTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.profile}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.profile}">
                 <Setter Property="ContentTemplate" Value="{StaticResource ProfileTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.img}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.img}">
                 <Setter Property="ContentTemplate" Value="{StaticResource ImgTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.txt}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.txt}">
                 <Setter Property="ContentTemplate" Value="{StaticResource TxtTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.link}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.link}">
                 <Setter Property="ContentTemplate" Value="{StaticResource LinkTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.list}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.list}">
                 <Setter Property="ContentTemplate" Value="{StaticResource ListTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.summary}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.summary}">
                 <Setter Property="ContentTemplate" Value="{StaticResource SummaryTemplate}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkType.quote}">
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static lcmk:MarkNoteElementType.quote}">
                 <Setter Property="ContentTemplate" Value="{StaticResource QuoteTemplate}"/>
             </DataTrigger>
         </Style.Triggers>

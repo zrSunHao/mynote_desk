@@ -1,5 +1,7 @@
 ﻿using BlizzardWind.App.Common.MarkText;
+using BlizzardWind.Desktop.Business.Consts;
 using BlizzardWind.Desktop.Business.Entities;
+using BlizzardWind.Desktop.Business.Helpers;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
@@ -21,44 +23,26 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
         public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
+
         public IMvxCommand FileIdCopyCommand => new MvxCommand<MarkNoteFileModel>(OnFileIdCopyClick);
         public IMvxCommand FileRenameCommand => new MvxCommand<MarkNoteFileModel>(OnFileRenameClick);
         public IMvxCommand FileReplaceCommand => new MvxCommand<MarkNoteFileModel>(OnFileReplaceClick);
         public IMvxCommand FileExportCommand => new MvxCommand<MarkNoteFileModel>(OnFileExportClick);
         public IMvxCommand FileDeleteCommand => new MvxCommand<MarkNoteFileModel>(OnFileDeleteClick);
 
+        public ObservableCollection<OperateModel> MainOperateCollection { get; set; }
+        public ObservableCollection<OperateModel> UploadOperateCollection { get; set; }
         public ObservableCollection<MarkNoteFileModel> FileCollection { get; set; }
         public ObservableCollection<OptionTypeItem> EditorFileTypeCollection { get; set; }
-        public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
-        public ObservableCollection<EditorOperateModel> UploadOperateCollection { get; set; }
+        public EditorFilesInfo FilesInfo { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
+        public Action<Note> NoteReaderWindowAction { get; set; }
         public Action<string, int, bool> UploadFileAction { get; set; }
         public Action<string> FileIdCopyAction { get; set; }
         public Action<string, MarkNoteFileModel> FileReplaceAction { get; set; }
         public Action<MarkNoteFileModel> FileExportAction { get; set; }
         public Action<MarkNoteFileModel> FileRenameAction { get; set; }
-
-        private int _fileFilterType;
-        public int FileFilterType
-        {
-            get => _fileFilterType;
-            set => SetProperty(ref _fileFilterType, value);
-        }
-
-        private string _fileFilterName;
-        public string FileFilterName
-        {
-            get => _fileFilterName;
-            set => SetProperty(ref _fileFilterName, value);
-        }
-
-        private int _fileCount;
-        public int FileCount
-        {
-            get => _fileCount;
-            set => SetProperty(ref _fileCount, value);
-        }
 
         private string _document;
         public string Document
@@ -83,41 +67,26 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public void Initial()
         {
             FileCollection = new ObservableCollection<MarkNoteFileModel>();
-            MainOperateCollection = new ObservableCollection<EditorOperateModel>()
-            {
-                new EditorOperateModel(){Name = "保存",  Type=EditorOperateType.Save},
-                new EditorOperateModel(){Name = "云同步",  Type=EditorOperateType.CloudSync},
-            };
-            UploadOperateCollection = new ObservableCollection<EditorOperateModel>()
-            {
-                new EditorOperateModel(){Name = "图片",  Type=EditorOperateType.UploadImage},
-                new EditorOperateModel(){Name = "office文件",  Type=EditorOperateType.UploadOfficeFile},
-                new EditorOperateModel(){Name = "文本文档",  Type=EditorOperateType.UploadTxt},
-                new EditorOperateModel(){Name = "PDF",  Type=EditorOperateType.UploadPDF},
-                new EditorOperateModel(){Name = "音频",  Type=EditorOperateType.UploadAudio},
-                new EditorOperateModel(){Name = "视频",  Type=EditorOperateType.UploadVideo},
-            };
-            EditorFileTypeCollection = new ObservableCollection<OptionTypeItem>()
-            {
-                new OptionTypeItem(){Name = "全部",Type = -1 },
-                new OptionTypeItem(){Name = "封面",Type = EditorOperateType.UploadCoverPicture },
-                new OptionTypeItem(){Name = "图片",Type = EditorOperateType.UploadImage },
-                new OptionTypeItem(){Name = "office文件",Type = EditorOperateType.UploadOfficeFile },
-                new OptionTypeItem(){Name = "文本文件",Type = EditorOperateType.UploadTxt },
-                new OptionTypeItem(){Name = "PDF",Type = EditorOperateType.UploadPDF },
-                new OptionTypeItem(){Name = "音频",Type = EditorOperateType.UploadAudio },
-                new OptionTypeItem(){Name = "视频",Type = EditorOperateType.UploadVideo },
-            };
+            MainOperateCollection = OperateHelper.GetEditorMainOperate();
+            UploadOperateCollection = OperateHelper.GetEditorFileUploadOperate();
+            EditorFileTypeCollection = OptionHelper.GetEditorFileTypes();
 
-            FileFilterType = -1;
+            FilesInfo = new EditorFilesInfo();
+            FilesInfo.FilterType = -1;
         }
 
         public void WindowLoaded()
         {
+            // 笔记信息来自中介者
             _Note = _Mediator.GetNote();
             LoadNoteAsync(_Note.Id);
         }
 
+        /// <summary>
+        /// 文件上传
+        /// </summary>
+        /// <param name="fileNames">文件路径名</param>
+        /// <param name="type">文件类型</param>
         public async void AddFileClick(string[]? fileNames, int type)
         {
             if (fileNames == null || fileNames.Length < 1)
@@ -125,37 +94,44 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             List<MarkNoteFileModel> models = await _FileService
                 .AddNoteFileAsync(type, fileNames.ToList(), _Note.Id);
             _FileList.InsertRange(0, models);
+
             foreach (MarkNoteFileModel model in models)
-            {
                 FileCollection.Insert(0, model);
-            }
-            FileCount = _FileList.Count;
-            if (type == EditorOperateType.UploadCoverPicture)
+            FilesInfo.Count = _FileList.Count;
+
+            if (type == MarkResourceType.Cover)
             {
                 _Note.CoverPictureId = models[0].Id;
                 await _NoteService.UpdateAsync(_Note);
             }
         }
 
+        /// <summary>
+        /// 文件筛选
+        /// </summary>
         public void FileFilter()
         {
             FileCollection.Clear();
             List<MarkNoteFileModel> list = _FileList;
-            if (!string.IsNullOrEmpty(FileFilterName))
-                list = list.Where(x => x.FileName.Contains(FileFilterName)).ToList();
-            if (FileFilterType != -1)
-                list = list.Where(x => x.Type == FileFilterType).ToList();
+            if (!string.IsNullOrEmpty(FilesInfo.FilterName))
+                list = list.Where(x => x.FileName.Contains(FilesInfo.FilterName)).ToList();
+            if (FilesInfo.FilterType != -1)
+                list = list.Where(x => x.Type == FilesInfo.FilterType).ToList();
             foreach (MarkNoteFileModel model in list)
                 FileCollection.Add(model);
         }
 
+        /// <summary>
+        /// 文本改变
+        /// </summary>
+        /// <param name="value"></param>
         public async void TextChange(string value)
         {
             var parser = new MarkTextParser();
             List<MarkElement> elements = parser.GetMarkElements(Document);
             _Note.Content = Document;
-            _Note.Title = elements.FirstOrDefault(x => x.Type == MarkType.h1)?.Content;
-            _Note.Keys = elements.FirstOrDefault(x => x.Type == MarkType.key)?.Content;
+            _Note.Title = elements.FirstOrDefault(x => x.Type == MarkNoteElementType.h1)?.Content;
+            _Note.Keys = elements.FirstOrDefault(x => x.Type == MarkNoteElementType.key)?.Content;
             await _NoteService.UpdateAsync(_Note);
             _Mediator.NoteChangedNotify(_Note, elements);
         }
@@ -184,14 +160,22 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnMainOperateClick(int type)
         {
-            Console.WriteLine(type);
+            switch (type)
+            {
+                case EditorOperateType.See:
+                    if (NoteReaderWindowAction != null)
+                        NoteReaderWindowAction.Invoke(_Note);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void OnUploadOperateClick(int type)
         {
-            string filter = GetFileFilter(type);
+            string filter = MarkNoteHelper.GetWinFileFilter(type);
             bool multiselect = true;
-            if (type == EditorOperateType.UploadCoverPicture)
+            if (type == MarkResourceType.Cover)
                 multiselect = false;
             if (UploadFileAction != null)
             {
@@ -204,11 +188,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             string msg = "暂不支持该文件类型的显示";
             switch (model.Type)
             {
-                case EditorOperateType.UploadCoverPicture:
-                case EditorOperateType.UploadImage:
+                case MarkResourceType.Cover:
+                case MarkResourceType.Image:
                     msg = $"#img] <{model.FileName}>({model.Id.ToString()})";
                     break;
-                case EditorOperateType.UploadTxt:
+                case MarkResourceType.Txt:
                     msg = $"#txt] <{model.FileName}>({model.Id.ToString()})";
                     break;
                 default:
@@ -220,7 +204,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnFileReplaceClick(MarkNoteFileModel model)
         {
-            string filter = GetFileFilter(model.Type);
+            string filter = MarkNoteHelper.GetWinFileFilter(model.Type);
             if (FileReplaceAction != null)
                 FileReplaceAction.Invoke(filter, model);
         }
@@ -256,41 +240,35 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 FileCollection.Add(model);
             }
-            FileCount = _FileList.Count;
+            FilesInfo.Count = _FileList.Count;
             if (_Note.CoverPictureId.HasValue)
             {
                 var model = _FileList.FirstOrDefault(x => x.Id == _Note.CoverPictureId.Value);
             }
         }
+    }
 
-        private string GetFileFilter(int type)
+    public class EditorFilesInfo : MvxViewModel
+    {
+        private int _filterType;
+        public int FilterType
         {
-            string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
-            switch (type)
-            {
-                case EditorOperateType.UploadCoverPicture:
-                    filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
-                    break;
-                case EditorOperateType.UploadImage:
-                    filter = "图像文件(*.jpg;*.jpeg;*.gif;*.png;)|*.jpg;*.jpeg;*.gif;*.png;";
-                    break;
-                case EditorOperateType.UploadOfficeFile:
-                    filter = "office文件(word,excel.ppt)|*.docx;*.doc;*.xlsx;*.xls;*.pptx;*.ppt;";
-                    break;
-                case EditorOperateType.UploadTxt:
-                    filter = "文本文件(*.txt;*.cs;)| *.txt;*.cs;";
-                    break;
-                case EditorOperateType.UploadPDF:
-                    filter = "PDF(*.pdf;)|*.pdf;";
-                    break;
-                case EditorOperateType.UploadAudio:
-                    filter = "音频文件(*.mp3;*.flac;)|*.mp3;*.flac;";
-                    break;
-                case EditorOperateType.UploadVideo:
-                    filter = "图像文件(*.mp4;*.flv;)|*.mp4;*.flv;";
-                    break;
-            }
-            return filter;
+            get => _filterType;
+            set => SetProperty(ref _filterType, value);
+        }
+
+        private string _filterName;
+        public string FilterName
+        {
+            get => _filterName;
+            set => SetProperty(ref _filterName, value);
+        }
+
+        private int _count;
+        public int Count
+        {
+            get => _count;
+            set => SetProperty(ref _count, value);
         }
     }
 }

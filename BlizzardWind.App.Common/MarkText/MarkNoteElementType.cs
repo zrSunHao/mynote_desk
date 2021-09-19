@@ -1,6 +1,6 @@
 ﻿namespace BlizzardWind.App.Common.MarkText
 {
-    public enum MarkType
+    public enum MarkNoteElementType
     {
         /// <summary>
         /// 段落
@@ -73,7 +73,7 @@
         other,
     }
 
-    public class MarkTypeConsts
+    public class MarkNoteElementTypeConsts
     {
         public const string H1 = "h1";
         public const string H2 = "h2";
@@ -91,20 +91,7 @@
         public const string END = "--";
     }
 
-    public class MarkResourceType
-    {
-        public const int Cover = 3;
+    
 
-        public const int Image = 11;
-
-        public const int OfficeFile = 12;
-
-        public const int Txt = 15;
-
-        public const int PDF = 16;
-
-        public const int Audio = 17;
-
-        public const int Video = 18;
-    }
+    
 }
