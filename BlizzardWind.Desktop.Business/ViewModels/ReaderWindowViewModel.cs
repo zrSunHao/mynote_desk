@@ -1,5 +1,7 @@
 ﻿using BlizzardWind.App.Common.MarkText;
+using BlizzardWind.Desktop.Business.Consts;
 using BlizzardWind.Desktop.Business.Entities;
+using BlizzardWind.Desktop.Business.Helpers;
 using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
@@ -18,12 +20,15 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private Note _Note;
 
         public IMvxCommand LinkClickCommand => new MvxCommand<MarkElement>(OnLinkClick);
+        public IMvxCommand OperateCommand => new MvxCommand<int>(OnOperateClick);
 
         public ObservableCollection<MarkElement> ElementCollection { get; set; }
         public ObservableCollection<NoteStructureModel> NoteStructureCollection { get; set; }
+        public ObservableCollection<OperateModel> OperateCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
         public Action<string> LinkClickAction { get; set; }
+        public Action<int> OperateAction { get; set; }
     }
 
     public partial class ReaderWindowViewModel
@@ -34,6 +39,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _FileResourceService = fileResourceService;
             ElementCollection = new ObservableCollection<MarkElement>();
             NoteStructureCollection = new ObservableCollection<NoteStructureModel>();
+            OperateCollection = OperateHelper.GetReaderOperate();
             _Mediator.NoteChangedAction += NoteChanged;
         }
 
@@ -50,6 +56,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return _Note;
         }
 
+        private void OnOperateClick(int type)
+        {
+            if (OperateAction != null)
+            {
+                OperateAction.Invoke(type);
+            }
+        }
         private void OnLinkClick(MarkElement element)
         {
             if (LinkClickAction != null && element.KeyValue?.Value != null)

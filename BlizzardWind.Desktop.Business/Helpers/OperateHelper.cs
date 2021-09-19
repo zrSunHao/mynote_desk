@@ -37,5 +37,15 @@ namespace BlizzardWind.Desktop.Business.Helpers
                 new OperateModel(){Name = "视频", Type = MarkResourceType.Video},
             };
         }
+
+        public static ObservableCollection<OperateModel> GetReaderOperate()
+        {
+            return new ObservableCollection<OperateModel>()
+            {
+                new OperateModel(){Name = "笔记结构",  Type = ReaderOperateType.TreeVisible},
+                new OperateModel(){Name = "PDF导出",  Type = ReaderOperateType.PdfExport},
+                new OperateModel(){Name = "PDF分割",  Type = ReaderOperateType.PdfSplit},
+            };
+        }
     }
 }

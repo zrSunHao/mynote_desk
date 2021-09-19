@@ -18,7 +18,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -28,10 +28,12 @@
         <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="2">
             <Rectangle Style="{StaticResource RectBorderStyle}"/>
             <WrapPanel Orientation="Horizontal" Margin="15">
-                
+                <ItemsControl ItemsSource="{Binding OperateCollection}"
+                              Style="{StaticResource CommonOperateItemsStyle}"
+                              ItemTemplate="{StaticResource OperateItemsTemplate}"/>
             </WrapPanel>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="0" Width="300">
+        <Grid x:Name="tree_grid" Grid.Row="1" Grid.Column="0" Width="300">
             <Rectangle Style="{StaticResource RectBorderStyle}" Grid.RowSpan="2"/>
             <TreeView Style="{StaticResource TreeViewStyle}"
                           ItemsSource="{Binding NoteStructureCollection}"/>
@@ -43,16 +45,6 @@
                 <ItemsControl x:Name="article_grid" ItemsSource="{Binding ElementCollection}" Margin="10"
                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
-                <Grid.ContextMenu>
-                    <ContextMenu Style="{StaticResource ContextMenuStyle}">
-                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" 
-                                  Header="打印"
-                                  Click="Pint_Click"/>
-                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" 
-                                  Header="PDF分割"
-                                  Click="SplitPdf_Click"/>
-                    </ContextMenu>
-                </Grid.ContextMenu>
             </Grid>
         </ScrollViewer>
     </Grid>

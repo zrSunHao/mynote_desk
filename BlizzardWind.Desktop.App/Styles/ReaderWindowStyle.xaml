@@ -5,6 +5,13 @@
 
     <SolidColorBrush x:Key="Text.Font.Primary" Color="Silver"/>
 
+    <DataTemplate x:Key="OperateItemsTemplate">
+        <Button Style="{StaticResource CommonOperateButtonStyle}"
+                Content="{Binding Name}"
+                Command="{Binding DataContext.OperateCommand,RelativeSource={RelativeSource AncestorType=Window}}" 
+                CommandParameter="{Binding Type}"/>
+    </DataTemplate>
+    
     <HierarchicalDataTemplate x:Key="HeadlineTreeTemplate" ItemsSource="{Binding Children}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding TypeName}" Margin="3,0,0,0" Foreground="{StaticResource Color.Info}"/>
@@ -331,7 +338,7 @@
             <TextBox Grid.Column="0" Text="外部链接：" FontSize="15" Foreground="{StaticResource Color.Info}"
                      Style="{StaticResource CommonElementTextBoxStyle}" 
                      VerticalAlignment="Center"/>
-            <Button Grid.Column="1" VerticalAlignment="Center" Padding="5,0,5,0"
+            <Button Grid.Column="1" VerticalAlignment="Center"
                     Command="{Binding DataContext.LinkClickCommand,RelativeSource={RelativeSource AncestorType=Window}}" 
                     CommandParameter="{Binding}"
                     Content="{Binding KeyValue.Name}" 

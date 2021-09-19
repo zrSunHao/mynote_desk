@@ -1,6 +1,7 @@
 ﻿using BlizzardWind.App.Common.Consts;
 using BlizzardWind.App.Common.Tools;
 using BlizzardWind.Desktop.App.Dialogs;
+using BlizzardWind.Desktop.Business.Consts;
 using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
@@ -36,7 +37,8 @@ namespace BlizzardWind.Desktop.App.Windows
             _Note = article;
 
             VM = (ReaderWindowViewModel)DataContext;
-            VM.LinkClickAction += LinkClick;
+            VM.OperateAction += OnOperateClick;
+            VM.LinkClickAction += OnLinkClick;
         }
 
         public void SetNote(Note note)
@@ -56,7 +58,28 @@ namespace BlizzardWind.Desktop.App.Windows
             dialog.ShowDialog();
         }
 
-        private void LinkClick(string link)
+        private void OnOperateClick(int type)
+        {
+            switch (type)
+            {
+                case ReaderOperateType.TreeVisible:
+                    if (tree_grid.Visibility == Visibility.Collapsed)
+                        tree_grid.Visibility = Visibility.Visible;
+                    else
+                        tree_grid.Visibility = Visibility.Collapsed;
+                    break;
+                case ReaderOperateType.PdfExport:
+                    PintClick();
+                    break;
+                case ReaderOperateType.PdfSplit:
+                    SplitPdfClick();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnLinkClick(string link)
         {
             try
             {
@@ -72,7 +95,7 @@ namespace BlizzardWind.Desktop.App.Windows
             }
         }
 
-        private void Pint_Click(object sender, RoutedEventArgs e)
+        private void PintClick()
         {
             var dictionaries = this.Resources.MergedDictionaries;
             for (int i = 0; i < dictionaries.Count; i++)
@@ -115,7 +138,7 @@ namespace BlizzardWind.Desktop.App.Windows
             }
         }
 
-        private void SplitPdf_Click(object sender, RoutedEventArgs e)
+        private void SplitPdfClick()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "PDF(*.pdf;)|*.pdf;";

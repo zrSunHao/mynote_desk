@@ -22,7 +22,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private Note _Note;
 
         public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
-        public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
+        public IMvxCommand UploadOperateCommand => new MvxCommand<int>(OnUploadOperateClick);
 
         public IMvxCommand FileIdCopyCommand => new MvxCommand<MarkNoteFileModel>(OnFileIdCopyClick);
         public IMvxCommand FileRenameCommand => new MvxCommand<MarkNoteFileModel>(OnFileRenameClick);

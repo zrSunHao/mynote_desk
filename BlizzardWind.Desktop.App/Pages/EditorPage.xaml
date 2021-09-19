@@ -27,13 +27,13 @@
             <Rectangle Style="{StaticResource RectBorderStyle}"/>
             <WrapPanel Orientation="Horizontal" Margin="15">
                 <ItemsControl ItemsSource="{Binding MainOperateCollection}"
-                              Style="{StaticResource OperateItemsStyle}"
+                              Style="{StaticResource CommonOperateItemsStyle}"
                               ItemTemplate="{StaticResource MainOperateItemsTemplate}"/>
                 <Border Width="2" Margin="5,0,15,0" 
                         Background="{StaticResource Color.Font.Primary}" 
                         BorderBrush="{StaticResource Color.Font.Primary}"/>
                 <ItemsControl ItemsSource="{Binding UploadOperateCollection}"
-                              Style="{StaticResource OperateItemsStyle}"
+                              Style="{StaticResource CommonOperateItemsStyle}"
                               ItemTemplate="{StaticResource UploadOperateItemsTemplate}"/>
             </WrapPanel>
         </Grid>
