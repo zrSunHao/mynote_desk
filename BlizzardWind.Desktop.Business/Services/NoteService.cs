@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Services
 {
-    public class ArticleService : IArticleService
+    public class NoteService : INoteService
     {
         private readonly IDatabaseService _dbService;
 
-        public ArticleService(IDatabaseService service)
+        public NoteService(IDatabaseService service)
         {
             _dbService = service;
         }
 
-        public async Task<bool> AddAsync(Article entity)
+        public async Task<bool> AddAsync(Note entity)
         {
             var db = await _dbService.GetConnectionAsync();
             await db.InsertAsync(entity);
@@ -28,7 +28,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<bool> DeleteAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
-            var entity = await db.Table<Article>()
+            var entity = await db.Table<Note>()
                 .FirstOrDefaultAsync(x => x.Id == id);
             if(entity != null)
             {
@@ -39,17 +39,17 @@ namespace BlizzardWind.Desktop.Business.Services
             return true;
         }
 
-        public async Task<Article> GetAsync(Guid id)
+        public async Task<Note> GetAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
-            return await db.Table<Article>().FirstOrDefaultAsync(x => x.Id == id);
+            return await db.Table<Note>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<PagingResult<Article>> GetListAsync(Guid? folderId,string sortColumn,string title,string key)
+        public async Task<PagingResult<Note>> GetListAsync(Guid? folderId,string sortColumn,string title,string key)
         {
-            var result = new PagingResult<Article>();
+            var result = new PagingResult<Note>();
             var db = await _dbService.GetConnectionAsync();
-            var query = db.Table<Article>().Where(x=>!x.Deleted);
+            var query = db.Table<Note>().Where(x=>!x.Deleted);
             result.Total = await query.CountAsync();
 
             if(folderId.HasValue && folderId != Guid.Empty)
@@ -60,7 +60,7 @@ namespace BlizzardWind.Desktop.Business.Services
                 query = query.Where(x => x.Title.Contains(key));
             result.FilterTotal = await query.CountAsync();
 
-            if (sortColumn == ArticleColumnConsts.Title)
+            if (sortColumn == NoteColumnConsts.Title)
                 query = query.OrderBy(x=>x.Title);
             else
                 query = query.OrderByDescending(x => x.UpdatedAt);
@@ -68,7 +68,7 @@ namespace BlizzardWind.Desktop.Business.Services
             return result;
         }
 
-        public async Task<bool> UpdateAsync(Article entity)
+        public async Task<bool> UpdateAsync(Note entity)
         {
             entity.UpdatedAt = DateTime.Now;
             if (string.IsNullOrEmpty(entity.Content))
@@ -81,7 +81,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<int> GetFamilyCountAsync(Guid familyId)
         {
             var db = await _dbService.GetConnectionAsync();
-            var folsers = await db.Table<ArticleFolder>()
+            var folsers = await db.Table<NoteFolder>()
                 .Where(x => !x.Deleted && x.FamilyId == familyId)
                 .ToListAsync();
             if (!folsers.Any())
@@ -89,7 +89,7 @@ namespace BlizzardWind.Desktop.Business.Services
             var count = 0;
             foreach (var foler in folsers)
             {
-                count += await db.Table<Article>()
+                count += await db.Table<Note>()
                 .Where(x => !x.Deleted && x.FolderId == foler.Id)
                 .CountAsync();
             }
@@ -99,7 +99,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<int> GetFolderCountAsync(Guid folderId)
         {
             var db = await _dbService.GetConnectionAsync();
-            return await db.Table<Article>()
+            return await db.Table<Note>()
                 .Where(x => !x.Deleted && x.FolderId == folderId)
                 .CountAsync();
         }

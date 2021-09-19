@@ -33,9 +33,9 @@ namespace BlizzardWind.Desktop.App.Pages
             InitializeComponent();
             VM = (NoteListPageViewModel)DataContext;
             VM.PromptInformationAction += PromptInformation;
-            VM.ArticleReaderWindowAction += ArticleReaderWindow;
-            VM.ArticleMoveDialogAction += ArticleMoveDialog;
-            VM.ArticleUploadCoverDialogAction += ArticleUploadCoverDialog;
+            VM.NoteReaderWindowAction += NoteReaderWindow;
+            VM.NoteMoveDialogAction += NoteMoveDialog;
+            VM.NoteUploadCoverDialogAction += NoteUploadCoverDialog;
         }
 
         private void PromptInformation(int type, string msg)
@@ -44,7 +44,7 @@ namespace BlizzardWind.Desktop.App.Pages
             dialog.ShowDialog();
         }
 
-        private async void CreateArticle_Button_Click(object sender, RoutedEventArgs e)
+        private async void CreateNote_Button_Click(object sender, RoutedEventArgs e)
         {
             if (VM == null)
                 return;
@@ -53,7 +53,7 @@ namespace BlizzardWind.Desktop.App.Pages
             dialog.ShowDialog();
             if(dialog.DialogResult == true && dialog.FolderId.HasValue && !string.IsNullOrEmpty(dialog.ArticleName))
             {
-                await VM.CreateArticle(dialog.FolderId.Value, dialog.ArticleName);
+                await VM.CreateNote(dialog.FolderId.Value, dialog.ArticleName);
             }
         }
 
@@ -69,7 +69,7 @@ namespace BlizzardWind.Desktop.App.Pages
                 VM.SerachFolder();
         }
 
-        private void ArticleReaderWindow(Article article)
+        private void NoteReaderWindow(Note article)
         {
             foreach (Window item in Application.Current.Windows)
             {
@@ -85,7 +85,7 @@ namespace BlizzardWind.Desktop.App.Pages
             reader.Show();
         }
 
-        private async void ArticleMoveDialog(Article article)
+        private async void NoteMoveDialog(Note article)
         {
             if (VM == null)
                 return;
@@ -96,11 +96,11 @@ namespace BlizzardWind.Desktop.App.Pages
             {
                 article.FolderId = dialog.FolderId.Value;
                 article.Title = dialog.ArticleName;
-                await VM.ArticleMove(article);
+                await VM.NoteMove(article);
             }
         }
 
-        private async void ArticleUploadCoverDialog(int type, string filter, Article article)
+        private async void NoteUploadCoverDialog(int type, string filter, Note article)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = filter;
@@ -111,7 +111,7 @@ namespace BlizzardWind.Desktop.App.Pages
             if (imgId == Guid.Empty)
                 return;
             article.CoverPictureId = imgId;
-            await VM.ArticleUploadCover(article);
+            await VM.NoteUploadCover(article);
         }
     }
 }

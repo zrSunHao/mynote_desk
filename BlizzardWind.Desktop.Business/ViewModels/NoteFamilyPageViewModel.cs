@@ -16,30 +16,30 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         private readonly IFolderService _FolderService;
         private readonly IFamilyService _FamilyService;
-        private readonly IArticleService _ArticleService;
+        private readonly INoteService _NoteService;
         private readonly IFileResourceService _FileService;
 
-        public IMvxCommand SelectedFamilyCommand => new MvxCommand<ArticleFamily>(OnSelectedClick);
+        public IMvxCommand SelectedFamilyCommand => new MvxCommand<NoteFamily>(OnSelectedClick);
         public IMvxCommand SearchCommand => new MvxCommand(OnSearchClick);
-        public IMvxCommand EditFamilyCommand => new MvxCommand<ArticleFamily>(OnEditFamilyClick);
-        public IMvxCommand DeleteFamilyCommand => new MvxCommand<ArticleFamily>(OnDeleteFamilyClick);
+        public IMvxCommand EditFamilyCommand => new MvxCommand<NoteFamily>(OnEditFamilyClick);
+        public IMvxCommand DeleteFamilyCommand => new MvxCommand<NoteFamily>(OnDeleteFamilyClick);
         public IMvxCommand CreateFolderCommand => new MvxCommand(OnCreateFolderClick);
-        public IMvxCommand EdiFolderCommand => new MvxCommand<ArticleFolder>(OnEditFolderClick);
-        public IMvxCommand DeleteFolderCommand => new MvxCommand<ArticleFolder>(OnDeleteFolderClick);
-        public IMvxCommand FolderUploadCoverCommand => new MvxCommand<ArticleFolder>(OnFolderUploadCoverClick);
+        public IMvxCommand EdiFolderCommand => new MvxCommand<NoteFolder>(OnEditFolderClick);
+        public IMvxCommand DeleteFolderCommand => new MvxCommand<NoteFolder>(OnDeleteFolderClick);
+        public IMvxCommand FolderUploadCoverCommand => new MvxCommand<NoteFolder>(OnFolderUploadCoverClick);
 
-        public ObservableCollection<ArticleFamily> FamilyCollection { get; set; }
-        public ObservableCollection<ArticleFolder> FolderCollection { get; set; }
+        public ObservableCollection<NoteFamily> FamilyCollection { get; set; }
+        public ObservableCollection<NoteFolder> FolderCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
         public Action<string> ConfirmDialogAction { get; set; }
-        public Action<ArticleFamily> FamilyEditDialogAction { get; set; }
-        public Action<int, string, ArticleFolder> FolderUploadCoverDialogAction { get; set; }
+        public Action<NoteFamily> FamilyEditDialogAction { get; set; }
+        public Action<int, string, NoteFolder> FolderUploadCoverDialogAction { get; set; }
 
         public Action<List<OptionIdItem>> FolderCreateDialogAction { get; set; }
-        public Action<int, string, ArticleFamily> FamilyDeleteDialogAction { get; set; }
-        public Action<int, string, ArticleFolder> FolderDeleteDialogAction { get; set; }
-        public Action<ArticleFolder, List<OptionIdItem>> FolderEditDialogAction { get; set; }
+        public Action<int, string, NoteFamily> FamilyDeleteDialogAction { get; set; }
+        public Action<int, string, NoteFolder> FolderDeleteDialogAction { get; set; }
+        public Action<NoteFolder, List<OptionIdItem>> FolderEditDialogAction { get; set; }
 
         private Guid _familyId;
         public Guid FamilyId
@@ -60,16 +60,16 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         public NoteFamilyPageViewModel(IFolderService folderService,
             IFamilyService familyService,
-            IArticleService articleService,
+            INoteService noteService,
             IFileResourceService fileService)
         {
             _FolderService = folderService;
             _FamilyService = familyService;
-            _ArticleService = articleService;
+            _NoteService = noteService;
             _FileService = fileService;
 
-            FamilyCollection = new ObservableCollection<ArticleFamily>();
-            FolderCollection = new ObservableCollection<ArticleFolder>();
+            FamilyCollection = new ObservableCollection<NoteFamily>();
+            FolderCollection = new ObservableCollection<NoteFolder>();
         }
 
         public async Task<bool> PageLoad()
@@ -86,7 +86,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             if (string.IsNullOrEmpty(name))
                 return false;
-            var family = new ArticleFamily()
+            var family = new NoteFamily()
             {
                 Id = Guid.NewGuid(),
                 Name = name,
@@ -96,7 +96,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             };
             await _FamilyService.AddAsync(family);
 
-            var list = new List<ArticleFamily>();
+            var list = new List<NoteFamily>();
             list.AddRange(FamilyCollection);
             list.Add(family);
             list = list.OrderBy(x => x.Name).ToList();
@@ -108,11 +108,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
-        public async Task<bool> EditFamily(ArticleFamily family)
+        public async Task<bool> EditFamily(NoteFamily family)
         {
             await _FamilyService.UpdateAsync(family);
 
-            var list = new List<ArticleFamily>();
+            var list = new List<NoteFamily>();
             foreach (var item in FamilyCollection)
             {
                 if (item.Id == family.Id)
@@ -128,7 +128,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
-        public async Task<bool> DeleteFamily(ArticleFamily family)
+        public async Task<bool> DeleteFamily(NoteFamily family)
         {
             await _FamilyService.DeleteAsync(family.Id);
 
@@ -147,7 +147,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             if (string.IsNullOrEmpty(name) || familyId == Guid.Empty)
                 return false;
-            var folder = new ArticleFolder()
+            var folder = new NoteFolder()
             {
                 Id = Guid.NewGuid(),
                 Name = name,
@@ -160,7 +160,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
             if (familyId != FamilyId || (!string.IsNullOrEmpty(FolderName) && !name.Contains(FolderName)))
                 return true;
-            var list = new List<ArticleFolder>();
+            var list = new List<NoteFolder>();
             list.AddRange(FolderCollection);
             list.Add(folder);
             list = list.OrderBy(x => x.Name).ToList();
@@ -172,11 +172,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
-        public async Task<bool> EditFolder(ArticleFolder folder)
+        public async Task<bool> EditFolder(NoteFolder folder)
         {
             await _FolderService.UpdateAsync(folder);
 
-            var list = new List<ArticleFolder>();
+            var list = new List<NoteFolder>();
             foreach (var item in FolderCollection)
             {
                 if (item.FamilyId == FamilyId)
@@ -194,14 +194,14 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
-        public async Task<bool> DeleteFolder(ArticleFolder folder)
+        public async Task<bool> DeleteFolder(NoteFolder folder)
         {
             await _FolderService.DeleteAsync(folder.Id);
             await LoadFolderAsync(FamilyId);
             return true;
         }
 
-        public async Task<bool> FolderUploadCover(ArticleFolder folder)
+        public async Task<bool> FolderUploadCover(NoteFolder folder)
         {
             await _FolderService.UpdateAsync(folder);
 
@@ -213,27 +213,27 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return true;
         }
 
-        public async Task<MarkTextFileModel?> AddFile(string[]? fileNames, int type, Guid articleId)
+        public async Task<MarkNoteFileModel?> AddFile(string[]? fileNames, int type, Guid noteId)
         {
             if (fileNames == null || fileNames.Length < 1)
                 return null;
-            List<MarkTextFileModel> models = await _FileService
-                .AddArticleFileAsync(type, fileNames.ToList(), articleId);
+            List<MarkNoteFileModel> models = await _FileService
+                .AddNoteFileAsync(type, fileNames.ToList(), noteId);
             if (models.Any())
                 return models[0];
             return null;
         }
 
 
-        private void OnEditFamilyClick(ArticleFamily family)
+        private void OnEditFamilyClick(NoteFamily family)
         {
             if (FamilyEditDialogAction != null)
                 FamilyEditDialogAction.Invoke(family);
         }
 
-        private async void OnDeleteFamilyClick(ArticleFamily family)
+        private async void OnDeleteFamilyClick(NoteFamily family)
         {
-            var count = await _ArticleService.GetFamilyCountAsync(family.Id);
+            var count = await _NoteService.GetFamilyCountAsync(family.Id);
             if (count <= 0)
             {
                 await DeleteFamily(family);
@@ -252,7 +252,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FolderCreateDialogAction.Invoke(options);
         }
 
-        private void OnEditFolderClick(ArticleFolder folder)
+        private void OnEditFolderClick(NoteFolder folder)
         {
             if (FolderEditDialogAction == null)
                 return;
@@ -260,9 +260,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FolderEditDialogAction.Invoke(folder, options);
         }
 
-        private async void OnDeleteFolderClick(ArticleFolder folder)
+        private async void OnDeleteFolderClick(NoteFolder folder)
         {
-            var count = await _ArticleService.GetFolderCountAsync(folder.Id);
+            var count = await _NoteService.GetFolderCountAsync(folder.Id);
             if (count <= 0)
             {
                 await DeleteFolder(folder);
@@ -273,7 +273,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FolderDeleteDialogAction.Invoke(MesssageType.Warn, msg, folder);
         }
 
-        private async void OnSelectedClick(ArticleFamily family)
+        private async void OnSelectedClick(NoteFamily family)
         {
             await LoadFolderAsync(family.Id);
         }
@@ -283,7 +283,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             await LoadFolderAsync(FamilyId);
         }
 
-        private void OnFolderUploadCoverClick(ArticleFolder folder)
+        private void OnFolderUploadCoverClick(NoteFolder folder)
         {
             if (FolderUploadCoverDialogAction == null)
                 return;

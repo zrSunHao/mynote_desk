@@ -78,7 +78,7 @@
 
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
     <lcc:TextToUriConverter x:Key="TextToUriConverter"/>
-    <lcc:ArticleCoverPathToUriConverter x:Key="ArticleCoverPathToUriConverter"/>
+    <lcc:NoteCoverPathToUriConverter x:Key="NoteCoverPathToUriConverter"/>
     <lcc:FolderCoverPathToUriConverter x:Key="FolderCoverPathToUriConverter"/>
     <lcc:TxtPathToContentConverter x:Key="TxtPathToContentConverter"/>
     <lcc:EmptyStrValidConverter x:Key="EmptyStrValidConverter"/>

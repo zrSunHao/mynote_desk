@@ -27,9 +27,9 @@ namespace BlizzardWind.Desktop.Business.Models
         }
 
 
-        public ObservableCollection<ArticleFolder> FoldersCollection { get; set; }
+        public ObservableCollection<NoteFolder> FoldersCollection { get; set; }
 
-        public void AddFoldersRange(IEnumerable<ArticleFolder> folders)
+        public void AddFoldersRange(IEnumerable<NoteFolder> folders)
         {
             foreach (var item in folders)
             {
@@ -49,10 +49,10 @@ namespace BlizzardWind.Desktop.Business.Models
         }
     }
 
-    public class ArticleFamilyAndFolderModel
+    public class NoteFamilyAndFolderModel
     {
-        public List<ArticleFamily> Familys { get; set; }
+        public List<NoteFamily> Familys { get; set; }
 
-        public List<ArticleFolder> Folders { get; set; }
+        public List<NoteFolder> Folders { get; set; }
     }
 }

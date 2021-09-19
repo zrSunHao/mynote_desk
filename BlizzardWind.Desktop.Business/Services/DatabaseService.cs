@@ -51,7 +51,7 @@ namespace BlizzardWind.Desktop.Business.Services
                 {
                     SQLiteConnectionString options = new(dbPath, true, key: password);
                     var db = new SQLiteAsyncConnection(options);
-                    int count = await db.Table<Article>().CountAsync();
+                    int count = await db.Table<Note>().CountAsync();
                     _encryptedDb = db;
                 }
                 catch (Exception ex)
@@ -111,9 +111,9 @@ namespace BlizzardWind.Desktop.Business.Services
         private async Task BusinessTablesInitialAsync()
         {
             await _encryptedDb.CreateTableAsync<FileResource>();
-            await _encryptedDb.CreateTableAsync<Article>();
-            await _encryptedDb.CreateTableAsync<ArticleFamily>();
-            await _encryptedDb.CreateTableAsync<ArticleFolder>();
+            await _encryptedDb.CreateTableAsync<Note>();
+            await _encryptedDb.CreateTableAsync<NoteFamily>();
+            await _encryptedDb.CreateTableAsync<NoteFolder>();
         }
     }
 }

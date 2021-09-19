@@ -21,13 +21,13 @@ namespace BlizzardWind.Desktop.App.Dialogs
     /// </summary>
     public partial class ArticleDialog : Window
     {
-        private readonly ArticleFamilyAndFolderModel _Model;
+        private readonly NoteFamilyAndFolderModel _Model;
         private Guid? _FamilyId;
 
         public Guid? FolderId { get; set; }
         public string ArticleName { get; set; }
 
-        public ArticleDialog(ArticleFamilyAndFolderModel model, Guid? folderId,string title)
+        public ArticleDialog(NoteFamilyAndFolderModel model, Guid? folderId,string title)
         {
             InitializeComponent();
             if(!string.IsNullOrEmpty(title))

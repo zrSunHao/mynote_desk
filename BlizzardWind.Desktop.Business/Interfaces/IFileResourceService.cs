@@ -10,23 +10,26 @@ namespace BlizzardWind.Desktop.Business.Interfaces
         /// <summary>
         /// 添加文本资源
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="fileNames"></param>
+        /// <param name="noteId"></param>
         /// <returns></returns>
-        public Task<List<MarkTextFileModel>> AddArticleFileAsync(int type,  List<string> fileNames, Guid? articleId = null);
+        public Task<List<MarkNoteFileModel>> AddNoteFileAsync(int type,  List<string> fileNames, Guid? noteId = null);
 
         /// <summary>
         /// 获取文本资源
         /// </summary>
+        /// <param name="noteId"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleId,int type = -1);
+        public Task<List<MarkNoteFileModel>> GetNoteFilesAsync(Guid noteId, int type = -1);
 
         /// <summary>
         /// 根据id获取文件路径
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<MarkTextFileModel?> GetByIdAsync(Guid id);
+        public Task<MarkNoteFileModel?> GetByIdAsync(Guid id);
 
         /// <summary>
         /// 替换文件
@@ -34,7 +37,7 @@ namespace BlizzardWind.Desktop.Business.Interfaces
         /// <param name="model"></param>
         /// <param name="fileName">新文件路径</param>
         /// <returns></returns>
-        public Task<bool> RelaceAsync(MarkTextFileModel model, string fileName);
+        public Task<bool> RelaceAsync(MarkNoteFileModel model, string fileName);
 
         /// <summary>
         /// 改名

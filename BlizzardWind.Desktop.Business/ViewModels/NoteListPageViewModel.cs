@@ -13,38 +13,38 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 {
     public partial class NoteListPageViewModel : MvxViewModel
     {
-        private readonly IArticleService _ArticleService;
+        private readonly INoteService _NoteService;
         private readonly IFamilyService _FamilyService;
         private readonly IFolderService _FolderService;
         private readonly IFileResourceService _FileService;
         private readonly ViewModelMediator _Mediator;
 
-        private List<ArticleFamily> _Familys = new();
-        private List<ArticleFolder> _Folders = new();
+        private List<NoteFamily> _Familys = new();
+        private List<NoteFolder> _Folders = new();
         private NoteFamilyModel? _CurrentFamily = null;
-        private ArticleFolder? _CurrentFolder = null;
-        private int _NewArticleCount = 0;
-        private int _ArticleTotal = 0;
+        private NoteFolder? _CurrentFolder = null;
+        private int _NewNoteCount = 0;
+        private int _NoteTotal = 0;
         private int _FilterTotal = 0;
 
         public IMvxCommand FamilyClickCommand => new MvxCommand<NoteFamilyModel>(OnFamilyClick);
-        public IMvxCommand FolderClickCommand => new MvxCommand<ArticleFolder>(OnFolderClick);
-        public IMvxCommand SearchAticleClickCommand => new MvxCommand(OnSearchAticleClick);
+        public IMvxCommand FolderClickCommand => new MvxCommand<NoteFolder>(OnFolderClick);
+        public IMvxCommand SearchNoteClickCommand => new MvxCommand(OnSearchNoteClick);
         public IMvxCommand ResetSearchClickCommand => new MvxCommand(OnResetSearchClick);
-        public IMvxCommand ArticleSeeCommand => new MvxCommand<Article>(OnArticleSeeClick);
-        public IMvxCommand ArticleMoveCommand => new MvxCommand<Article>(OnArticleMoveClick);
-        public IMvxCommand ArticleEditCommand => new MvxCommand<Article>(OnArticleEditClick);
-        public IMvxCommand ArticleUploadCoverCommand => new MvxCommand<Article>(OnArticleUploadCoverClick);
-        public IMvxCommand ArticleDeleteCommand => new MvxCommand<Article>(OnArticleDeleteClick);
+        public IMvxCommand NoteSeeCommand => new MvxCommand<Note>(OnNoteSeeClick);
+        public IMvxCommand NoteMoveCommand => new MvxCommand<Note>(OnNoteMoveClick);
+        public IMvxCommand NoteEditCommand => new MvxCommand<Note>(OnNoteEditClick);
+        public IMvxCommand NoteUploadCoverCommand => new MvxCommand<Note>(OnNoteUploadCoverClick);
+        public IMvxCommand NoteDeleteCommand => new MvxCommand<Note>(OnNoteDeleteClick);
 
-        public List<OptionValueItem> ArticleSortColumns { get; set; }
-        public ObservableCollection<Article> ArticleCollection { get; set; }
+        public List<OptionValueItem> NoteSortColumns { get; set; }
+        public ObservableCollection<Note> NoteCollection { get; set; }
         public ObservableCollection<NoteFamilyModel> FamilyCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
-        public Action<Article> ArticleReaderWindowAction { get; set; }
-        public Action<Article> ArticleMoveDialogAction { get; set; }
-        public Action<int, string, Article> ArticleUploadCoverDialogAction { get; set; }
+        public Action<Note> NoteReaderWindowAction { get; set; }
+        public Action<Note> NoteMoveDialogAction { get; set; }
+        public Action<int, string, Note> NoteUploadCoverDialogAction { get; set; }
 
         private Guid _familyId;
         public Guid FamilyId
@@ -67,18 +67,18 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             set => SetProperty(ref _searchFolderName, value);
         }
 
-        private string _searchArticleTitle;
-        public string SearchArticleTitle
+        private string _searchNoteTitle;
+        public string SearchNoteTitle
         {
-            get => _searchArticleTitle;
-            set => SetProperty(ref _searchArticleTitle, value);
+            get => _searchNoteTitle;
+            set => SetProperty(ref _searchNoteTitle, value);
         }
 
-        private string _searchArticleKey;
-        public string SearchArticleKey
+        private string _searchNoteKey;
+        public string SearchNoteKey
         {
-            get => _searchArticleKey;
-            set => SetProperty(ref _searchArticleKey, value);
+            get => _searchNoteKey;
+            set => SetProperty(ref _searchNoteKey, value);
         }
 
         private string _searchSortColumn;
@@ -105,22 +105,22 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
     public partial class NoteListPageViewModel
     {
-        public NoteListPageViewModel(IArticleService articleService,
+        public NoteListPageViewModel(INoteService noteService,
             IFamilyService familyService, IFolderService folderService,
             IFileResourceService fileService, ViewModelMediator mediator)
         {
-            _ArticleService = articleService;
+            _NoteService = noteService;
             _FamilyService = familyService;
             _FolderService = folderService;
             _FileService = fileService;
             _Mediator = mediator;
 
-            ArticleCollection = new ObservableCollection<Article>();
+            NoteCollection = new ObservableCollection<Note>();
             FamilyCollection = new ObservableCollection<NoteFamilyModel>();
-            ArticleSortColumns = new List<OptionValueItem>()
+            NoteSortColumns = new List<OptionValueItem>()
             {
-                new OptionValueItem(){ Name = "时间倒序",Value = ArticleColumnConsts.UpdatedAt},
-                new OptionValueItem(){ Name = "标题正序",Value = ArticleColumnConsts.Title},
+                new OptionValueItem(){ Name = "时间倒序",Value = NoteColumnConsts.UpdatedAt},
+                new OptionValueItem(){ Name = "标题正序",Value = NoteColumnConsts.Title},
             };
             InitialDefaultValue();
         }
@@ -130,7 +130,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _Familys = await _FamilyService.GetListAsync();
             _Folders = await _FolderService.GetAllListAsync();
             LoadFamilys();
-            await LoadArticles();
+            await LoadNotes();
             return true;
         }
 
@@ -139,9 +139,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             LoadFamilys();
         }
 
-        public async Task<bool> CreateArticle(Guid folderId, string name)
+        public async Task<bool> CreateNote(Guid folderId, string name)
         {
-            var article = new Article()
+            var note = new Note()
             {
                 Id = Guid.NewGuid(),
                 FolderId = folderId,
@@ -153,80 +153,64 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 UpdatedAt = DateTime.Now,
                 Deleted = false
             };
-            await _ArticleService.AddAsync(article);
-            _ArticleTotal++;
+            await _NoteService.AddAsync(note);
+            _NoteTotal++;
             if (folderId == FolderId || FolderId == Guid.Empty)
             {
-                _NewArticleCount++;
-                ArticleCollection.Insert(0, article);
+                _NewNoteCount++;
+                NoteCollection.Insert(0, note);
             }
             ShowRightMsg();
             return true;
         }
 
-        public ArticleFamilyAndFolderModel GetFamilyOptions()
+        public NoteFamilyAndFolderModel GetFamilyOptions()
         {
-            return new ArticleFamilyAndFolderModel()
+            return new NoteFamilyAndFolderModel()
             {
                 Familys = _Familys,
                 Folders = _Folders,
             };
         }
 
-        public async Task<bool> ArticleMove(Article article)
+        public async Task<bool> NoteMove(Note note)
         {
-            await _ArticleService.UpdateAsync(article);
+            await _NoteService.UpdateAsync(note);
 
-            if (FolderId != Guid.Empty && article.FolderId != FolderId)
+            if (FolderId != Guid.Empty && note.FolderId != FolderId)
             {
-                ArticleCollection.Remove(article);
-                _ArticleTotal--;
+                NoteCollection.Remove(note);
+                _NoteTotal--;
                 _FilterTotal--;
                 ShowRightMsg();
             }
-            //if (SearchSortColumn == ArticleColumnConsts.UpdatedAt)
-            //{
-            //    ArticleCollection.Remove(article);
-            //    ArticleCollection.Insert(0, article);
-            //}
-            //else
-            //{
-            //    var list = ArticleCollection.OrderBy(x => x.Title).ToList();
-            //    var index = list.IndexOf(article);
-            //    ArticleCollection.Remove(article);
-            //    if(ArticleCollection.Count < index)
-            //        ArticleCollection.Add(article);
-            //    else
-            //        ArticleCollection.Insert(index, article);
-            //}
-
             return true;
         }
 
-        public async Task<bool> ArticleUploadCover(Article article)
+        public async Task<bool> NoteUploadCover(Note note)
         {
-            await _ArticleService.UpdateAsync(article);
+            await _NoteService.UpdateAsync(note);
 
-            if (!article.CoverPictureId.HasValue)
+            if (!note.CoverPictureId.HasValue)
                 return false;
-            var file = await _FileService.GetByIdAsync(article.CoverPictureId.Value);
+            var file = await _FileService.GetByIdAsync(note.CoverPictureId.Value);
             if (file != null)
             {
-                article.SetCoverPicturePath(file.FilePath);
-                article.SetCoverPictureKey(file.SecretKey);
+                note.SetCoverPicturePath(file.FilePath);
+                note.SetCoverPictureKey(file.SecretKey);
             }
-            var index = ArticleCollection.IndexOf(article);
-            ArticleCollection.Remove(article);
-            ArticleCollection.Insert(index, article);
+            var index = NoteCollection.IndexOf(note);
+            NoteCollection.Remove(note);
+            NoteCollection.Insert(index, note);
             return true;
         }
 
-        public async Task<Guid> AddFile(string[]? fileNames, int type, Guid articleId)
+        public async Task<Guid> AddFile(string[]? fileNames, int type, Guid noteId)
         {
             if (fileNames == null || fileNames.Length < 1)
                 return Guid.Empty;
-            List<MarkTextFileModel> models = await _FileService
-                .AddArticleFileAsync(type, fileNames.ToList(), articleId);
+            List<MarkNoteFileModel> models = await _FileService
+                .AddNoteFileAsync(type, fileNames.ToList(), noteId);
             if (models.Any())
                 return models[0].Id;
             return Guid.Empty;
@@ -244,66 +228,66 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 _CurrentFolder = null;
                 FolderId = Guid.Empty;
-                await LoadArticles();
+                await LoadNotes();
                 ShowLeftMsg();
             }
         }
 
-        private async void OnFolderClick(ArticleFolder folder)
+        private async void OnFolderClick(NoteFolder folder)
         {
             if (FolderId == folder.Id)
                 return;
             FolderId = folder.Id;
             _CurrentFolder = folder;
-            await LoadArticles();
+            await LoadNotes();
             ShowLeftMsg();
         }
 
-        private async void OnSearchAticleClick()
+        private async void OnSearchNoteClick()
         {
-            await LoadArticles();
+            await LoadNotes();
         }
 
         private async void OnResetSearchClick()
         {
             InitialDefaultValue();
             LoadFamilys();
-            await LoadArticles();
+            await LoadNotes();
         }
 
-        private void OnArticleSeeClick(Article article)
+        private void OnNoteSeeClick(Note note)
         {
-            if (ArticleReaderWindowAction == null)
+            if (NoteReaderWindowAction == null)
                 return;
-            ArticleReaderWindowAction.Invoke(article);
+            NoteReaderWindowAction.Invoke(note);
         }
 
-        private void OnArticleMoveClick(Article article)
+        private void OnNoteMoveClick(Note note)
         {
-            if (ArticleMoveDialogAction == null)
+            if (NoteMoveDialogAction == null)
                 return;
-            ArticleMoveDialogAction.Invoke(article);
+            NoteMoveDialogAction.Invoke(note);
         }
 
-        private void OnArticleEditClick(Article article)
+        private void OnNoteEditClick(Note note)
         {
-            _Mediator.SetShowArticle(article);
+            _Mediator.SetShowNote(note);
             _Mediator.RouteRedirect(PageNameConsts.EditorPage);
         }
 
-        private void OnArticleUploadCoverClick(Article article)
+        private void OnNoteUploadCoverClick(Note note)
         {
-            if (ArticleUploadCoverDialogAction == null)
+            if (NoteUploadCoverDialogAction == null)
                 return;
             string filter = "图像文件|*.jpg;*.jpeg;*.gif;*.png;";
-            ArticleUploadCoverDialogAction.Invoke(EditorOperateType.UploadCoverPicture, filter, article);
+            NoteUploadCoverDialogAction.Invoke(EditorOperateType.UploadCoverPicture, filter, note);
         }
 
-        private async void OnArticleDeleteClick(Article article)
+        private async void OnNoteDeleteClick(Note note)
         {
-            await _ArticleService.DeleteAsync(article.Id);
-            ArticleCollection.Remove(article);
-            _ArticleTotal--;
+            await _NoteService.DeleteAsync(note.Id);
+            NoteCollection.Remove(note);
+            _NoteTotal--;
             _FilterTotal--;
             ShowRightMsg();
         }
@@ -316,14 +300,14 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             RightMsg = string.Empty;
             FamilyId = Guid.Empty;
             FolderId = Guid.Empty;
-            SearchSortColumn = ArticleColumnConsts.UpdatedAt;
+            SearchSortColumn = NoteColumnConsts.UpdatedAt;
             SearchFolderName = string.Empty;
-            SearchArticleTitle = string.Empty;
-            SearchArticleKey = string.Empty;
+            SearchNoteTitle = string.Empty;
+            SearchNoteKey = string.Empty;
 
-            _ArticleTotal = 0;
+            _NoteTotal = 0;
             _FilterTotal = 0;
-            _NewArticleCount = 0;
+            _NewNoteCount = 0;
             _CurrentFamily = null;
             _CurrentFolder = null;
         }
@@ -339,8 +323,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 return;
             }
 
-            IEnumerable<ArticleFamily> familys = new List<ArticleFamily>();
-            IEnumerable<ArticleFolder> folders = new List<ArticleFolder>();
+            IEnumerable<NoteFamily> familys = new List<NoteFamily>();
+            IEnumerable<NoteFolder> folders = new List<NoteFolder>();
             if (!string.IsNullOrWhiteSpace(SearchFolderName))
             {
                 folders = _Folders.Where(x => x.Name.Contains(SearchFolderName)).OrderBy(x => x.Name);
@@ -363,7 +347,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     Name = item.Name,
                     CreatedAt = item.CreatedAt,
                     UpdatedAt = item.UpdatedAt,
-                    FoldersCollection = new ObservableCollection<ArticleFolder>(),
+                    FoldersCollection = new ObservableCollection<NoteFolder>(),
                 };
                 var familyFolders = folders.Where(x => x.FamilyId == item.Id);
                 family.AddFoldersRange(familyFolders);
@@ -373,14 +357,14 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             ShowLeftMsg();
         }
 
-        private async Task<bool> LoadArticles()
+        private async Task<bool> LoadNotes()
         {
             _FilterTotal = 0;
-            _NewArticleCount = 0;
-            _ArticleTotal = 0;
-            ArticleCollection.Clear();
+            _NewNoteCount = 0;
+            _NoteTotal = 0;
+            NoteCollection.Clear();
 
-            var result = await _ArticleService.GetListAsync(FolderId, SearchSortColumn, SearchArticleTitle, SearchArticleKey);
+            var result = await _NoteService.GetListAsync(FolderId, SearchSortColumn, SearchNoteTitle, SearchNoteKey);
             foreach (var item in result.Items)
             {
                 if (item.CoverPictureId.HasValue)
@@ -392,10 +376,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                         item.SetCoverPictureKey(file.SecretKey);
                     }
                 }
-                ArticleCollection.Add(item);
+                NoteCollection.Add(item);
             }
 
-            _ArticleTotal = result.Total;
+            _NoteTotal = result.Total;
             _FilterTotal = result.FilterTotal;
             ShowRightMsg();
             return true;
@@ -413,9 +397,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private void ShowRightMsg()
         {
             var newMsg = "";
-            if (_NewArticleCount > 0)
-                newMsg = $"新添加 {_NewArticleCount}  |  ";
-            RightMsg = $"{newMsg}当前显示 - {ArticleCollection.Count}   | 符合筛选条件 - {_FilterTotal}  |  总共 - {_ArticleTotal}";
+            if (_NewNoteCount > 0)
+                newMsg = $"新添加 {_NewNoteCount}  |  ";
+            RightMsg = $"{newMsg}当前显示 - {NoteCollection.Count}   | 符合筛选条件 - {_FilterTotal}  |  总共 - {_NoteTotal}";
         }
     }
 

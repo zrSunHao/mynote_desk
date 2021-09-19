@@ -21,9 +21,9 @@ namespace BlizzardWind.Desktop.Business.Services
             _dbService = service;
         }
 
-        public async Task<List<MarkTextFileModel>> AddArticleFileAsync(int type, List<string> fileNames, Guid? articleId = null)
+        public async Task<List<MarkNoteFileModel>> AddNoteFileAsync(int type, List<string> fileNames, Guid? noteId = null)
         {
-            List<MarkTextFileModel> models = new();
+            List<MarkNoteFileModel> models = new();
             List<FileResource> entities = new();
             if (fileNames == null || !fileNames.Any())
                 return models;
@@ -35,7 +35,7 @@ namespace BlizzardWind.Desktop.Business.Services
                 if (!file.Exists)
                     continue;
                 Guid id = Guid.NewGuid();
-                MarkTextFileModel model = new()
+                MarkNoteFileModel model = new()
                 {
                     Id = id,
                     FileName = file.Name.Replace(file.Extension, ""),
@@ -60,7 +60,7 @@ namespace BlizzardWind.Desktop.Business.Services
                     Length = file.Length,
                     Type = type,
                     SecretKey = model.SecretKey,
-                    ArticleId = articleId,
+                    NoteId = noteId,
                     CreatedAt = DateTime.Now
                 };
 
@@ -72,20 +72,20 @@ namespace BlizzardWind.Desktop.Business.Services
             return models;
         }
 
-        public async Task<List<MarkTextFileModel>> GetArticleFilesAsync(Guid articleId, int type = -1)
+        public async Task<List<MarkNoteFileModel>> GetNoteFilesAsync(Guid noteId, int type = -1)
         {
             string baseAddress = await GetBaseAddress();
             var db = await _dbService.GetConnectionAsync();
             var query = db.Table<FileResource>()
-                .Where(x => x.ArticleId == articleId && !x.Deleted)
+                .Where(x => x.NoteId == noteId && !x.Deleted)
                 .OrderByDescending(s => s.CreatedAt);
             if (type != -1)
                 query.Where(x => x.Type == type);
             var entities = await query.ToListAsync();
-            List<MarkTextFileModel> models = new();
+            List<MarkNoteFileModel> models = new();
             foreach (var entity in entities)
             {
-                MarkTextFileModel model = new()
+                MarkNoteFileModel model = new()
                 {
                     Id = entity.Id,
                     Type = entity.Type,
@@ -99,14 +99,14 @@ namespace BlizzardWind.Desktop.Business.Services
             return models;
         }
 
-        public async Task<MarkTextFileModel?> GetByIdAsync(Guid id)
+        public async Task<MarkNoteFileModel?> GetByIdAsync(Guid id)
         {
             string baseAddress = await GetBaseAddress();
             var db = await _dbService.GetConnectionAsync();
             var entity = await db.Table<FileResource>().FirstOrDefaultAsync(x => x.Id == id && !x.Deleted);
             if (entity == null)
                 return null;
-            return new MarkTextFileModel
+            return new MarkNoteFileModel
             {
                 Id = entity.Id,
                 Type = entity.Type,
@@ -117,7 +117,7 @@ namespace BlizzardWind.Desktop.Business.Services
             };
         }
 
-        public async Task<bool> RelaceAsync(MarkTextFileModel model, string fileName)
+        public async Task<bool> RelaceAsync(MarkNoteFileModel model, string fileName)
         {
             string baseAddress = await GetBaseAddress();
             var db = await _dbService.GetConnectionAsync();

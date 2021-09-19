@@ -28,9 +28,9 @@ namespace BlizzardWind.Desktop.App.Windows
     public partial class ReaderWindow : Window
     {
         private readonly ReaderWindowViewModel VM;
-        private Article _Note;
+        private Note _Note;
 
-        public ReaderWindow(Article article)
+        public ReaderWindow(Note article)
         {
             InitializeComponent();
             _Note = article;
@@ -39,7 +39,7 @@ namespace BlizzardWind.Desktop.App.Windows
             VM.LinkClickAction += LinkClick;
         }
 
-        public void SetNote(Article note)
+        public void SetNote(Note note)
         {
             _Note = note;
             VM.OnWindowLoaded(_Note);

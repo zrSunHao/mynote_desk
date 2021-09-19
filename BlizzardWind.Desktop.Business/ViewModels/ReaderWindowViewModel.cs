@@ -14,7 +14,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         private readonly ViewModelMediator _Mediator;
         private readonly IFileResourceService _FileResourceService;
-        private Article _Note;
+        private Note _Note;
 
         public IMvxCommand LinkClickCommand => new MvxCommand<MarkElement>(OnLinkClick);
 
@@ -35,7 +35,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             _Mediator.NoteChangedAction += NoteChanged;
         }
 
-        public void OnWindowLoaded(Article note)
+        public void OnWindowLoaded(Note note)
         {
             _Note = note;
             var parser = new MarkTextParser();
@@ -43,7 +43,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             NoteUpdate(_Note, elements);
         }
 
-        public Article GetCurrentNote()
+        public Note GetCurrentNote()
         {
             return _Note;
         }
@@ -54,14 +54,14 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 LinkClickAction.Invoke(element.KeyValue.Value);
         }
 
-        private void NoteChanged(Article note, List<MarkElement> elements)
+        private void NoteChanged(Note note, List<MarkElement> elements)
         {
             if (_Note != null && _Note.Id != note.Id)
                 return;
             NoteUpdate(note, elements);
         }
 
-        private async void NoteUpdate(Article note, List<MarkElement> elements)
+        private async void NoteUpdate(Note note, List<MarkElement> elements)
         {
             if (note == null || elements == null)
                 return;

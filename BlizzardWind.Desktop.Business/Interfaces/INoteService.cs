@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Interfaces
 {
-    public interface IArticleService
+    public interface INoteService
     {
-        public Task<bool> AddAsync(Article entity);
+        public Task<bool> AddAsync(Note entity);
 
-        public Task<Article> GetAsync(Guid id);
+        public Task<Note> GetAsync(Guid id);
 
-        public Task<PagingResult<Article>> GetListAsync(Guid? folderId, string sortColumn, string title, string key);
+        public Task<PagingResult<Note>> GetListAsync(Guid? folderId, string sortColumn, string title, string key);
 
-        public Task<bool> UpdateAsync(Article entity);
+        public Task<bool> UpdateAsync(Note entity);
 
         public Task<bool> DeleteAsync(Guid id);
 
@@ -22,7 +22,7 @@ namespace BlizzardWind.Desktop.Business.Interfaces
         public Task<int> GetFamilyCountAsync(Guid familyId);
     }
 
-    public class ArticleColumnConsts
+    public class NoteColumnConsts
     {
         public const string Title = "Title";
 

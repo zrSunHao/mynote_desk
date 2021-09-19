@@ -3,7 +3,7 @@ using System;
 
 namespace BlizzardWind.Desktop.Business.Entities
 {
-    public class ArticleFamily
+    public class NoteFamily
     {
         [PrimaryKey]
         public Guid Id { get; set; }

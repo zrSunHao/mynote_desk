@@ -18,7 +18,7 @@ namespace BlizzardWind.Desktop.Business.Entities
 
         public long Length { get; set; }
 
-        public Guid? ArticleId { get; set; }
+        public Guid? NoteId { get; set; }
 
         public Guid SecretKey { get; set; }
 

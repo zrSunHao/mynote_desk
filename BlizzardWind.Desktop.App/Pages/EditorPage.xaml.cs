@@ -68,7 +68,7 @@ namespace BlizzardWind.Desktop.App.Pages
             Clipboard.SetText(msg);
         }
 
-        private void FileReplace(string filter, MarkTextFileModel model)
+        private void FileReplace(string filter, MarkNoteFileModel model)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = filter;
@@ -79,7 +79,7 @@ namespace BlizzardWind.Desktop.App.Pages
                 VM.FileReplace(model, dialog.FileNames[0]);
         }
 
-        private void FileExport(MarkTextFileModel model)
+        private void FileExport(MarkNoteFileModel model)
         {
             if (!System.IO.File.Exists(model.FilePath))
             {
@@ -109,7 +109,7 @@ namespace BlizzardWind.Desktop.App.Pages
 
         }
 
-        private void FileRename(MarkTextFileModel model)
+        private void FileRename(MarkNoteFileModel model)
         {
             FileEditDialog dialog = new FileEditDialog(model.FileName);
             dialog.ShowDialog();

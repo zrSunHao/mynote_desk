@@ -47,7 +47,7 @@ namespace BlizzardWind.Desktop.App.Pages
             dialog.ShowDialog();
         }
 
-        private async void EditFamilyDialog(ArticleFamily family)
+        private async void EditFamilyDialog(NoteFamily family)
         {
             FolderClassifyDialog dialog = new FolderClassifyDialog(family.Name);
             dialog.ShowDialog();
@@ -58,7 +58,7 @@ namespace BlizzardWind.Desktop.App.Pages
             }   
         }
 
-        private async void DeleteFamilyDialog(int type,string msg,ArticleFamily family)
+        private async void DeleteFamilyDialog(int type,string msg,NoteFamily family)
         {
             var dialog = new ConfirmDialog(type, msg);
             dialog.ShowDialog();
@@ -78,7 +78,7 @@ namespace BlizzardWind.Desktop.App.Pages
             }
         }
 
-        private async void EditFolderDialog(ArticleFolder folder, List<OptionIdItem> options)
+        private async void EditFolderDialog(NoteFolder folder, List<OptionIdItem> options)
         {
             FolderDialog dialog = new FolderDialog(options, folder.FamilyId, folder.Name);
             dialog.ShowDialog();
@@ -90,7 +90,7 @@ namespace BlizzardWind.Desktop.App.Pages
             }
         }
 
-        private async void DeleteFolderDialog(int type, string msg, ArticleFolder folder)
+        private async void DeleteFolderDialog(int type, string msg, NoteFolder folder)
         {
             var dialog = new ConfirmDialog(type, msg);
             dialog.ShowDialog();
@@ -100,7 +100,7 @@ namespace BlizzardWind.Desktop.App.Pages
             }
         }
 
-        private async void FolderUploadCoverDialog(int type, string filter, ArticleFolder folder)
+        private async void FolderUploadCoverDialog(int type, string filter, NoteFolder folder)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = filter;

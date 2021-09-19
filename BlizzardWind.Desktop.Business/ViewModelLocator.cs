@@ -23,7 +23,7 @@ namespace BlizzardWind.Desktop.Business
         {
             services.AddSingleton<IDatabaseService, DatabaseService>();
             services.AddSingleton<IFileResourceService, FileResourceService>();
-            services.AddSingleton<IArticleService, ArticleService>();
+            services.AddSingleton<INoteService, NoteService>();
             services.AddSingleton<IFolderService, FolderService>();
             services.AddSingleton<IFamilyService, FamilyService>();
 

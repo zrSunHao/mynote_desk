@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace BlizzardWind.Desktop.Controls.Converters
 {
-    public class ArticleCoverPathToUriConverter : IMultiValueConverter
+    public class NoteCoverPathToUriConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

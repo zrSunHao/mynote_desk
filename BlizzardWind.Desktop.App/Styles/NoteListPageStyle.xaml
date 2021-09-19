@@ -179,7 +179,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ArticleCardButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="NoteCardButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Margin" Value="5"/>
         <Setter Property="MinWidth" Value="280"/>
         <Setter Property="Height" Value="120"/>
@@ -202,7 +202,7 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Stretch="UniformToFill"  Width="120">
                                 <Image.Source>
-                                    <MultiBinding Converter="{StaticResource ArticleCoverPathToUriConverter}" Mode="OneWay">
+                                    <MultiBinding Converter="{StaticResource NoteCoverPathToUriConverter}" Mode="OneWay">
                                         <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
                                         <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
                                     </MultiBinding>
@@ -255,25 +255,25 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="ArticleCardDataTemplate">
-        <Button Style="{DynamicResource ArticleCardButtonStyle}" 
+    <DataTemplate x:Key="NoteCardDataTemplate">
+        <Button Style="{DynamicResource NoteCardButtonStyle}" 
                 Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
             <Button.ContextMenu>
                 <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
                              Style="{StaticResource ContextMenuStyle}">
-                    <MenuItem Header="查看" Command="{Binding ArticleSeeCommand}" 
+                    <MenuItem Header="查看" Command="{Binding NoteSeeCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
-                    <MenuItem Header="编辑" Command="{Binding ArticleEditCommand}" 
+                    <MenuItem Header="编辑" Command="{Binding NoteEditCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
-                    <MenuItem Header="移动" Command="{Binding ArticleMoveCommand}" 
+                    <MenuItem Header="移动" Command="{Binding NoteMoveCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
-                    <MenuItem Header="修改封面" Command="{Binding ArticleUploadCoverCommand}" 
+                    <MenuItem Header="修改封面" Command="{Binding NoteUploadCoverCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
-                    <MenuItem Header="删除" Command="{Binding ArticleDeleteCommand}" 
+                    <MenuItem Header="删除" Command="{Binding NoteDeleteCommand}" 
                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                               Style="{StaticResource ContextMenuItemStyle}"/>
                 </ContextMenu>
@@ -281,7 +281,7 @@
         </Button>
     </DataTemplate>
 
-    <Style x:Key="ArticleItemsStyle" TargetType="ItemsControl">
+    <Style x:Key="NoteItemsStyle" TargetType="ItemsControl">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="ItemsPanel">

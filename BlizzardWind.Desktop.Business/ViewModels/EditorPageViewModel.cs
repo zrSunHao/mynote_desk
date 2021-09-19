@@ -14,20 +14,20 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class EditorPageViewModel : MvxViewModel
     {
         private readonly IFileResourceService _FileService;
-        private readonly IArticleService _NoteService;
+        private readonly INoteService _NoteService;
         private readonly ViewModelMediator _Mediator;
-        private List<MarkTextFileModel> _FileList = new List<MarkTextFileModel>();
-        private Article _Note;
+        private List<MarkNoteFileModel> _FileList = new List<MarkNoteFileModel>();
+        private Note _Note;
 
         public IMvxCommand MainOperateCommand => new MvxCommand<int>(OnMainOperateClick);
         public IMvxCommand MainUploadCommand => new MvxCommand<int>(OnUploadOperateClick);
-        public IMvxCommand FileIdCopyCommand => new MvxCommand<MarkTextFileModel>(OnFileIdCopyClick);
-        public IMvxCommand FileRenameCommand => new MvxCommand<MarkTextFileModel>(OnFileRenameClick);
-        public IMvxCommand FileReplaceCommand => new MvxCommand<MarkTextFileModel>(OnFileReplaceClick);
-        public IMvxCommand FileExportCommand => new MvxCommand<MarkTextFileModel>(OnFileExportClick);
-        public IMvxCommand FileDeleteCommand => new MvxCommand<MarkTextFileModel>(OnFileDeleteClick);
+        public IMvxCommand FileIdCopyCommand => new MvxCommand<MarkNoteFileModel>(OnFileIdCopyClick);
+        public IMvxCommand FileRenameCommand => new MvxCommand<MarkNoteFileModel>(OnFileRenameClick);
+        public IMvxCommand FileReplaceCommand => new MvxCommand<MarkNoteFileModel>(OnFileReplaceClick);
+        public IMvxCommand FileExportCommand => new MvxCommand<MarkNoteFileModel>(OnFileExportClick);
+        public IMvxCommand FileDeleteCommand => new MvxCommand<MarkNoteFileModel>(OnFileDeleteClick);
 
-        public ObservableCollection<MarkTextFileModel> FileCollection { get; set; }
+        public ObservableCollection<MarkNoteFileModel> FileCollection { get; set; }
         public ObservableCollection<NoteStructureModel> NoteStructureCollection { get; set; }
         public ObservableCollection<OptionTypeItem> EditorFileTypeCollection { get; set; }
         public ObservableCollection<EditorOperateModel> MainOperateCollection { get; set; }
@@ -36,9 +36,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public Action<int, string> PromptInformationAction { get; set; }
         public Action<string, int, bool> UploadFileAction { get; set; }
         public Action<string> FileIdCopyAction { get; set; }
-        public Action<string, MarkTextFileModel> FileReplaceAction { get; set; }
-        public Action<MarkTextFileModel> FileExportAction { get; set; }
-        public Action<MarkTextFileModel> FileRenameAction { get; set; }
+        public Action<string, MarkNoteFileModel> FileReplaceAction { get; set; }
+        public Action<MarkNoteFileModel> FileExportAction { get; set; }
+        public Action<MarkNoteFileModel> FileRenameAction { get; set; }
 
         private string _coverPicturePath;
         public string CoverPicturePath
@@ -87,7 +87,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     public partial class EditorPageViewModel
     {
         public EditorPageViewModel(IFileResourceService fileService,
-            IArticleService noteService, ViewModelMediator mediator)
+            INoteService noteService, ViewModelMediator mediator)
         {
             _FileService = fileService;
             _NoteService = noteService;
@@ -97,7 +97,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         public void Initial()
         {
-            FileCollection = new ObservableCollection<MarkTextFileModel>();
+            FileCollection = new ObservableCollection<MarkNoteFileModel>();
             MainOperateCollection = new ObservableCollection<EditorOperateModel>()
             {
                 new EditorOperateModel(){Name = "保存",  Type=EditorOperateType.Save},
@@ -139,10 +139,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             if (fileNames == null || fileNames.Length < 1)
                 return;
-            List<MarkTextFileModel> models = await _FileService
-                .AddArticleFileAsync(type, fileNames.ToList(), _Note.Id);
+            List<MarkNoteFileModel> models = await _FileService
+                .AddNoteFileAsync(type, fileNames.ToList(), _Note.Id);
             _FileList.InsertRange(0, models);
-            foreach (MarkTextFileModel model in models)
+            foreach (MarkNoteFileModel model in models)
             {
                 FileCollection.Insert(0, model);
             }
@@ -159,12 +159,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public void FileFilter()
         {
             FileCollection.Clear();
-            List<MarkTextFileModel> list = _FileList;
+            List<MarkNoteFileModel> list = _FileList;
             if (!string.IsNullOrEmpty(FileFilterName))
                 list = list.Where(x => x.FileName.Contains(FileFilterName)).ToList();
             if (FileFilterType != -1)
                 list = list.Where(x => x.Type == FileFilterType).ToList();
-            foreach (MarkTextFileModel model in list)
+            foreach (MarkNoteFileModel model in list)
                 FileCollection.Add(model);
         }
 
@@ -242,7 +242,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
         }
 
-        public async void FileReplace(MarkTextFileModel model, string fileName)
+        public async void FileReplace(MarkNoteFileModel model, string fileName)
         {
             await _FileService.RelaceAsync(model, fileName);
             var index = FileCollection.IndexOf(model);
@@ -253,7 +253,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
         }
 
-        public async void FileRename(MarkTextFileModel model)
+        public async void FileRename(MarkNoteFileModel model)
         {
             await _FileService.RenameAsync(model.Id, model.FileName);
             var index = FileCollection.IndexOf(model);
@@ -281,7 +281,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             }
         }
 
-        private void OnFileIdCopyClick(MarkTextFileModel model)
+        private void OnFileIdCopyClick(MarkNoteFileModel model)
         {
             string msg = "暂不支持该文件类型的显示";
             switch (model.Type)
@@ -300,26 +300,26 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 FileIdCopyAction.Invoke(msg);
         }
 
-        private void OnFileReplaceClick(MarkTextFileModel model)
+        private void OnFileReplaceClick(MarkNoteFileModel model)
         {
             string filter = GetFileFilter(model.Type);
             if (FileReplaceAction != null)
                 FileReplaceAction.Invoke(filter, model);
         }
 
-        private void OnFileExportClick(MarkTextFileModel model)
+        private void OnFileExportClick(MarkNoteFileModel model)
         {
             if (FileExportAction != null)
                 FileExportAction.Invoke(model);
         }
 
-        private void OnFileRenameClick(MarkTextFileModel model)
+        private void OnFileRenameClick(MarkNoteFileModel model)
         {
             if (FileRenameAction != null)
                 FileRenameAction.Invoke(model);
         }
 
-        private async void OnFileDeleteClick(MarkTextFileModel model)
+        private async void OnFileDeleteClick(MarkNoteFileModel model)
         {
             await _FileService.DeleteAsync(model.Id);
             _FileList.Remove(model);
@@ -332,9 +332,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             if (_Note == null)
                 throw new Exception("文章数据为空！");
             Document = _Note.Content;
-            List<MarkTextFileModel> models = await _FileService.GetArticleFilesAsync(noteId);
+            List<MarkNoteFileModel> models = await _FileService.GetNoteFilesAsync(noteId);
             _FileList.AddRange(models);
-            foreach (MarkTextFileModel model in models)
+            foreach (MarkNoteFileModel model in models)
             {
                 FileCollection.Add(model);
             }

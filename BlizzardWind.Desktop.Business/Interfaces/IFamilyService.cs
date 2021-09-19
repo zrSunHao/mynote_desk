@@ -7,12 +7,12 @@ namespace BlizzardWind.Desktop.Business.Interfaces
 {
     public interface IFamilyService
     {
-        public Task<bool> AddAsync(ArticleFamily family);
+        public Task<bool> AddAsync(NoteFamily family);
 
-        public Task<bool> UpdateAsync(ArticleFamily family);
+        public Task<bool> UpdateAsync(NoteFamily family);
 
         public Task<bool> DeleteAsync(Guid id);
 
-        public Task<List<ArticleFamily>> GetListAsync();
+        public Task<List<NoteFamily>> GetListAsync();
     }
 }

@@ -18,17 +18,17 @@ namespace BlizzardWind.Desktop.Business.Services
             _dbService = service;
         }
 
-        public async Task<bool> AddAsync(ArticleFamily family)
+        public async Task<bool> AddAsync(NoteFamily family)
         {
             var db = await _dbService.GetConnectionAsync();
             await db.InsertAsync(family);
             return true;
         }
 
-        public async Task<List<ArticleFamily>> GetListAsync()
+        public async Task<List<NoteFamily>> GetListAsync()
         {
             var db = await _dbService.GetConnectionAsync();
-            var query = db.Table<ArticleFamily>()
+            var query = db.Table<NoteFamily>()
                 .Where(x=> !x.Deleted)
                 .OrderBy(x => x.Name);
             return await query.ToListAsync(); ;
@@ -37,7 +37,7 @@ namespace BlizzardWind.Desktop.Business.Services
         public async Task<bool> DeleteAsync(Guid id)
         {
             var db = await _dbService.GetConnectionAsync();
-            var entity = await db.Table<ArticleFamily>()
+            var entity = await db.Table<NoteFamily>()
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (entity == null)
                 return false;
@@ -45,23 +45,23 @@ namespace BlizzardWind.Desktop.Business.Services
             entity.Deleted = true;
             await db.UpdateAsync(entity);
 
-            var folsers = await db.Table<ArticleFolder>()
+            var folsers = await db.Table<NoteFolder>()
                 .Where(x => !x.Deleted && x.FamilyId == id)
                 .ToListAsync();
-            var deleteFolderSql = $"UPDATE ArticleFolder SET Deleted= '1', DeletedAt = '{DateTime.Now.Ticks.ToString()}' WHERE FamilyId = '{entity.Id.ToString()}'";
+            var deleteFolderSql = $"UPDATE NoteFolder SET Deleted= '1', DeletedAt = '{DateTime.Now.Ticks.ToString()}' WHERE FamilyId = '{entity.Id.ToString()}'";
             await db.ExecuteAsync(deleteFolderSql);
 
             if (!folsers.Any())
                 return true;
             foreach (var folder in folsers)
             {
-                var deleteArticleSql = $"UPDATE Article SET Deleted= '1', DeletedAt = '{DateTime.Now.Ticks.ToString()}' WHERE FolderId = '{folder.Id.ToString()}'";
-                await db.ExecuteAsync(deleteArticleSql);
+                var deleteNoteSql = $"UPDATE Note SET Deleted= '1', DeletedAt = '{DateTime.Now.Ticks.ToString()}' WHERE FolderId = '{folder.Id.ToString()}'";
+                await db.ExecuteAsync(deleteNoteSql);
             }
             return true;
         }
 
-        public async Task<bool> UpdateAsync(ArticleFamily family)
+        public async Task<bool> UpdateAsync(NoteFamily family)
         {
             family.UpdatedAt = DateTime.Now;
             var db = await _dbService.GetConnectionAsync();

@@ -3,17 +3,24 @@ using System;
 
 namespace BlizzardWind.Desktop.Business.Entities
 {
-    public class ArticleFolder
+    public class Note
     {
         [PrimaryKey]
         public Guid Id { get; set; }
 
-        public Guid FamilyId { get; set; }
+        public Guid FolderId { get; set; }
 
-        [MaxLength(128)]
-        public string Name { get; set; }
+        public int State { get; set; }
 
         public Guid? CoverPictureId { get; set; }
+
+        [MaxLength(256)]
+        public string Title { get; set; }
+
+        [MaxLength(1024)]
+        public string Keys { get; set; }
+
+        public string Content { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -22,6 +29,11 @@ namespace BlizzardWind.Desktop.Business.Entities
         public bool Deleted { get; set; }
 
         public DateTime? DeletedAt { get; set; }
+
+
+        public string DisplayTime => CreatedAt.ToString("D");
+
+        public string ContentLength => string.IsNullOrEmpty(Content)? "0": Content.Length.ToString();
 
         public string CoverPicturePath => _CoverPicturePath;
 

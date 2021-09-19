@@ -2,7 +2,7 @@
 
 namespace BlizzardWind.Desktop.Business.Models
 {
-    public class MarkTextFileModel
+    public class MarkNoteFileModel
     {
         public Guid Id { get; set; }
 
