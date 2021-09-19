@@ -1,7 +1,7 @@
 ﻿using BlizzardWind.App.Common.Consts;
 using BlizzardWind.App.Common.Tools;
 using BlizzardWind.Desktop.App.Dialogs;
-using BlizzardWind.Desktop.App.Windows;
+using BlizzardWind.Desktop.Business.Entities;
 using BlizzardWind.Desktop.Business.ViewModels;
 using Microsoft.Win32;
 using System;
@@ -18,34 +18,42 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BlizzardWind.Desktop.App.Pages
+namespace BlizzardWind.Desktop.App.Windows
 {
     /// <summary>
-    /// MarkTextPage.xaml 的交互逻辑
+    /// ReaderWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MarkTextPage : Page
+    public partial class ReaderWindow : Window
     {
-        private readonly MarkTextPageViewModel VM;
+        private readonly ReaderWindowViewModel VM;
+        private Article _Note;
 
-        public MarkTextPage()
+        public ReaderWindow(Article article)
         {
             InitializeComponent();
-            VM = (MarkTextPageViewModel)DataContext;
+            _Note = article;
+
+            VM = (ReaderWindowViewModel)DataContext;
             VM.LinkClickAction += LinkClick;
+        }
+
+        public void SetNote(Article note)
+        {
+            _Note = note;
+            VM.OnWindowLoaded(_Note);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            VM.OnWindowLoaded(_Note);
         }
 
         private void PromptInformation(int type, string msg)
         {
             var dialog = new ConfirmDialog(type, msg);
             dialog.ShowDialog();
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            VM.OnPageLoaded();
         }
 
         private void LinkClick(string link)
@@ -118,31 +126,16 @@ namespace BlizzardWind.Desktop.App.Pages
             FileInfo file = new FileInfo(fileName);
             if (!file.Exists)
                 PromptInformation(MesssageType.Error, "文件不存在");
-            var name = file.Name.Replace(file.Extension,"");
+            var name = file.Name.Replace(file.Extension, "");
             var outPath = System.IO.Path.Combine(file.DirectoryName, $"{name}_split{file.Extension}");
             try
             {
                 PdfTool.Paginate(file.FullName, outPath);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PromptInformation(MesssageType.Error, ex.Message);
             }
-        }
-
-        private void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (Window item in Application.Current.Windows)
-            {
-                if (item.GetType() == typeof(EditorWindow))
-                {
-                    PromptInformation(MesssageType.Error, "存在正在编辑的文章");
-                    return;
-                }
-            }
-            var article = VM.GetCurrentArticle();
-            EditorWindow editerWindow = new EditorWindow(article);
-            editerWindow.Show();
         }
     }
 }

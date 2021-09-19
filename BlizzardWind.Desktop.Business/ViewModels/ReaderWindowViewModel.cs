@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
-    public partial class MarkTextPageViewModel : MvxViewModel
+    public partial class ReaderWindowViewModel : MvxViewModel
     {
         private readonly ViewModelMediator _Mediator;
         private readonly IFileResourceService _FileResourceService;
@@ -25,20 +25,19 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public Action<string> LinkClickAction { get; set; }
     }
 
-    public partial class MarkTextPageViewModel
+    public partial class ReaderWindowViewModel
     {
-        public MarkTextPageViewModel(ViewModelMediator mediator, IFileResourceService fileResourceService)
+        public ReaderWindowViewModel(ViewModelMediator mediator, IFileResourceService fileResourceService)
         {
             _Mediator = mediator;
             _FileResourceService = fileResourceService;
             ElementCollection = new ObservableCollection<MarkElement>();
-
-            _Article = _Mediator.GetShowArticle();
             _Mediator.ArticleChangedAction += ArticleChanged;
         }
 
-        public void OnPageLoaded()
+        public void OnWindowLoaded(Article article)
         {
+            _Article = article;
             var parser = new MarkTextParser();
             List<MarkElement> elements = parser.GetMarkElements(_Article.Content);
             ArticleUpdate(_Article, elements);

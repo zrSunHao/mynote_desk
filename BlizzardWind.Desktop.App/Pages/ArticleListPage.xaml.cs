@@ -73,14 +73,16 @@ namespace BlizzardWind.Desktop.App.Pages
         {
             foreach (Window item in Application.Current.Windows)
             {
-                if (item.GetType() == typeof(EditorWindow))
+                if (item.GetType() == typeof(ReaderWindow))
                 {
-                    PromptInformation(MesssageType.Error, "存在正在编辑的文章");
+                    var window  = item as ReaderWindow;
+                    if (window != null)
+                        window.SetNote(article);
                     return;
                 }
             }
-            EditorWindow editerWindow = new EditorWindow(article);
-            editerWindow.Show();
+            ReaderWindow reader = new ReaderWindow(article);
+            reader.Show();
         }
 
         private async void ArticleMoveDialog(Article article)
