@@ -33,7 +33,7 @@ namespace BlizzardWind.Desktop.App.Pages
             InitializeComponent();
             VM = (ArticleListPageViewModel)DataContext;
             VM.PromptInformationAction += PromptInformation;
-            VM.ArticleEditDialogAction += ArticleEditDialog;
+            VM.ArticleReaderWindowAction += ArticleReaderWindow;
             VM.ArticleMoveDialogAction += ArticleMoveDialog;
             VM.ArticleUploadCoverDialogAction += ArticleUploadCoverDialog;
         }
@@ -69,7 +69,7 @@ namespace BlizzardWind.Desktop.App.Pages
                 VM.SerachFolder();
         }
 
-        private void ArticleEditDialog(Article article)
+        private void ArticleReaderWindow(Article article)
         {
             foreach (Window item in Application.Current.Windows)
             {

@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {
-    public partial class EditorWindowViewModel : MvxViewModel
+    public partial class EditorPageViewModel : MvxViewModel
     {
         private readonly IFileResourceService _FileService;
         private readonly IArticleService _ArticleService;
@@ -84,9 +84,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
     }
 
-    public partial class EditorWindowViewModel
+    public partial class EditorPageViewModel
     {
-        public EditorWindowViewModel(IFileResourceService fileService,
+        public EditorPageViewModel(IFileResourceService fileService,
             IArticleService articleService, ViewModelMediator mediator)
         {
             _FileService = fileService;
@@ -129,9 +129,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             FileFilterType = -1;
         }
 
-        public void WindowLoaded(Article article)
+        public void WindowLoaded()
         {
-            _Article = article;
+            _Article = _Mediator.GetShowArticle();
             LoadArticleAsync(_Article.Id);
         }
 

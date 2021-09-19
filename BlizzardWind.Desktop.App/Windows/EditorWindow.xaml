@@ -6,105 +6,12 @@
         xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource MyWindowStyle}" Height="750" Width="1024"
-        DataContext="{Binding EditorWindowViewModel, Source={StaticResource ViewModelLocator}}"
+        
         Loaded="Window_Loaded">
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/EditorWindowStyle.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        
     </Window.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="220"/>
-        </Grid.ColumnDefinitions>
-        <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3">
-            <Rectangle Style="{StaticResource RectBorderStyle}"/>
-            <WrapPanel Orientation="Horizontal" Margin="15">
-                <ItemsControl ItemsSource="{Binding MainOperateCollection}"
-                              Style="{StaticResource OperateItemsStyle}"
-                              ItemTemplate="{StaticResource MainOperateItemsTemplate}"/>
-                <Border Width="2" Margin="5,0,15,0" 
-                        Background="{StaticResource Color.Font.Primary}" 
-                        BorderBrush="{StaticResource Color.Font.Primary}"/>
-                <ItemsControl ItemsSource="{Binding UploadOperateCollection}"
-                              Style="{StaticResource OperateItemsStyle}"
-                              ItemTemplate="{StaticResource UploadOperateItemsTemplate}"/>
-            </WrapPanel>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="200"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Rectangle Style="{StaticResource RectBorderStyle}" Grid.RowSpan="2"/>
-                <TreeView Style="{StaticResource TreeViewStyle}"
-                          ItemsSource="{Binding ArticleStructureCollection}"/>
-            </Grid>
-            <Grid Grid.Row="1" Margin="0,5,0,0">
-                <Rectangle Style="{StaticResource RectBorderStyle}"/>
-                <Image Style="{StaticResource CoverImageStyle}">
-                    <Image.Source>
-                        <MultiBinding Converter="{StaticResource ArticleCoverPathToUriConverter}" Mode="OneWay">
-                            <Binding  Path="CoverPicturePath" UpdateSourceTrigger="PropertyChanged"></Binding>
-                            <Binding  Path="CoverPictureKey" UpdateSourceTrigger="PropertyChanged"></Binding>
-                        </MultiBinding>
-                    </Image.Source>
-                </Image>
-                <Border Background="Black" Opacity="0.2"/>
-                <TextBlock Text="封面" Style="{StaticResource CoverTextStyle}"/>
-            </Grid>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <TextBox x:Name="editer_box" 
-                     Text="{Binding Document,UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource EditorTextBoxStyle}" 
-                     TextChanged="EditerBox_TextChanged"/>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="0,0,0,5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="60"/>
-                </Grid.ColumnDefinitions>
-                <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>
-                <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}"
-                         KeyDown="TextBox_KeyDown" Text="{Binding FileFilterName,UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Column="1" Style="{StaticResource FileCountTextStyle}">
-                            <Run Text="{Binding FileCollection.Count,Mode=OneWay}"/>
-                            <Run Text="/"/>
-                            <Run Text="{Binding FileCount,Mode=OneWay}"/>
-                </TextBlock>
-            </Grid>
-            <Grid Grid.Row="1" Margin="0,0,0,5">
-                <Rectangle Style="{StaticResource RectBorderStyle}"/>
-                <ComboBox Style="{DynamicResource CommonComboBoxStyle}" 
-                          ItemsSource="{Binding EditorFileTypeCollection,TargetNullValue={x:Null}}"
-                          DisplayMemberPath="Name"
-                          SelectedValuePath="Type"
-                          SelectedValue="{Binding FileFilterType}"
-                          SelectionChanged="ComboBox_SelectionChanged"/>
-            </Grid>
-            <Grid Grid.Row="2">
-                <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>
-                <ScrollViewer Style="{StaticResource ScrollViewerStyle}" Margin="5">
-                    <ItemsControl ItemsSource="{Binding FileCollection}" 
-                                  ItemTemplate="{StaticResource FileItemsTemplate}"/>
-                </ScrollViewer>
-            </Grid>
-        </Grid>
+        
     </Grid>
 </Window>

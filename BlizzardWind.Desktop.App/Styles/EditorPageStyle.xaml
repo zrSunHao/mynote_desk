@@ -30,14 +30,14 @@
     <DataTemplate x:Key="MainOperateItemsTemplate">
         <Button Style="{StaticResource CommonOperateButtonStyle}" Width="50"
                 Content="{Binding Name}"
-                Command="{Binding DataContext.MainOperateCommand,RelativeSource={RelativeSource AncestorType=Window}}" 
+                Command="{Binding DataContext.MainOperateCommand,RelativeSource={RelativeSource AncestorType=Page}}" 
                 CommandParameter="{Binding Type}"/>
     </DataTemplate>
 
     <DataTemplate x:Key="UploadOperateItemsTemplate">
         <Button Style="{StaticResource CommonOperateButtonStyle}" Width="70"
                 Content="{Binding Name}"
-                Command="{Binding DataContext.MainUploadCommand,RelativeSource={RelativeSource AncestorType=Window}}" 
+                Command="{Binding DataContext.MainUploadCommand,RelativeSource={RelativeSource AncestorType=Page}}" 
                 CommandParameter="{Binding Type}"/>
     </DataTemplate>
 
@@ -347,7 +347,7 @@
 
     <DataTemplate x:Key="FileItemsTemplate">
         <Button Style="{DynamicResource FileCardButtonStyle}"
-                Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Window}}">
+                Tag="{Binding DataContext,RelativeSource={RelativeSource AncestorType=Page}}">
             <Button.ContextMenu>
                 <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
                              Style="{StaticResource ContextMenuStyle}">

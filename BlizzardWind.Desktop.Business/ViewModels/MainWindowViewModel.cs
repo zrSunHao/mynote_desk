@@ -46,10 +46,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     Name = "起始页", Icon = "\xe871" , Route = PageNameConsts.ArticleListPage,Checked = true,IsEnable = true
                 },
                 new NavMenuModel(){
-                    Name = "文章类别管理页", Icon = "\xf1c8" , Route = PageNameConsts.ArticleFamilyPage,Checked = false,IsEnable = true
+                    Name = "类别管理", Icon = "\xf1c8" , Route = PageNameConsts.ArticleFamilyPage,Checked = false,IsEnable = true
                 },
                 new NavMenuModel(){
-                    Name = "阅读文章页", Icon = "\xe236" , Route = PageNameConsts.MarkTextPage,Checked = false,IsEnable = false
+                    Name = "编辑文章", Icon = "\xe3c9" , Route = PageNameConsts.EditorPage,Checked = false,IsEnable = false
                 },
             };
 

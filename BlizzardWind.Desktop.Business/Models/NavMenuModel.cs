@@ -46,6 +46,6 @@ namespace BlizzardWind.Desktop.Business.Models
 
         public const string ArticleFamilyPage = "ArticleFamilyPage";
 
-        public const string MarkTextPage = "MarkTextPage";
+        public const string EditorPage = "EditorPage";
     }
 }

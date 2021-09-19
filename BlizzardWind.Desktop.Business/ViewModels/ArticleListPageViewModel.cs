@@ -42,7 +42,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public ObservableCollection<ArticleFamilyModel> FamilyCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
-        public Action<Article> ArticleEditDialogAction { get; set; }
+        public Action<Article> ArticleReaderWindowAction { get; set; }
         public Action<Article> ArticleMoveDialogAction { get; set; }
         public Action<int, string, Article> ArticleUploadCoverDialogAction { get; set; }
 
@@ -273,8 +273,9 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnArticleSeeClick(Article article)
         {
-            _Mediator.SetShowArticle(article);
-            _Mediator.RouteRedirect(PageNameConsts.MarkTextPage);
+            if (ArticleReaderWindowAction == null)
+                return;
+            ArticleReaderWindowAction.Invoke(article);
         }
 
         private void OnArticleMoveClick(Article article)
@@ -286,9 +287,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void OnArticleEditClick(Article article)
         {
-            if (ArticleEditDialogAction == null)
-                return;
-            ArticleEditDialogAction.Invoke(article);
+            _Mediator.SetShowArticle(article);
+            _Mediator.RouteRedirect(PageNameConsts.EditorPage);
         }
 
         private void OnArticleUploadCoverClick(Article article)
