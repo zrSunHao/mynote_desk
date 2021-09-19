@@ -1,4 +1,6 @@
-﻿namespace BlizzardWind.Desktop.Business.Models
+﻿using System;
+
+namespace BlizzardWind.Desktop.Business.Models
 {
     public class MarkTextFileModel
     {

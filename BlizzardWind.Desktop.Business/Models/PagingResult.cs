@@ -1,4 +1,6 @@
-﻿namespace BlizzardWind.Desktop.Business.Models
+﻿using System.Collections.Generic;
+
+namespace BlizzardWind.Desktop.Business.Models
 {
     public class PagingResult<T>
     {

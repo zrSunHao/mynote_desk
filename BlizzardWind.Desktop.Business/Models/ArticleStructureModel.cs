@@ -1,4 +1,5 @@
 ﻿using BlizzardWind.App.Common.MarkText;
+using System.Collections.Generic;
 
 namespace BlizzardWind.Desktop.Business.Models
 {

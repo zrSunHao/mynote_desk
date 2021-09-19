@@ -1,4 +1,7 @@
-﻿namespace BlizzardWind.App.Common.MarkText
+﻿using System;
+using System.Collections.Generic;
+
+namespace BlizzardWind.App.Common.MarkText
 {
     public class MarkRow
     {

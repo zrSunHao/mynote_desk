@@ -3,7 +3,11 @@ using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
 {

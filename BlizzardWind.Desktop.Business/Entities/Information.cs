@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using System;
 
 namespace BlizzardWind.Desktop.Business.Entities
 {

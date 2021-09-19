@@ -1,6 +1,8 @@
 ﻿using BlizzardWind.Desktop.Business.Entities;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace BlizzardWind.Desktop.Business.Models

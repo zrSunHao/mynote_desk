@@ -1,5 +1,7 @@
 ﻿using BlizzardWind.Desktop.Business.Entities;
-using BlizzardWind.Desktop.Business.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlizzardWind.Desktop.Business.Interfaces
 {

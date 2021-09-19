@@ -11,3 +11,6 @@ dotnet_diagnostic.CS8600.severity = none
 
 # CS8604: 引用类型参数可能为 null。
 dotnet_diagnostic.CS8604.severity = none
+
+# CA1416: 验证平台兼容性
+dotnet_diagnostic.CA1416.severity = silent

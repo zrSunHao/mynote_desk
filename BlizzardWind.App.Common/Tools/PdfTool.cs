@@ -1,6 +1,8 @@
 ﻿using Spire.Pdf;
 using Spire.Pdf.Graphics;
+using System;
 using System.Drawing;
+using System.IO;
 
 namespace BlizzardWind.App.Common.Tools
 {

@@ -4,6 +4,8 @@ using BlizzardWind.Desktop.Business.Interfaces;
 using BlizzardWind.Desktop.Business.Models;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace BlizzardWind.Desktop.Business.ViewModels
