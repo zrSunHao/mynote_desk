@@ -18,12 +18,13 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly ViewModelMediator _Mediator;
         private readonly IFileResourceService _FileResourceService;
         private Note _Note;
+        private MarkTextTreeBuilder _TreeBuilder;
 
         public IMvxCommand LinkClickCommand => new MvxCommand<MarkStandardBlock>(OnLinkClick);
         public IMvxCommand OperateCommand => new MvxCommand<int>(OnOperateClick);
 
         public ObservableCollection<MarkStandardBlock> BlocksCollection { get; set; }
-        public ObservableCollection<NoteStructureModel> NoteStructureCollection { get; set; }
+        public ObservableCollection<MarkTextNode> NoteTreeCollection { get; set; }
         public ObservableCollection<OperateModel> OperateCollection { get; set; }
 
         public Action<int, string> PromptInformationAction { get; set; }
@@ -37,8 +38,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             _Mediator = mediator;
             _FileResourceService = fileResourceService;
+            _TreeBuilder = new MarkTextTreeBuilder();
+
             BlocksCollection = new ObservableCollection<MarkStandardBlock>();
-            NoteStructureCollection = new ObservableCollection<NoteStructureModel>();
+            NoteTreeCollection = new ObservableCollection<MarkTextNode>();
             OperateCollection = OperateHelper.GetReaderOperate();
             _Mediator.NoteChangedAction += NoteChanged;
         }
@@ -111,68 +114,11 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void NoteStructureUpdate(List<MarkStandardBlock> blocks)
         {
-            NoteStructureCollection.Clear();
-            NoteStructureModel? topComponent = null;
-            bool hasTitle_2 = false;
-            foreach (var el in blocks)
+            NoteTreeCollection.Clear();
+            List<MarkTextNode> nodes = _TreeBuilder.Build(blocks);
+            foreach (var node in nodes)
             {
-                if (el.Level == MarkElementLevel.Skip)
-                {
-                    hasTitle_2 = false;
-                    continue;
-                }
-                NoteStructureModel component = new()
-                {
-                    Name = el.BriefText,
-                    Type = el.Type,
-                    TypeName = el.TypeName,
-                    Level = el.Level,
-                    Children = new List<NoteStructureModel>()
-                };
-                if (component.Level == MarkElementLevel.Title_1)
-                {
-                    if (topComponent != null)
-                        NoteStructureCollection.Add(topComponent);
-                    topComponent = component;
-                    hasTitle_2 = false;
-                    continue;
-                }
-                if (component.Level == MarkElementLevel.Single)
-                {
-                    if (topComponent != null)
-                        NoteStructureCollection.Add(topComponent);
-                    topComponent = null;
-                    NoteStructureCollection.Add(component);
-                    hasTitle_2 = false;
-                    continue;
-                }
-                if (component.Level == MarkElementLevel.Title_2)
-                {
-                    if (topComponent == null)
-                        topComponent = component;
-                    else
-                        topComponent.AddChildren(component);
-                    hasTitle_2 = true;
-                    continue;
-                }
-                if (component.Level == MarkElementLevel.Leaf)
-                {
-                    if (topComponent == null)
-                        NoteStructureCollection.Add(component);
-                    else if (!hasTitle_2)
-                        topComponent.AddChildren(component);
-                    else if (!topComponent.Children.Any())
-                        topComponent.AddChildren(component);
-                    else
-                    {
-                        int index = topComponent.Children.Count - 1;
-                        topComponent.Children[index].AddChildren(component);
-                    }
-                }
-            }
-            if (topComponent != null)
-            {
-                NoteStructureCollection.Add(topComponent);
+                NoteTreeCollection.Add(node);
             }
         }
     }

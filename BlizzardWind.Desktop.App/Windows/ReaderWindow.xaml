@@ -36,7 +36,7 @@
         <Grid x:Name="tree_grid" Grid.Row="1" Grid.Column="0" Width="300">
             <Rectangle Style="{StaticResource RectBorderStyle}" Grid.RowSpan="2"/>
             <TreeView Style="{StaticResource TreeViewStyle}"
-                          ItemsSource="{Binding NoteStructureCollection}"/>
+                          ItemsSource="{Binding NoteTreeCollection}"/>
         </Grid>
         <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Disabled" 
                       VerticalScrollBarVisibility="Visible">
