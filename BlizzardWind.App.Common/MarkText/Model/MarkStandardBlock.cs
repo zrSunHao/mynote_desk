@@ -51,12 +51,12 @@ namespace BlizzardWind.App.Common.MarkText
             return Type switch
             {
                 MarkNoteElementType.h1 => MarkElementLevel.Skip,
-                MarkNoteElementType.h2 => MarkElementLevel.Title_1,
+                MarkNoteElementType.h2 => MarkElementLevel.H2,
                 MarkNoteElementType.key => MarkElementLevel.Single,
                 MarkNoteElementType.profile => MarkElementLevel.Single,
                 MarkNoteElementType.summary => MarkElementLevel.Single,
                 MarkNoteElementType.quote => MarkElementLevel.Single,
-                MarkNoteElementType.h3 => MarkElementLevel.Title_2,
+                MarkNoteElementType.h3 => MarkElementLevel.H3,
                 _ => MarkElementLevel.Leaf,
             };
         }
