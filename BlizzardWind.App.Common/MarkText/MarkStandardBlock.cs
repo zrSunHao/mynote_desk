@@ -23,7 +23,7 @@ namespace BlizzardWind.App.Common.MarkText
         /// <summary>
         /// 键值对
         /// </summary>
-        public MarkKeyValue KeyValue { get; set; }
+        public MarkKeyValue Map { get; set; }
 
 
 
@@ -50,14 +50,14 @@ namespace BlizzardWind.App.Common.MarkText
         {
             return Type switch
             {
-                MarkNoteElementType.h1 => MarkTypeLevel.Skip,
-                MarkNoteElementType.h2 => MarkTypeLevel.Title_1,
-                MarkNoteElementType.key => MarkTypeLevel.Single,
-                MarkNoteElementType.profile => MarkTypeLevel.Single,
-                MarkNoteElementType.summary => MarkTypeLevel.Single,
-                MarkNoteElementType.quote => MarkTypeLevel.Single,
-                MarkNoteElementType.h3 => MarkTypeLevel.Title_2,
-                _ => MarkTypeLevel.Leaf,
+                MarkNoteElementType.h1 => MarkElementLevel.Skip,
+                MarkNoteElementType.h2 => MarkElementLevel.Title_1,
+                MarkNoteElementType.key => MarkElementLevel.Single,
+                MarkNoteElementType.profile => MarkElementLevel.Single,
+                MarkNoteElementType.summary => MarkElementLevel.Single,
+                MarkNoteElementType.quote => MarkElementLevel.Single,
+                MarkNoteElementType.h3 => MarkElementLevel.Title_2,
+                _ => MarkElementLevel.Leaf,
             };
         }
 
@@ -137,9 +137,9 @@ namespace BlizzardWind.App.Common.MarkText
 
         private string GetValue()
         {
-            if (KeyValue == null)
+            if (Map == null)
                 return "";
-            return KeyValue.Name;
+            return Map.Name;
         }
     }
 }

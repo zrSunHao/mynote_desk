@@ -9,7 +9,7 @@ namespace BlizzardWind.Desktop.Business
     {
         private Note _Note;
 
-        public Action<Note, List<MarkElement>> NoteChangedAction { get; set; }
+        public Action<Note, List<MarkStandardBlock>> NoteChangedAction { get; set; }
         public Action<string> RouteRedirectAction { get; set; }
 
         public void RouteRedirect(string pageName)
@@ -20,11 +20,11 @@ namespace BlizzardWind.Desktop.Business
                 RouteRedirectAction(pageName);
         }
 
-        public void NoteChangedNotify(Note note, List<MarkElement> elements)
+        public void NoteChangedNotify(Note note, List<MarkStandardBlock> blocks)
         {
-            if(NoteChangedAction != null)
+            if (NoteChangedAction != null)
             {
-                NoteChangedAction(note, elements);
+                NoteChangedAction(note, blocks);
             }
         }
 

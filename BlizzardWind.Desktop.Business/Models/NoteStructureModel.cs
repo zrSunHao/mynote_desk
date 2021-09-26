@@ -9,7 +9,7 @@ namespace BlizzardWind.Desktop.Business.Models
 
         public int Level { get; set; }
 
-        public int Type { get; set; }
+        public MarkNoteElementType Type { get; set; }
 
         public string TypeName { get; set; }
 

@@ -42,7 +42,7 @@
                       VerticalScrollBarVisibility="Visible">
             <Grid Width="800">
                 <Border Background="{DynamicResource Color.Windows.Background}"/>
-                <ItemsControl x:Name="article_grid" ItemsSource="{Binding ElementCollection}" Margin="10"
+                <ItemsControl x:Name="article_grid" ItemsSource="{Binding BlocksCollection}" Margin="10"
                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
             </Grid>

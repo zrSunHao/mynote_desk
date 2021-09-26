@@ -128,7 +128,7 @@
 
     <DataTemplate x:Key="ParagraphTemplate">
         <Grid>
-            <TextBox Text="{Binding Content}">
+            <TextBox Text="{Binding Text}">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -144,7 +144,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="H1Template">
-        <TextBox Text="{Binding Content}">
+        <TextBox Text="{Binding Text}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                     <Setter Property="Margin" Value="10,10,10,20"/>
@@ -159,7 +159,7 @@
 
     <DataTemplate x:Key="H2Template">
         <Grid>
-            <TextBox Text="{Binding Content}">
+            <TextBox Text="{Binding Text}">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                         <Setter Property="Margin" Value="10,10,10,10"/>
@@ -174,7 +174,7 @@
 
     <DataTemplate x:Key="H3Template">
         <Grid>
-            <TextBox Text="{Binding Content}">
+            <TextBox Text="{Binding Text}">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                         <Setter Property="Margin" Value="40,10,10,10"/>
@@ -194,7 +194,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBox Grid.Row="0" Text="关键字：" Style="{StaticResource CommonElementTitleBoxStyle}"/>
-            <TextBox Grid.Row="1" Text="{Binding Content}">
+            <TextBox Grid.Row="1" Text="{Binding Text}">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                         <Setter Property="Margin" Value="40,0,10,0"/>
@@ -210,18 +210,19 @@
     </DataTemplate>
 
     <DataTemplate x:Key="ProfileTemplate">
-        <Grid Margin="10,0,10,15">
+        <Grid Margin="10,0,10,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBox Grid.Row="0" Text="简介：" Style="{StaticResource CommonElementTitleBoxStyle}"/>
-            <TextBox Grid.Row="1" Text="{Binding Content}">
+            <TextBox Grid.Row="1" Text="{Binding Text}">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                         <Setter Property="Margin" Value="40,0,10,0"/>
                         <Setter Property="FontSize" Value="15"/>
                         <Setter Property="FontWeight" Value="Medium"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
                         <Setter Property="TextBlock.LineHeight" Value="30"/>
                         <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                     </Style>
@@ -247,7 +248,7 @@
             <Border Grid.RowSpan="2" Background="Black" Opacity="0.3">
                 <Border.ToolTip>
                     <ToolTip Background="{StaticResource Color.Canvas.Background}">
-                        <TextBlock Text="{Binding Content}" Foreground="{DynamicResource Text.Font.Primary}"/>
+                        <TextBlock Text="{Binding Text}" Foreground="{DynamicResource Text.Font.Primary}"/>
                     </ToolTip>
                 </Border.ToolTip>
             </Border>
@@ -265,7 +266,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Content}" FontSize="15" Foreground="{StaticResource Color.Info}"
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Text}" FontSize="15" Foreground="{StaticResource Color.Info}"
                             Style="{StaticResource CommonElementTextBoxStyle}" VerticalAlignment="Center" />
                 <CheckBox Grid.Column="1" x:Name="Txt_ExpandCheckBox" Tag="选中显示" Content="选中显示" Margin="10,0,0,0">
                     <CheckBox.Style>
@@ -342,7 +343,7 @@
             <Button Grid.Column="1" VerticalAlignment="Center"
                     Command="{Binding DataContext.LinkClickCommand,RelativeSource={RelativeSource AncestorType=Window}}" 
                     CommandParameter="{Binding}"
-                    Content="{Binding KeyValue.Name}" 
+                    Content="{Binding Map.Name}" 
                     Style="{StaticResource CommonOperateButtonStyle}" />
         </Grid>
     </DataTemplate>
@@ -366,8 +367,9 @@
                 <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                     <Setter Property="Foreground" Value="{DynamicResource Text.Font.Primary}"/>
                     <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="Margin" Value="0,5,0,5"/>
                     <Setter Property="FontWeight" Value="Medium"/>
-                    <Setter Property="TextBlock.LineHeight" Value="35"/>
+                    <!--<Setter Property="TextBlock.LineHeight" Value="35"/>-->
                 </Style>
             </TextBox.Style>
         </TextBox>
@@ -389,7 +391,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBox Grid.Row="0" Text="总结：" Style="{StaticResource CommonElementTitleBoxStyle}"/>
-            <TextBox Grid.Row="1" Text="{Binding Content}">
+            <TextBox Grid.Row="1" Text="{Binding Text}">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource CommonElementTextBoxStyle}">
                         <Setter Property="Margin" Value="40,0,10,0"/>

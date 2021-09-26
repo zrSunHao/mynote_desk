@@ -19,10 +19,10 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private readonly IFileResourceService _FileResourceService;
         private Note _Note;
 
-        public IMvxCommand LinkClickCommand => new MvxCommand<MarkElement>(OnLinkClick);
+        public IMvxCommand LinkClickCommand => new MvxCommand<MarkStandardBlock>(OnLinkClick);
         public IMvxCommand OperateCommand => new MvxCommand<int>(OnOperateClick);
 
-        public ObservableCollection<MarkElement> ElementCollection { get; set; }
+        public ObservableCollection<MarkStandardBlock> BlocksCollection { get; set; }
         public ObservableCollection<NoteStructureModel> NoteStructureCollection { get; set; }
         public ObservableCollection<OperateModel> OperateCollection { get; set; }
 
@@ -37,7 +37,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             _Mediator = mediator;
             _FileResourceService = fileResourceService;
-            ElementCollection = new ObservableCollection<MarkElement>();
+            BlocksCollection = new ObservableCollection<MarkStandardBlock>();
             NoteStructureCollection = new ObservableCollection<NoteStructureModel>();
             OperateCollection = OperateHelper.GetReaderOperate();
             _Mediator.NoteChangedAction += NoteChanged;
@@ -47,8 +47,8 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             _Note = note;
             var parser = new MarkTextParser();
-            List<MarkElement> elements = parser.GetMarkElements(_Note.Content);
-            NoteUpdate(_Note, elements);
+            List<MarkStandardBlock> blocks = parser.GetMarkBlocks(_Note.Content);
+            NoteUpdate(_Note, blocks);
         }
 
         public Note GetCurrentNote()
@@ -63,34 +63,35 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                 OperateAction.Invoke(type);
             }
         }
-        private void OnLinkClick(MarkElement element)
+
+        private void OnLinkClick(MarkStandardBlock block)
         {
-            if (LinkClickAction != null && element.KeyValue?.Value != null)
-                LinkClickAction.Invoke(element.KeyValue.Value);
+            if (LinkClickAction != null && block.Map?.Value != null)
+                LinkClickAction.Invoke(block.Map.Value);
         }
 
-        private void NoteChanged(Note note, List<MarkElement> elements)
+        private void NoteChanged(Note note, List<MarkStandardBlock> blocks)
         {
             if (_Note != null && _Note.Id != note.Id)
                 return;
-            NoteUpdate(note, elements);
+            NoteUpdate(note, blocks);
         }
 
-        private async void NoteUpdate(Note note, List<MarkElement> elements)
+        private async void NoteUpdate(Note note, List<MarkStandardBlock> blocks)
         {
-            if (note == null || elements == null)
+            if (note == null || blocks == null)
                 return;
-            NoteStructureUpdate(elements);
-            ElementCollection.Clear();
-            foreach (var item in elements)
+            NoteStructureUpdate(blocks);
+            BlocksCollection.Clear();
+            foreach (var item in blocks)
             {
                 if (item.Type == MarkNoteElementType.txt || item.Type == MarkNoteElementType.img)
                 {
-                    item.Content = item.KeyValue?.Name;
+                    item.Text = item.Map?.Name;
                     Guid fileId = Guid.Empty;
                     try
                     {
-                        string idStr = item.KeyValue?.Value == null ? "" : item.KeyValue.Value;
+                        string idStr = item.Map?.Value == null ? "" : item.Map.Value;
                         fileId = Guid.Parse(idStr);
                     }
                     catch (Exception) { }
@@ -104,31 +105,31 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                         }
                     }
                 }
-                ElementCollection.Add(item);
+                BlocksCollection.Add(item);
             }
         }
 
-        private void NoteStructureUpdate(List<MarkElement> elements)
+        private void NoteStructureUpdate(List<MarkStandardBlock> blocks)
         {
             NoteStructureCollection.Clear();
             NoteStructureModel? topComponent = null;
             bool hasTitle_2 = false;
-            foreach (var el in elements)
+            foreach (var el in blocks)
             {
-                if (el.Level == MarkTypeLevel.Skip)
+                if (el.Level == MarkElementLevel.Skip)
                 {
                     hasTitle_2 = false;
                     continue;
                 }
                 NoteStructureModel component = new()
                 {
-                    Name = el.ShortContent,
-                    Type = el.RowType,
+                    Name = el.BriefText,
+                    Type = el.Type,
                     TypeName = el.TypeName,
                     Level = el.Level,
                     Children = new List<NoteStructureModel>()
                 };
-                if (component.Level == MarkTypeLevel.Title_1)
+                if (component.Level == MarkElementLevel.Title_1)
                 {
                     if (topComponent != null)
                         NoteStructureCollection.Add(topComponent);
@@ -136,7 +137,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     hasTitle_2 = false;
                     continue;
                 }
-                if (component.Level == MarkTypeLevel.Single)
+                if (component.Level == MarkElementLevel.Single)
                 {
                     if (topComponent != null)
                         NoteStructureCollection.Add(topComponent);
@@ -145,7 +146,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     hasTitle_2 = false;
                     continue;
                 }
-                if (component.Level == MarkTypeLevel.Title_2)
+                if (component.Level == MarkElementLevel.Title_2)
                 {
                     if (topComponent == null)
                         topComponent = component;
@@ -154,7 +155,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     hasTitle_2 = true;
                     continue;
                 }
-                if (component.Level == MarkTypeLevel.Leaf)
+                if (component.Level == MarkElementLevel.Leaf)
                 {
                     if (topComponent == null)
                         NoteStructureCollection.Add(component);

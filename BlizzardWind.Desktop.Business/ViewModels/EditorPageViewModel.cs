@@ -128,12 +128,12 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         public async void TextChange()
         {
             var parser = new MarkTextParser();
-            List<MarkElement> elements = parser.GetMarkElements(Document);
+            List<MarkStandardBlock> blocks = parser.GetMarkBlocks(Document);
             _Note.Content = Document;
-            _Note.Title = elements.FirstOrDefault(x => x.Type == MarkNoteElementType.h1)?.Content;
-            _Note.Keys = elements.FirstOrDefault(x => x.Type == MarkNoteElementType.key)?.Content;
+            _Note.Title = blocks.FirstOrDefault(x => x.Type == MarkNoteElementType.h1)?.Text;
+            _Note.Keys = blocks.FirstOrDefault(x => x.Type == MarkNoteElementType.key)?.Text;
             await _NoteService.UpdateAsync(_Note);
-            _Mediator.NoteChangedNotify(_Note, elements);
+            _Mediator.NoteChangedNotify(_Note, blocks);
         }
 
         public async void FileReplace(MarkNoteFileModel model, string fileName)
