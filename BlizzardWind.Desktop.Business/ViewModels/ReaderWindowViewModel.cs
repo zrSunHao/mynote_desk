@@ -126,6 +126,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     Type = el.RowType,
                     TypeName = el.TypeName,
                     Level = el.Level,
+                    Children = new List<NoteStructureModel>()
                 };
                 if (component.Level == MarkTypeLevel.Title_1)
                 {

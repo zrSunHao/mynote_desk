@@ -15,6 +15,11 @@ namespace BlizzardWind.Desktop.Business.Models
 
         public List<NoteStructureModel> Children { get; set; }
 
+        public void NoteFamilyModel()
+        {
+            Children = new List<NoteStructureModel>();
+        }
+
         public void AddChildren(NoteStructureModel model)
         {
             if(Children == null)

@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,8 +31,6 @@ namespace BlizzardWind.Desktop.App.Pages
     /// </summary>
     public partial class EditorPage : Page
     {
-        private DateTime timeStamp = DateTime.Now;
-
         private readonly EditorPageViewModel VM;
 
         public EditorPage()
