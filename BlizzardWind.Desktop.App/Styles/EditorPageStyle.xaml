@@ -33,6 +33,7 @@
         <Setter Property="TextBlock.LineStackingStrategy" Value="BlockLineHeight"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Padding" Value="5"/>
+        <Setter Property="SpellCheck.IsEnabled" Value="False"/>
         <Setter Property="Margin" Value="0,0,5,0"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>

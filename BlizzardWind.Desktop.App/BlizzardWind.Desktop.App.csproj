@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Assets\Fonts\materialIcons.ttf" />
+    <None Remove="Assets\Images\Big\windmill_512.png" />
     <None Remove="Assets\Images\Big\wind_1024.png" />
     <None Remove="Assets\Images\Big\wind_512.png" />
     <None Remove="Assets\Images\Big\winter_designer.png" />
@@ -28,10 +29,16 @@
     <None Remove="Assets\Images\Icons\video.png" />
     <None Remove="Assets\Images\Icons\warn.png" />
     <None Remove="Assets\Images\Icons\wind.png" />
+    <None Remove="Assets\Images\Icons\windmill.png" />
     <None Remove="favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Images\Icons\windmill.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\Big\windmill_512.png" />
     <Resource Include="Assets\Images\Big\wind_512.png" />
     <Resource Include="Assets\Images\Big\wind_1024.png" />
     <Resource Include="Assets\Images\Big\winter_designer.png" />
