@@ -128,7 +128,7 @@
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="{StaticResource Font.MaterialIcon}"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Tertiary}"/>
+        <Setter Property="Foreground" Value="LightGray"/>
         <Setter Property="Content" Value="&#xe7f5;"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -151,7 +151,7 @@
         <Setter Property="Width" Value="40"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Font.Tertiary}"/>
+        <Setter Property="Foreground" Value="LightGray"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
@@ -202,93 +202,12 @@
         </Setter>
     </Style>
 
-
-
-    <Style x:Key="MenuRadioButtonStyle" TargetType="RadioButton">
-        <Setter Property="Margin" Value="-1"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Width" Value="60"/>
-        <Setter Property="Height" Value="60"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="30"/>
-        <Setter Property="FontFamily" Value="{StaticResource Font.MaterialIcon}"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Font.Primary}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
-                    <Grid Background="{TemplateBinding Background}" 
-                          Height="{TemplateBinding Height}" 
-                          Width="{TemplateBinding Width}">
-                        <Rectangle x:Name="indicator"
-                                   Width="4"
-                                   Fill="{StaticResource Color.Primary}"
-                                   Visibility="Collapsed"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Stretch"/>
-                        <ContentPresenter x:Name="content" 
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="indicator" Property="Visibility" Value="Visible"/>
-                            <Setter Property="Foreground" Value="{StaticResource Color.Primary}"/>
-                            <Setter Property="FontWeight" Value="DemiBold"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="indicator" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="indicator" Property="Fill" Value="{StaticResource Color.Second}"/>
-                            <Setter Property="Foreground" Value="{StaticResource Color.Second}"/>
-                            <Setter Property="FontWeight" Value="DemiBold"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="#424242"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <DataTemplate x:Key="MenuItemsDataTemplate">
-        <RadioButton Content="{Binding Icon}" 
-                     GroupName="MenuGroup"
-                     Style="{StaticResource MenuRadioButtonStyle}"
-                     IsChecked="{Binding Checked,UpdateSourceTrigger=PropertyChanged}"
-                     IsEnabled="{Binding IsEnable}"
-                     Command="{Binding DataContext.MenuCommand,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
-                     CommandParameter="{Binding}">
-            <RadioButton.ToolTip>
-                <ToolTip Placement="Right" Background="{StaticResource Color.Canvas.Background}">
-                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource Color.Font.Primary}"/>
-                </ToolTip>
-            </RadioButton.ToolTip>
-        </RadioButton>
-    </DataTemplate>
-
-    <Style x:Key="MenuItemsStyle" TargetType="ItemsControl">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="ItemTemplate" Value="{StaticResource MenuItemsDataTemplate}"/>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+    <!-- 页面显示 -->
     <Style x:Key="MainFrameStyle" TargetType="Frame">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="NavigationUIVisibility" Value="Hidden"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <!--<Setter Property="Margin" Value="5,5,0,0"/>-->
+        <Setter Property="Background" Value="{StaticResource Color.Canvas.Background}"/>
     </Style>
     
 </ResourceDictionary>

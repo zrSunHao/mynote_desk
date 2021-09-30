@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
       mc:Ignorable="d" d:DesignHeight="560" d:DesignWidth="960"
       DataContext="{Binding NoteListPageViewModel, Source={StaticResource ViewModelLocator}}"
       Loaded="Page_Loaded">
@@ -16,51 +15,50 @@
     </Page.Resources>
     <Grid x:Name="page_Grid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="270"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <Grid Margin="15,15,10,10" Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource Color.ToolBar.Background}" />
-            <TextBlock Grid.Column="0" Text="文件夹 :" Style="{StaticResource FilterLableTextStyle}"/>
+            <Border Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource Color.Windows.Background}"/>
+            <TextBlock Grid.Column="0" Text="文件夹 :" Style="{StaticResource FilterLableTextStyle}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
             <TextBox Grid.Column="1" Style="{StaticResource FilterTextBoxStyle}"
                      Text="{Binding SearchFolderName,UpdateSourceTrigger=PropertyChanged}"
-                     KeyDown="TextBox_KeyDown"/>
-            <Line Grid.Column="3"  VerticalAlignment="Center" HorizontalAlignment="Center"
-                  Y1="0" Y2="30" StrokeThickness="2" StrokeDashArray="1"
-                  Stroke="{StaticResource Color.Primary}" />
+                     KeyDown="TextBox_KeyDown" VerticalAlignment="Center"/>
         </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="0"  VerticalScrollBarVisibility="Visible" >
-            <ItemsControl ItemsSource="{Binding FamilyCollection}" VerticalAlignment="Top"
+        <Grid Grid.Row="1" Grid.Column="0"  Margin="15,5,10,15">
+            <Border Background="{StaticResource Color.Windows.Background}" CornerRadius="5"/>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="10">
+                <ItemsControl ItemsSource="{Binding FamilyCollection}" VerticalAlignment="Top"
                       ItemTemplate="{StaticResource FamilyDataTemplate}"
                       Style="{StaticResource FamilyItemsStyle}"/>
-        </ScrollViewer>
-        <Grid Grid.Row="0" Grid.Column="1">
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10,15,15,10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="130"/>
                 <ColumnDefinition Width="210"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Grid.ColumnSpan="7" Background="{StaticResource Color.ToolBar.Background}" />
-            <TextBlock Grid.Column="0" Text="关键字 :" Style="{StaticResource FilterLableTextStyle}"/>
+            <Border Grid.Column="0" Grid.ColumnSpan="7" Background="{StaticResource Color.Windows.Background}"/>
+            <TextBlock Grid.Column="0" Text="关键字 :" Style="{StaticResource FilterLableTextStyle}" HorizontalAlignment="Right"/>
             <TextBox Grid.Column="1" Text="{Binding SearchNoteKey}" Style="{StaticResource FilterTextBoxStyle}"/>
             <TextBlock Grid.Column="2" Text="内容 :" Style="{StaticResource FilterLableTextStyle}"/>
             <TextBox Grid.Column="3" Text="{Binding SearchNoteContent}" Style="{StaticResource FilterTextBoxStyle}"/>
-            <TextBlock Grid.Column="4" Text="排序 :" Style="{StaticResource FilterLableTextStyle}"/>
-            <ComboBox Grid.Column="5" Style="{StaticResource CommonComboBoxStyle}" 
+            <TextBlock Grid.Column="4" Text="排序 :" Style="{StaticResource FilterLableTextStyle}" />
+            <ComboBox Grid.Column="5" Style="{StaticResource CommonComboBoxStyle}"
                       DisplayMemberPath="Name" SelectedValuePath="Value"
                       ItemsSource="{Binding NoteSortColumns}"
                       SelectedValue="{Binding SearchSortColumn}"/>
@@ -73,13 +71,16 @@
                         Style="{DynamicResource ListOperateButtonStyle}"/>
             </WrapPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="1"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
-            <ItemsControl ItemsSource="{Binding NoteCollection}" 
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10,5,15,15">
+            <Border Background="{StaticResource Color.Windows.Background}" CornerRadius="5"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10">
+                <ItemsControl ItemsSource="{Binding NoteCollection}" 
                       ItemTemplate="{StaticResource NoteCardDataTemplate}"
                       Style="{StaticResource NoteItemsStyle}"/>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Grid>
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <Border Background="{StaticResource Color.ToolBar.Background}" />
+            <Border Background="{DynamicResource Color.Windows.Background}" />
             <TextBlock  HorizontalAlignment="Left" Margin="5,0,5,0"
                         Style="{StaticResource FilterLableTextStyle}"
                         Text="{Binding LeftMsg}"/>
