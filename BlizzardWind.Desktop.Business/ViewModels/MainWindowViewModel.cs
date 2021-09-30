@@ -14,16 +14,22 @@ namespace BlizzardWind.Desktop.Business.ViewModels
     {
         private readonly ViewModelMediator _Mediator;
 
-        public IMvxCommand MenuCommand => new MvxCommand<NavMenuModel>(OnMenuClick);
+        public IMvxCommand NavTabCommand => new MvxCommand<NavMenuModel>(OnNavTabClick);
 
-        public ObservableCollection<NavMenuModel> NavMenus { get; set; }
-        public ObservableCollection<NavMenuModel> SettingMenus { get; set; }
+        public ObservableCollection<NavMenuModel> NavTabCollection { get; set; }
 
         private string _Route;
         public string Route
         {
             get => _Route;
             set => SetProperty(ref _Route, value);
+        }
+
+        private bool _HasNotification;
+        public bool HasNotification
+        {
+            get => _HasNotification;
+            set => SetProperty(ref _HasNotification, value);
         }
     }
 
@@ -40,43 +46,37 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         {
             Route = $"/Pages/{PageNameConsts.NoteListPage}.xaml";
 
-            NavMenus = new ObservableCollection<NavMenuModel>()
+            NavTabCollection = new ObservableCollection<NavMenuModel>()
             {
                 new NavMenuModel(){
-                    Name = "起始页", Icon = "\xe871" , Route = PageNameConsts.NoteListPage,Checked = true,IsEnable = true
+                    Name = "首页", Route = PageNameConsts.NoteListPage,Checked = true,IsEnable = true
                 },
                 new NavMenuModel(){
-                    Name = "类别管理", Icon = "\xf1c8" , Route = PageNameConsts.NoteFamilyPage,Checked = false,IsEnable = true
+                    Name = "类别", Route = PageNameConsts.NoteFamilyPage,Checked = false,IsEnable = true
                 },
                 new NavMenuModel(){
-                    Name = "编辑文章", Icon = "\xe3c9" , Route = PageNameConsts.EditorPage,Checked = false,IsEnable = false
+                    Name = "编辑", Route = PageNameConsts.EditorPage,Checked = false,IsEnable = false
                 },
             };
-
-            SettingMenus = new ObservableCollection<NavMenuModel>()
-            {
-                new NavMenuModel(){ Name = "设置", Icon = "\xe8b9" , Route = "",Checked = false,IsEnable = false},
-            };
-
         }
 
         private void RouteRedirectAction(string pageName)
         {
-            var menu = NavMenus.FirstOrDefault(x => x.Route == pageName);
+            var menu = NavTabCollection.FirstOrDefault(x => x.Route == pageName);
             if (menu != null)
             {
-                foreach (var item in NavMenus)
+                foreach (var item in NavTabCollection)
                 {
                     if (item.Route != menu.Route)
                         item.Checked = false;
                     else
                         item.Checked = true;
                 }
-                OnMenuClick(menu);
+                OnNavTabClick(menu);
             }
         }
 
-        private void OnMenuClick(NavMenuModel menu)
+        private void OnNavTabClick(NavMenuModel menu)
         {
             if (menu == null || string.IsNullOrEmpty(menu.Route))
                 return;
