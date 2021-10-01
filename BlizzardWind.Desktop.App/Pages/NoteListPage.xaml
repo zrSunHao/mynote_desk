@@ -72,7 +72,6 @@
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="10,5,15,15">
-            <Border Background="{StaticResource Color.Windows.Background}" CornerRadius="5"/>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10">
                 <ItemsControl ItemsSource="{Binding NoteCollection}" 
                       ItemTemplate="{StaticResource NoteCardDataTemplate}"
