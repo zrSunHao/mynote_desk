@@ -36,7 +36,7 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0"  Margin="15,5,10,15">
             <Border Background="{StaticResource Color.Windows.Background}" CornerRadius="5"/>
-            <TreeView Style="{StaticResource TreeViewStyle}" Margin="10"
+            <TreeView Style="{StaticResource TreeViewStyle}" Margin="0,10,5,10"
                       ItemsSource="{Binding FamilyCollection}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       SelectedItemChanged="TreeView_SelectedItemChanged"/>

@@ -17,45 +17,47 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="330"/>
         </Grid.ColumnDefinitions>
-        <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="2">
-            <Rectangle Style="{StaticResource RectBorderStyle}"/>
-            <WrapPanel Orientation="Horizontal" Margin="15">
-                <ItemsControl ItemsSource="{Binding MainOperateCollection}"
+        <Grid Margin="15" Grid.Row="0" Grid.ColumnSpan="2">
+            <Border Background="{DynamicResource Color.Windows.Background}"/>
+            <Grid Margin="15">
+                <ItemsControl ItemsSource="{Binding MainOperateCollection}" HorizontalAlignment="Left"
                               Style="{StaticResource CommonOperateItemsStyle}"
                               ItemTemplate="{StaticResource MainOperateItemsTemplate}"/>
-                <Border Width="2" Margin="5,0,15,0" 
-                        Background="{StaticResource Color.Font.Primary}" 
-                        BorderBrush="{StaticResource Color.Font.Primary}"/>
-                <ItemsControl ItemsSource="{Binding UploadOperateCollection}"
+                <ItemsControl ItemsSource="{Binding UploadOperateCollection}" HorizontalAlignment="Right"
                               Style="{StaticResource CommonOperateItemsStyle}"
                               ItemTemplate="{StaticResource UploadOperateItemsTemplate}"/>
-            </WrapPanel>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="0">
-            <TextBox x:Name="editer_box" 
+        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="0,0,0,15">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
+                <ScrollViewer Margin="10" Style="{DynamicResource ScrollViewerStyle}">
+                    <TextBox x:Name="editer_box" 
                      Text="{Binding Document,UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource EditorTextBoxStyle}" 
                      KeyDown="editer_box_KeyDown"/>
+                </ScrollViewer>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="1" Width="220">
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,15,15">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Border Grid.RowSpan="2" Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
             <Grid Grid.Row="0" Margin="0,0,0,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>
-                <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}"
+                <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}" Margin="10,0,0,0"
                          KeyDown="TextBox_KeyDown" Text="{Binding FilesInfo.FilterName,UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Column="1" Style="{StaticResource FileCountTextStyle}">
                             <Run Text="{Binding FileCollection.Count,Mode=OneWay}"/>
@@ -63,8 +65,7 @@
                             <Run Text="{Binding FilesInfo.Count,Mode=OneWay}"/>
                 </TextBlock>
             </Grid>
-            <Grid Grid.Row="1" Margin="0,0,0,5">
-                <Rectangle Style="{StaticResource RectBorderStyle}"/>
+            <Grid Grid.Row="1" Margin="5,0,0,5">
                 <ComboBox Style="{DynamicResource CommonComboBoxStyle}" 
                           ItemsSource="{Binding EditorFileTypeCollection,TargetNullValue={x:Null}}"
                           DisplayMemberPath="Name"
@@ -72,13 +73,13 @@
                           SelectedValue="{Binding FilesInfo.FilterType}"
                           SelectionChanged="ComboBox_SelectionChanged"/>
             </Grid>
-            <Grid Grid.Row="2">
-                <Rectangle Style="{StaticResource RectBorderStyle}" Grid.ColumnSpan="2"/>
-                <ScrollViewer Style="{StaticResource ScrollViewerStyle}" Margin="5">
-                    <ItemsControl ItemsSource="{Binding FileCollection}" 
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1" Margin="0,0,15,15">
+            <Border Grid.RowSpan="3" Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
+            <ScrollViewer Style="{StaticResource ScrollViewerStyle}" Margin="10">
+                <ItemsControl ItemsSource="{Binding FileCollection}" 
                                   ItemTemplate="{StaticResource FileItemsTemplate}"/>
-                </ScrollViewer>
-            </Grid>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>

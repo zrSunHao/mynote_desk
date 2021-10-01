@@ -17,31 +17,34 @@
     </Page.Resources>
     <Grid x:Name="page_Grid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="270"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"  Padding="0,20,0,5"
-                      VerticalScrollBarVisibility="Visible">
-            <ItemsControl ItemsSource="{Binding FamilyCollection}" 
+        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="25,25,25,25">
+            <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
+            <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="10">
+                <ItemsControl ItemsSource="{Binding FamilyCollection}" 
                           ItemTemplate="{StaticResource FamilyDataTemplate}" VerticalAlignment="Top"
                           Style="{StaticResource FamilyBarItemsStyle}"/>
-        </ScrollViewer>
-        <Grid Grid.Row="0" Grid.Column="1">
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="0,25,25,25" Height="50">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition MaxWidth="350"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="280"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.ColumnSpan="3" Background="{StaticResource Color.ToolBar.Background}"/>
+            <Border Grid.ColumnSpan="4" Background="{StaticResource Color.Windows.Background}"/>
             <TextBlock Grid.Column="0" Text="标题 :" Style="{StaticResource FilterLableTextStyle}"/>
             <TextBox Grid.Column="1" Text="{Binding FolderName}"
                      Style="{StaticResource FilterTextBoxStyle}"/>
-            <WrapPanel Grid.Column="2" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <WrapPanel Grid.Column="3" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Content="搜索" Command="{Binding SearchCommand}"
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
                 <Button Content="新建大类" Click="CraeteFamilyButton_Click"
@@ -50,13 +53,16 @@
                         Style="{DynamicResource FamilyOperateButtonStyle}"/>
             </WrapPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="1"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
-            <ItemsControl ItemsSource="{Binding FolderCollection}" 
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,25,25">
+            <Border Grid.ColumnSpan="3" Background="{StaticResource Color.Windows.Background}"/>
+            <ScrollViewer  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="10">
+                <ItemsControl ItemsSource="{Binding FolderCollection}" 
                           ItemTemplate="{StaticResource FolderCardDataTemplate}"
                           Style="{StaticResource FolderItemsStyle}"/>
-        </ScrollViewer>
-        <Grid Grid.Row="2" Grid.Column="1">
-            <Border Background="{StaticResource Color.ToolBar.Background}"/>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <Border Background="{StaticResource Color.Windows.Background}"/>
             <TextBlock  HorizontalAlignment="Right" Margin="0,0,20,0"
                    Style="{StaticResource FilterLableTextStyle}">
             <Run Text="{Binding FolderCollection.Count,Mode=OneWay}"/>

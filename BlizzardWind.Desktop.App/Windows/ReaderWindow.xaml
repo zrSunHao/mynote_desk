@@ -22,30 +22,31 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="2">
-            <Rectangle Style="{StaticResource RectBorderStyle}"/>
+        <Grid Margin="15" Grid.Row="0" Grid.ColumnSpan="2">
+            <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
             <WrapPanel Orientation="Horizontal" Margin="15">
                 <ItemsControl ItemsSource="{Binding OperateCollection}"
                               Style="{StaticResource CommonOperateItemsStyle}"
                               ItemTemplate="{StaticResource OperateItemsTemplate}"/>
             </WrapPanel>
         </Grid>
-        <Grid x:Name="tree_grid" Grid.Row="1" Grid.Column="0" Width="300">
-            <Rectangle Style="{StaticResource RectBorderStyle}" Grid.RowSpan="2"/>
+        <Grid x:Name="tree_grid" Grid.Row="1" Grid.Column="0" Margin="15,0,15,15">
+            <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
             <TreeView Style="{StaticResource TreeViewStyle}"
                       ItemsSource="{Binding NoteTreeCollection}"/>
         </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Disabled" 
-                      VerticalScrollBarVisibility="Visible">
-            <Grid Width="800">
-                <Border Background="{DynamicResource Color.Windows.Background}"/>
+        <Grid Grid.Row="1" Grid.Column="1" Width="810" Margin="0,0,15,15">
+            <Border Background="{DynamicResource Color.Windows.Background}"/>
+            <ScrollViewer  HorizontalScrollBarVisibility="Disabled" Margin="10"
+                      VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
                 <ItemsControl x:Name="article_grid" ItemsSource="{Binding BlocksCollection}" Margin="10"
-                              HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                              HorizontalAlignment="Stretch" 
                               ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
-            </Grid>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Grid>
+        
     </Grid>
 </Window>
