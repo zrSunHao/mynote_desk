@@ -27,9 +27,6 @@ namespace BlizzardWind.Desktop.Business.ViewModels
         private int _NewNoteCount = 0;
         private int _NoteTotal = 0;
         private int _FilterTotal = 0;
-
-        public IMvxCommand FamilyClickCommand => new MvxCommand<NoteFamilyModel>(OnFamilyClick);
-        public IMvxCommand FolderClickCommand => new MvxCommand<NoteFolder>(OnFolderClick);
         public IMvxCommand SearchNoteClickCommand => new MvxCommand(OnSearchNoteClick);
         public IMvxCommand ResetSearchClickCommand => new MvxCommand(OnResetSearchClick);
         public IMvxCommand NoteSeeCommand => new MvxCommand<Note>(OnNoteSeeClick);
@@ -217,6 +214,22 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             return Guid.Empty;
         }
 
+        public void TreeNodeClick(object ob)
+        {
+            if (ob == null)
+                return;
+            if(ob is NoteFamilyModel family)
+            {
+                OnFamilyClick(family);
+                return;
+            }
+            if (ob is NoteFolder folder)
+            {
+                OnFolderClick(folder);
+                return;
+            }
+        }
+
 
 
         private async void OnFamilyClick(NoteFamilyModel family)
@@ -348,7 +361,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
                     Name = item.Name,
                     CreatedAt = item.CreatedAt,
                     UpdatedAt = item.UpdatedAt,
-                    FoldersCollection = new ObservableCollection<NoteFolder>(),
+                    Children = new ObservableCollection<NoteFolder>(),
                 };
                 var familyFolders = folders.Where(x => x.FamilyId == item.Id);
                 family.AddFoldersRange(familyFolders);
@@ -388,7 +401,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
 
         private void ShowLeftMsg()
         {
-            int currentFolderTotal = FamilyCollection.Sum(x => x.FoldersCollection.Count);
+            int currentFolderTotal = FamilyCollection.Sum(x => x.Children.Count);
             var familyMsg = "  |  全部大类";
             if (_CurrentFamily != null && _CurrentFolder != null)
                 familyMsg = $"  |  {_CurrentFamily.Name}  ==>  {_CurrentFolder.Name}";

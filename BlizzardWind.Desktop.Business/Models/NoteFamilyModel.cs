@@ -27,13 +27,13 @@ namespace BlizzardWind.Desktop.Business.Models
         }
 
 
-        public ObservableCollection<NoteFolder> FoldersCollection { get; set; }
+        public ObservableCollection<NoteFolder> Children { get; set; }
 
         public void AddFoldersRange(IEnumerable<NoteFolder> folders)
         {
             foreach (var item in folders)
             {
-                FoldersCollection.Add(item);
+                Children.Add(item);
             }
         }
 
@@ -44,7 +44,7 @@ namespace BlizzardWind.Desktop.Business.Models
 
         private string GetDisplayName()
         {
-            int count = FoldersCollection == null ? 0 : FoldersCollection.Count;
+            int count = Children == null ? 0 : Children.Count;
             return $"{Name} - [ {count} ]";
         }
     }

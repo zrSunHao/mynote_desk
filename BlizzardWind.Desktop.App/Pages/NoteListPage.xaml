@@ -15,7 +15,7 @@
     </Page.Resources>
     <Grid x:Name="page_Grid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -36,11 +36,9 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0"  Margin="15,5,10,15">
             <Border Background="{StaticResource Color.Windows.Background}" CornerRadius="5"/>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="10">
-                <ItemsControl ItemsSource="{Binding FamilyCollection}" VerticalAlignment="Top"
-                      ItemTemplate="{StaticResource FamilyDataTemplate}"
-                      Style="{StaticResource FamilyItemsStyle}"/>
-            </ScrollViewer>
+            <TreeView Style="{StaticResource TreeViewStyle}" Margin="10"
+                      ItemsSource="{Binding FamilyCollection}"
+                      SelectedItemChanged="TreeView_SelectedItemChanged"/>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1" Margin="10,15,15,10">
             <Grid.ColumnDefinitions>
@@ -72,10 +70,11 @@
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="10,5,15,15">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10">
-                <ItemsControl ItemsSource="{Binding NoteCollection}" 
-                      ItemTemplate="{StaticResource NoteCardDataTemplate}"
-                      Style="{StaticResource NoteItemsStyle}"/>
+            <Border Background="{StaticResource Color.Windows.Background}" CornerRadius="5"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10" VerticalAlignment="Top">
+                <ItemsControl ItemsSource="{Binding NoteCollection}" HorizontalAlignment="Left"
+                              ItemTemplate="{StaticResource NoteCardDataTemplate}"
+                              Style="{StaticResource NoteItemsStyle}"/>
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">

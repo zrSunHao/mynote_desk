@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using System;
+using System.Collections.Generic;
 
 namespace BlizzardWind.Desktop.Business.Entities
 {
@@ -34,5 +35,7 @@ namespace BlizzardWind.Desktop.Business.Entities
         private Guid _CoverPictureKey = Guid.Empty;
 
         public void SetCoverPictureKey(Guid key) => _CoverPictureKey = key;
+
+        public List<NoteFolder> Children => new List<NoteFolder>();
     }
 }

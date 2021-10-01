@@ -113,5 +113,11 @@ namespace BlizzardWind.Desktop.App.Pages
             article.CoverPictureId = imgId;
             await VM.NoteUploadCover(article);
         }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if(VM != null)
+                VM.TreeNodeClick(e.NewValue);
+        }
     }
 }
