@@ -36,6 +36,7 @@ namespace BlizzardWind.Desktop.Business.Entities
 
         public void SetCoverPictureKey(Guid key) => _CoverPictureKey = key;
 
+        public bool IsFamily => false;
         public List<NoteFolder> Children => new List<NoteFolder>();
     }
 }

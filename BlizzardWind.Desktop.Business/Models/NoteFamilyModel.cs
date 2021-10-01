@@ -17,6 +17,8 @@ namespace BlizzardWind.Desktop.Business.Models
 
         public DateTime UpdatedAt { get; set; }
 
+        public bool IsFamily => true;
+
         public string DisplayName => GetDisplayName();
 
         private bool _isExpanded;

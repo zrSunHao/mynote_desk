@@ -16,10 +16,13 @@
     <None Remove="Assets\Images\Big\wind_512.png" />
     <None Remove="Assets\Images\Big\winter_designer.png" />
     <None Remove="Assets\Images\Icons\audio.png" />
+    <None Remove="Assets\Images\Icons\box.png" />
+    <None Remove="Assets\Images\Icons\clip.png" />
     <None Remove="Assets\Images\Icons\cover.png" />
     <None Remove="Assets\Images\Icons\error.png" />
     <None Remove="Assets\Images\Icons\file.png" />
     <None Remove="Assets\Images\Icons\folder.png" />
+    <None Remove="Assets\Images\Icons\folder_papaer.png" />
     <None Remove="Assets\Images\Icons\image.png" />
     <None Remove="Assets\Images\Icons\info.png" />
     <None Remove="Assets\Images\Icons\note.png" />
@@ -36,6 +39,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\Images\Big\star_sky.png" />
+    <Resource Include="Assets\Images\Icons\box.png" />
+    <Resource Include="Assets\Images\Icons\clip.png" />
+    <Resource Include="Assets\Images\Icons\folder_papaer.png" />
     <Resource Include="Assets\Images\Icons\windmill.png" />
   </ItemGroup>
 

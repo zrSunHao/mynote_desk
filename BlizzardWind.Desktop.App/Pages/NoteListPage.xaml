@@ -15,7 +15,7 @@
     </Page.Resources>
     <Grid x:Name="page_Grid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -38,6 +38,7 @@
             <Border Background="{StaticResource Color.Windows.Background}" CornerRadius="5"/>
             <TreeView Style="{StaticResource TreeViewStyle}" Margin="10"
                       ItemsSource="{Binding FamilyCollection}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       SelectedItemChanged="TreeView_SelectedItemChanged"/>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1" Margin="10,15,15,10">
@@ -80,10 +81,10 @@
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
             <Border Background="{DynamicResource Color.Windows.Background}" />
             <TextBlock  HorizontalAlignment="Left" Margin="5,0,5,0"
-                        Style="{StaticResource FilterLableTextStyle}"
+                        Style="{StaticResource FilterLableTextStyle}" Foreground="WhiteSmoke"
                         Text="{Binding LeftMsg}"/>
             <TextBlock  HorizontalAlignment="Right" Margin="0,0,20,0"
-                        Style="{StaticResource FilterLableTextStyle}"
+                        Style="{StaticResource FilterLableTextStyle}" Foreground="WhiteSmoke"
                         Text="{Binding RightMsg}"/>
         </Grid>
     </Grid>
