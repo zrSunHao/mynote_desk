@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="330"/>
+            <ColumnDefinition Width="270"/>
         </Grid.ColumnDefinitions>
         <Grid Margin="15" Grid.Row="0" Grid.ColumnSpan="2">
             <Border Background="{DynamicResource Color.Windows.Background}"/>
@@ -35,11 +35,11 @@
                               ItemTemplate="{StaticResource UploadOperateItemsTemplate}"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="0,0,0,15">
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="15,0,15,15">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="810">
                 <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
                 <ScrollViewer Margin="10" Style="{DynamicResource ScrollViewerStyle}">
-                    <TextBox x:Name="editer_box" 
+                    <TextBox x:Name="editer_box"  
                      Text="{Binding Document,UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource EditorTextBoxStyle}" 
                      KeyDown="editer_box_KeyDown"/>
