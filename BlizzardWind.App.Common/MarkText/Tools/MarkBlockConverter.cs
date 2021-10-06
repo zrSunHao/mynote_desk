@@ -49,12 +49,18 @@ namespace BlizzardWind.App.Common.MarkText
                 Name = _nameRg.Match(text).Value,
                 Value = _valueRg.Match(text).Value
             };
+            string ornament = string.Empty;
+            if (text.Contains(MarkOrnamentConsts.ImgUniform))
+                ornament = MarkOrnamentConsts.ImgUniform;
+            else
+                ornament = MarkOrnamentConsts.ImgNone;
 
             return new MarkStandardBlock
             {
                 Type = block.Type,
                 Text = map.Name,
                 Map = map,
+                Ornament = ornament
             };
         }
 

@@ -25,6 +25,10 @@ namespace BlizzardWind.App.Common.MarkText
         /// </summary>
         public MarkKeyValue Map { get; set; }
 
+        /// <summary>
+        /// 装饰符
+        /// </summary>
+        public string Ornament { get; set; }
 
 
         public int Level => GetLevel();

@@ -193,7 +193,7 @@ namespace BlizzardWind.Desktop.Business.ViewModels
             {
                 case MarkResourceType.Cover:
                 case MarkResourceType.Image:
-                    msg = $"#img] <{model.FileName}>({model.Id.ToString()})";
+                    msg = $"#img] <{model.FileName}>({model.Id.ToString()}) @UF";
                     break;
                 case MarkResourceType.Txt:
                     msg = $"#txt] <{model.FileName}>({model.Id.ToString()})";
