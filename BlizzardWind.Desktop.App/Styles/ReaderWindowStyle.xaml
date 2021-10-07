@@ -248,7 +248,7 @@
                     </MultiBinding>
                 </Image.Source>
             </Image>
-            <Border Grid.RowSpan="2" Background="Black" Opacity="0.3">
+            <Border Grid.RowSpan="2" Background="Black" Opacity="0.1">
                 <Border.ToolTip>
                     <ToolTip Background="{StaticResource Color.Canvas.Background}">
                         <TextBlock Text="{Binding Text}" Foreground="{DynamicResource Text.Font.Primary}"/>
