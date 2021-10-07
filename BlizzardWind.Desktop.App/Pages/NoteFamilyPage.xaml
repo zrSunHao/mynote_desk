@@ -3,9 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="560" d:DesignWidth="960"
+      mc:Ignorable="d" d:DesignHeight="560" d:DesignWidth="960"
       DataContext="{Binding NoteFamilyPageViewModel, Source={StaticResource ViewModelLocator}}"
       Loaded="Page_Loaded">
     <Page.Resources>
@@ -29,8 +27,8 @@
             <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
             <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="10">
                 <ItemsControl ItemsSource="{Binding FamilyCollection}" 
-                          ItemTemplate="{StaticResource FamilyDataTemplate}" VerticalAlignment="Top"
-                          Style="{StaticResource FamilyBarItemsStyle}"/>
+                              ItemTemplate="{StaticResource FamilyDataTemplate}" VerticalAlignment="Top"
+                              Style="{StaticResource FamilyBarItemsStyle}"/>
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1" Margin="0,25,25,25" Height="50">
@@ -41,7 +39,8 @@
                 <ColumnDefinition Width="280"/>
             </Grid.ColumnDefinitions>
             <Border Grid.ColumnSpan="4" Background="{StaticResource Color.Windows.Background}"/>
-            <TextBlock Grid.Column="0" Text="标题 :" Style="{StaticResource FilterLableTextStyle}"/>
+            <TextBlock Grid.Column="0" Text="标题 :" 
+                       Style="{StaticResource FilterLableTextStyle}"/>
             <TextBox Grid.Column="1" Text="{Binding FolderName}"
                      Style="{StaticResource FilterTextBoxStyle}"/>
             <WrapPanel Grid.Column="3" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
@@ -57,16 +56,16 @@
             <Border Grid.ColumnSpan="3" Background="{StaticResource Color.Windows.Background}"/>
             <ScrollViewer  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="10">
                 <ItemsControl ItemsSource="{Binding FolderCollection}" 
-                          ItemTemplate="{StaticResource FolderCardDataTemplate}"
-                          Style="{StaticResource FolderItemsStyle}"/>
+                              ItemTemplate="{StaticResource FolderCardDataTemplate}"
+                              Style="{StaticResource FolderItemsStyle}"/>
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
             <Border Background="{StaticResource Color.Windows.Background}"/>
             <TextBlock  HorizontalAlignment="Right" Margin="0,0,20,0"
-                   Style="{StaticResource FilterLableTextStyle}">
-            <Run Text="{Binding FolderCollection.Count,Mode=OneWay}"/>
-            <Run Text="项"/>
+                        Style="{StaticResource FilterLableTextStyle}">
+                <Run Text="{Binding FolderCollection.Count,Mode=OneWay}"/>
+                <Run Text="项"/>
             </TextBlock>
         </Grid>
     </Grid>

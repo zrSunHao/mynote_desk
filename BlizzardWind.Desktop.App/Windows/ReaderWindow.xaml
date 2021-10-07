@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="笔记阅读器" Style="{DynamicResource MyWindowStyle}" 
         Background="{DynamicResource Color.Canvas.Background}" Height="768"
@@ -25,7 +24,7 @@
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Margin="15" Grid.Row="0" Grid.ColumnSpan="2">
+        <Grid  Grid.Row="0" Grid.ColumnSpan="2" Margin="15">
             <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
             <WrapPanel Orientation="Horizontal" Margin="15">
                 <ItemsControl ItemsSource="{Binding OperateCollection}"
@@ -41,9 +40,9 @@
         <Grid Grid.Row="1" Grid.Column="1" Width="810" Margin="0,0,15,15">
             <Border Background="{DynamicResource Color.Windows.Background}"/>
             <ScrollViewer  HorizontalScrollBarVisibility="Disabled" Margin="10"
-                      VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
-                <ItemsControl x:Name="article_grid" ItemsSource="{Binding BlocksCollection}" Margin="10"
-                              HorizontalAlignment="Stretch" 
+                           VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+                <ItemsControl x:Name="article_grid" Margin="10" HorizontalAlignment="Stretch" 
+                              ItemsSource="{Binding BlocksCollection}" 
                               ItemContainerStyle="{StaticResource TextItemContainerStyle}"/>
             </ScrollViewer>
         </Grid>

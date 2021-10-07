@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Pages"
       mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="800"
       DataContext="{Binding EditorPageViewModel, Source={StaticResource ViewModelLocator}}"
       Loaded="Page_Loaded">
@@ -24,7 +23,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="270"/>
         </Grid.ColumnDefinitions>
-        <Grid Margin="15" Grid.Row="0" Grid.ColumnSpan="2">
+        <Grid  Grid.Row="0" Grid.ColumnSpan="2" Margin="15">
             <Border Background="{DynamicResource Color.Windows.Background}"/>
             <Grid Margin="15">
                 <ItemsControl ItemsSource="{Binding MainOperateCollection}" HorizontalAlignment="Left"
@@ -40,9 +39,9 @@
                 <Border Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
                 <ScrollViewer Margin="10" Style="{DynamicResource ScrollViewerStyle}">
                     <TextBox x:Name="editer_box"  
-                     Text="{Binding Document,UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource EditorTextBoxStyle}" 
-                     KeyDown="editer_box_KeyDown"/>
+                             Text="{Binding Document,UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource EditorTextBoxStyle}" 
+                             KeyDown="editer_box_KeyDown"/>
                 </ScrollViewer>
             </Grid>
         </Grid>
@@ -57,12 +56,14 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Style="{StaticResource SearchImageBoxStyle}" Margin="10,0,0,0"
-                         KeyDown="TextBox_KeyDown" Text="{Binding FilesInfo.FilterName,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="0"  Margin="10,0,0,0"
+                         Style="{StaticResource SearchImageBoxStyle}"
+                         KeyDown="TextBox_KeyDown" 
+                         Text="{Binding FilesInfo.FilterName,UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Column="1" Style="{StaticResource FileCountTextStyle}">
-                            <Run Text="{Binding FileCollection.Count,Mode=OneWay}"/>
-                            <Run Text="/"/>
-                            <Run Text="{Binding FilesInfo.Count,Mode=OneWay}"/>
+                    <Run Text="{Binding FileCollection.Count,Mode=OneWay}"/>
+                    <Run Text="/"/>
+                    <Run Text="{Binding FilesInfo.Count,Mode=OneWay}"/>
                 </TextBlock>
             </Grid>
             <Grid Grid.Row="1" Margin="5,0,0,5">
@@ -78,7 +79,7 @@
             <Border Grid.RowSpan="3" Background="{DynamicResource Color.Windows.Background}" CornerRadius="5"/>
             <ScrollViewer Style="{StaticResource ScrollViewerStyle}" Margin="10">
                 <ItemsControl ItemsSource="{Binding FileCollection}" 
-                                  ItemTemplate="{StaticResource FileItemsTemplate}"/>
+                              ItemTemplate="{StaticResource FileItemsTemplate}"/>
             </ScrollViewer>
         </Grid>
     </Grid>
