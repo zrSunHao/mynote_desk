@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BlizzardWind.Desktop.App.Windows"
         mc:Ignorable="d" Title="BlizzardWind" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource LaunchWindowStyle}"
         DataContext="{Binding LaunchWindowViewModel, Source={StaticResource ViewModelLocator}}"
@@ -27,10 +26,11 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Image Grid.RowSpan="4"  Style="{StaticResource ProfileImageStyle}"/>
-            <TextBlock Grid.Row="1" Style="{StaticResource MottoTextStyle}"
+            <Image Grid.Row="1" Grid.RowSpan="3"  
+                   Style="{StaticResource ProfileImageStyle}"/>
+            <TextBlock Grid.Row="0" 
+                       Style="{StaticResource MottoTextStyle}"
                        Text="人、代码、生活。你所向往的，就是你为之努力的！"/>
-            <Border Grid.RowSpan="4" Background="Black" Opacity="0.3"/>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -49,7 +49,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" x:Name="address_box"
+                <TextBox x:Name="address_box" Grid.Column="0"
                          Style="{StaticResource FilterTextBoxStyle}"/>
                 <Button Grid.Column="1" Content="存储地址"  
                         Style="{StaticResource CommonOperateButtonStyle}"
@@ -60,7 +60,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
-                <PasswordBox Grid.Column="0" x:Name="password_box"
+                <PasswordBox x:Name="password_box" Grid.Column="0" 
                              Style="{StaticResource PasswordBoxStyle}"/>
                 <Button Grid.Column="1" Content="输入密码" IsEnabled="False"
                         Style="{StaticResource CommonOperateButtonStyle}"/>
