@@ -28,7 +28,7 @@ namespace BlizzardWind.App.Common.MarkText
         /// <summary>
         /// 装饰符
         /// </summary>
-        public string Ornament { get; set; }
+        public string Ornaments { get; set; }
 
 
         public int Level => GetLevel();

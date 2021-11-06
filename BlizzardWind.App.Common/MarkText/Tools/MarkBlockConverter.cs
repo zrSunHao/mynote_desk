@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -49,18 +50,27 @@ namespace BlizzardWind.App.Common.MarkText
                 Name = _nameRg.Match(text).Value,
                 Value = _valueRg.Match(text).Value
             };
-            string ornament = string.Empty;
+            List<string> ornaments = new List<string>();
             if (text.Contains(MarkOrnamentConsts.ImgUniform))
-                ornament = MarkOrnamentConsts.ImgUniform;
+                ornaments.Add(MarkOrnamentConsts.ImgUniform);
             else
-                ornament = MarkOrnamentConsts.ImgNone;
+                ornaments.Add(MarkOrnamentConsts.ImgNone);
+
+            if (text.Contains(MarkOrnamentConsts.SmallWidth))
+                ornaments.Add(MarkOrnamentConsts.SmallWidth);
+            else if (text.Contains(MarkOrnamentConsts.MediumWidth))
+                ornaments.Add(MarkOrnamentConsts.MediumWidth);
+            else if (text.Contains(MarkOrnamentConsts.LargeWidth))
+                ornaments.Add(MarkOrnamentConsts.LargeWidth);
+            else
+                ornaments.Add(MarkOrnamentConsts.ExtraWidth);
 
             return new MarkStandardBlock
             {
                 Type = block.Type,
                 Text = map.Name,
                 Map = map,
-                Ornament = ornament
+                Ornaments = ornaments.Any() ? string.Join(";", ornaments): ""
             };
         }
 

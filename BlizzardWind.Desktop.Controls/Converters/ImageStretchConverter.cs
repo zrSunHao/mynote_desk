@@ -12,7 +12,11 @@ namespace BlizzardWind.Desktop.Controls.Converters
         {
             if (value == null)
                 return Stretch.None;
-            if (value as string == MarkOrnamentConsts.ImgUniform)
+            string ornaments = string.Empty;
+            ornaments = value as string;
+            if (string.IsNullOrWhiteSpace(ornaments))
+                return Stretch.None;
+            if (ornaments.Contains(MarkOrnamentConsts.ImgUniform))
                 return Stretch.Uniform;
             else 
                 return Stretch.None;

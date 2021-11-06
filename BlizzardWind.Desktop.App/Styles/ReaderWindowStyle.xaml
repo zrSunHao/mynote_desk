@@ -6,6 +6,7 @@
     <SolidColorBrush x:Key="Text.Font.Primary" Color="Silver"/>
     <SolidColorBrush x:Key="Text.Font.Second" Color="#0fa3e3"/>
     <lcc:ImageStretchConverter x:Key="ImageStretchConverter"/>
+    <lcc:ImageWidthConverter x:Key="ImageWidthConverter"/>
 
     <DataTemplate x:Key="OperateItemsTemplate">
         <Button Style="{StaticResource CommonOperateButtonStyle}"
@@ -239,8 +240,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   MaxWidth="660" MaxHeight="800" 
-                   Stretch="{Binding Ornament,Converter={StaticResource ImageStretchConverter}}">
+                   MaxWidth="{Binding Ornaments,Converter={StaticResource ImageWidthConverter}}" MaxHeight="800" 
+                   Stretch="{Binding Ornaments,Converter={StaticResource ImageStretchConverter}}">
                 <Image.Source>
                     <MultiBinding Converter="{StaticResource NoteCoverPathToUriConverter}" Mode="OneWay">
                         <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
