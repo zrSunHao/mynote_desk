@@ -50,21 +50,7 @@ namespace BlizzardWind.App.Common.MarkText
                 Name = _nameRg.Match(text).Value,
                 Value = _valueRg.Match(text).Value
             };
-            List<string> ornaments = new List<string>();
-            if (text.Contains(MarkOrnamentConsts.ImgUniform))
-                ornaments.Add(MarkOrnamentConsts.ImgUniform);
-            else
-                ornaments.Add(MarkOrnamentConsts.ImgNone);
-
-            if (text.Contains(MarkOrnamentConsts.SmallWidth))
-                ornaments.Add(MarkOrnamentConsts.SmallWidth);
-            else if (text.Contains(MarkOrnamentConsts.MediumWidth))
-                ornaments.Add(MarkOrnamentConsts.MediumWidth);
-            else if (text.Contains(MarkOrnamentConsts.LargeWidth))
-                ornaments.Add(MarkOrnamentConsts.LargeWidth);
-            else
-                ornaments.Add(MarkOrnamentConsts.ExtraWidth);
-
+            List<string> ornaments = ParseOrnaments(text);
             return new MarkStandardBlock
             {
                 Type = block.Type,
@@ -108,6 +94,36 @@ namespace BlizzardWind.App.Common.MarkText
                 Type = block.Type,
                 List = block.Values,
             };
+        }
+
+        private List<string> ParseOrnaments(string text)
+        {
+            List<string> ornaments = new List<string>();
+
+            if (text.Contains(MarkOrnamentConsts.HorizontalCenter))
+                ornaments.Add(MarkOrnamentConsts.HorizontalCenter);
+            if (text.Contains(MarkOrnamentConsts.HorizontalRight))
+                ornaments.Add(MarkOrnamentConsts.HorizontalRight);
+            if (text.Contains(MarkOrnamentConsts.HorizontalStretch))
+                ornaments.Add(MarkOrnamentConsts.HorizontalStretch);
+            else
+                ornaments.Add(MarkOrnamentConsts.HorizontalLeft);
+
+            if (text.Contains(MarkOrnamentConsts.ImgUniform))
+                ornaments.Add(MarkOrnamentConsts.ImgUniform);
+            else
+                ornaments.Add(MarkOrnamentConsts.ImgNone);
+
+            if (text.Contains(MarkOrnamentConsts.SmallWidth))
+                ornaments.Add(MarkOrnamentConsts.SmallWidth);
+            else if (text.Contains(MarkOrnamentConsts.MediumWidth))
+                ornaments.Add(MarkOrnamentConsts.MediumWidth);
+            else if (text.Contains(MarkOrnamentConsts.LargeWidth))
+                ornaments.Add(MarkOrnamentConsts.LargeWidth);
+            else
+                ornaments.Add(MarkOrnamentConsts.ExtraWidth);
+
+            return ornaments;
         }
     }
 }

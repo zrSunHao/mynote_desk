@@ -7,6 +7,7 @@
     <SolidColorBrush x:Key="Text.Font.Second" Color="#0fa3e3"/>
     <lcc:ImageStretchConverter x:Key="ImageStretchConverter"/>
     <lcc:ImageWidthConverter x:Key="ImageWidthConverter"/>
+    <lcc:HorizontalConverter x:Key="HorizontalConverter"/>
 
     <DataTemplate x:Key="OperateItemsTemplate">
         <Button Style="{StaticResource CommonOperateButtonStyle}"
@@ -234,28 +235,31 @@
     </DataTemplate>
 
     <DataTemplate x:Key="ImgTemplate">
-        <Grid Margin="10,10,10,20" HorizontalAlignment="Center">
+        <Grid Margin="40,10,10,20" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   MaxWidth="{Binding Ornaments,Converter={StaticResource ImageWidthConverter}}" MaxHeight="800" 
-                   Stretch="{Binding Ornaments,Converter={StaticResource ImageStretchConverter}}">
-                <Image.Source>
-                    <MultiBinding Converter="{StaticResource NoteCoverPathToUriConverter}" Mode="OneWay">
-                        <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
-                        <Binding  Path="FileKey" UpdateSourceTrigger="PropertyChanged"></Binding>
-                    </MultiBinding>
-                </Image.Source>
-            </Image>
-            <Border Grid.RowSpan="2" Background="Black" Opacity="0.1">
-                <Border.ToolTip>
-                    <ToolTip Background="{StaticResource Color.Canvas.Background}">
-                        <TextBlock Text="{Binding Text}" Foreground="{DynamicResource Text.Font.Primary}"/>
-                    </ToolTip>
-                </Border.ToolTip>
-            </Border>
+            <Grid Grid.Row="0"
+                  HorizontalAlignment="{Binding Ornaments,Converter={StaticResource HorizontalConverter}}" 
+                  Width="{Binding Ornaments,Converter={StaticResource ImageWidthConverter}}">
+                <Image  VerticalAlignment="Center" MaxHeight="800" 
+                        Stretch="{Binding Ornaments,Converter={StaticResource ImageStretchConverter}}">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource NoteCoverPathToUriConverter}" Mode="OneWay">
+                            <Binding  Path="FilePath" UpdateSourceTrigger="PropertyChanged"></Binding>
+                            <Binding  Path="FileKey" UpdateSourceTrigger="PropertyChanged"></Binding>
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+                <Border Grid.RowSpan="2" Background="Black" Opacity="0.1">
+                    <Border.ToolTip>
+                        <ToolTip Background="{StaticResource Color.Canvas.Background}">
+                            <TextBlock Text="{Binding Text}" Foreground="{DynamicResource Text.Font.Primary}"/>
+                        </ToolTip>
+                    </Border.ToolTip>
+                </Border>
+            </Grid>
         </Grid>
     </DataTemplate>
 
